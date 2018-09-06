@@ -1,0 +1,41 @@
+{% extends '_base.html' %}
+{% load staticfiles %}
+{% load sass_tags %}
+
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/vendor/featherlight.min.css' %}">
+<link rel="stylesheet" href="{% sass_src 'css/wazimap_youth.scss' %}">
+<link rel="stylesheet" href="{% sass_src 'css/wazimap_za.scss' %}">
+{% endblock %}
+
+
+{% block favicon %}
+  {% if WAZIMAP.default_profile == 'youth' %}
+    <link rel="shortcut icon" href="{% static 'img/youth-favicon.ico' %}"/>
+  {% else %}
+    {{ block.super }}
+  {% endif %}
+{% endblock %}
+
+{% block header_logo %}
+  {% if WAZIMAP.default_profile == 'youth' %}
+    <img src="{% static 'img/youth-logo.png' %}">
+  {% else %}
+    {{ block.super }}
+  {% endif %}
+{% endblock %}
+
+{% block header_menu %}
+  <li><a href="/about">About</a></li>
+  <li><a href="/help">Help</a></li>
+{% endblock %}
+
+{% block header_branding %}
+  {% if WAZIMAP.default_profile != 'youth' %}
+    {{ block.super }}
+  {% endif %}
+{% endblock %}
+
+{% block body_javascript_extra %}
+{{ block.super }}
+{% endblock %}
