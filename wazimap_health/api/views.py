@@ -3,9 +3,30 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from wazimap_health.models import (PublicHealthFacilities,
-                                   PublicHealthServices)
+                                   PublicHealthServices,
+                                   MarieStopes,
+                                   MarieStopesFacilities,
+                                   PrivatePharmacies,
+                                   PharmacyServices)
 
 from . import serializers
+
+
+class PharmacyView(APIView):
+    """
+    Show all the phramacies within a district
+    """
+    def get(self, request):
+        geo_code = request.query_params.get('geo_code', None)
+        if geo_code:
+            query = PrivatePharmacies\
+                    .objects\
+                    .filter(parent_geo_code=geo_code)
+            serialize = serializers.PharmacySerializer(query, many=True)
+            return Response(
+                {'data': serialize.data}
+            )
+        return Response(status.HTTP_400_BAD_REQUEST)
 
 
 class PublicFacilityView(APIView):
