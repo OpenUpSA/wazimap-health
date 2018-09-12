@@ -10,6 +10,8 @@ class PublicHealthFacilities(models.Model):
     parent_geo_code = models.CharField(max_length=10)
     facility_code = models.CharField(max_length=20, unique=True)
 
+    #stats = PublicHealthQuerySet.as_manager()
+
     class Meta:
         db_table = 'public_health_facilities'
         unique_together = ('name', 'latitude', 'longitude')
@@ -42,8 +44,12 @@ class PublicHealthServices(models.Model):
     first_trimester = models.BooleanField(verbose_name='Termination of Pregnancy - 1st Trimester', blank=True)
     second_trimester = models.BooleanField(verbose_name='Termination of Pregnancy - 2nd Trimester', blank=True)
     ayfs = models.BooleanField(verbose_name='AYFS Accredited', blank=True)
-    ccmdd_pick = models.BooleanField(verbose_name='CCMDD Pick Up Point', blank=True)
+    ccmdd_pick = models.CharField(verbose_name='CCMDD Pick Up Point', blank=True, max_length=50)
     status = models.BooleanField(blank=True)
+    implants = models.BooleanField(blank=True, verbose_name='Implants (Contraception)')
 
     class Meta:
         db_table = 'public_health_services'
+
+    def __str__(self):
+        return self.facility.name
