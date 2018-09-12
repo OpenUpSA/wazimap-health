@@ -2,7 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from wazimap_health.models import PublicHealthFacilities
+from wazimap_health.models import (PublicHealthFacilities,
+                                   PublicHealthServices)
 
 from . import serializers
 
@@ -33,3 +34,15 @@ class PublicFacilityView(APIView):
             return Response({
                 'data': serialize.data
             })
+
+
+class PublicServicesView(APIView):
+    """
+    Show all the services a particular health service has
+    """
+    def get(self, request, code):
+        query = PublicHealthServices\
+                .objects\
+                .get(facility__facility_code=code)
+        serialize = serializers.PublicServicesSerializer(query)
+        return Response(serialize.data)
