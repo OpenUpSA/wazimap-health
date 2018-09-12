@@ -10,3 +10,5 @@ class HealthFacilityAdmin(admin.ModelAdmin):
 
 admin.site.register(models.PublicHealthFacilities)
 admin.site.register(models.PublicHealthServices)
+admin.site.register(models.MarieStopes)
+admin.site.register(models.MarieStopesFacilities)
