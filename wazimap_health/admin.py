@@ -8,7 +8,5 @@ class HealthFacilityAdmin(admin.ModelAdmin):
                     'latitude', 'longitude', 'ayfs_training', 'geo_code')
 
 
-# admin.site.register(models.HealthFacility,
-#                     HealthFacilityAdmin)
-# admin.site.register(models.FacilityUnit)
-# admin.site.register(models.FacilityType)
+admin.site.register(models.PublicHealthFacilities)
+admin.site.register(models.PublicHealthServices)
