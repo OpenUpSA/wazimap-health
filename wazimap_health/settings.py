@@ -57,7 +57,7 @@ WAZIMAP['default_profile'] = 'youth'
 WAZIMAP['geodata'] = 'wazimap_health.geo.GeoData'
 WAZIMAP['geometry_data'] = {}
 WAZIMAP['default_geo_version'] = '2011'
-WAZIMAP['name'] = 'Wazimap Health'
+WAZIMAP['name'] = 'Health'
 WAZIMAP['url'] = 'http://wazimap.me'
 WAZIMAP['country_code'] = 'ZA'
 WAZIMAP['latest_release_year'] = '2016'
@@ -71,14 +71,17 @@ WAZIMAP['available_release_years'] = {
 WAZIMAP['levels'] = {
     'country': {
         'plural': 'countries',
-        'children': ['province', 'district'],
+        'children': ['province', 'district', 'point'],
     },
     'province': {
-        'children': ['district'],
+        'children': ['district', 'point'],
     },
     'district': {
-        'children': [],
+        'children': ['point'],
     },
+    'point': {
+        'children': []
+    }
 }
 WAZIMAP['mapit'] = {
     'generations': {
