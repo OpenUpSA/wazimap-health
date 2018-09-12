@@ -17,7 +17,7 @@ class Command(BaseCommand):
                         'parent_level': 'district',
                         'parent_code': facility.parent_geo_code,
                         'name': facility.name,
-                        'version': '2018'
+                        'version': '2016'
                     },
                     geo_code=facility.facility_code
                 )

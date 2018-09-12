@@ -16,7 +16,7 @@ class Command(BaseCommand):
         for facility in PublicHealthFacilities.objects.all():
             lat = facility.latitude
             lon = facility.longitude
-            url = MAPIT_URL + '{},{}?type=DC'.format(lon,lat)
+            url = MAPIT_URL + '{},{}?type=DC'.format(lon, lat)
             print(url)
             try:
                 req = requests.get(url)
