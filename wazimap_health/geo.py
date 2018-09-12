@@ -21,12 +21,14 @@ SETTINGS.setdefault('level_codes', {
     'district': 'DC',
     'province': 'PR',
     'country': 'CY',
+    'point': 'PT'
 })
 SETTINGS.setdefault('level_simplify', {
     'DC': 0.01,
     'PR': 0.005,
     'MN': 0.005,
     'WD': 0.0001,
+    'PT': 1
 })
 
 class GeoData(BaseGeoData):
