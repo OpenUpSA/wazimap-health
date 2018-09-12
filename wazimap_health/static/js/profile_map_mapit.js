@@ -23,6 +23,29 @@ ProfileMaps = function() {
                 self.drawFocusFeature(feature);
             });
         }
+	if (geo_level == 'district'){
+	 GeometryLoader.loadPointsForGeo(geo_code, function(data){
+                var map = self.map;
+                data['data'].forEach(function(clinic){
+                    L.marker([clinic['latitude'], clinic['longitude']]).bindPopup(clinic['name']).addTo(map).on('click', function(){
+			console.log(
+			    '/profiles/point-'+ clinic['facility_code']
+			)
+			window.location = '/profiles/point-'+ clinic['facility_code']+'/';
+		    });
+                });
+            });   
+	}
+	if (geo_level == 'point'){
+	    GeometryLoader.loadLatLngForGeo(geo_code, function(data){
+		console.log(data['id']);
+		var map = self.map;
+		L.marker([data['latitude'], data['longitude']]).addTo(map);
+		map.setView([data['latitude'], data['longitude']], 15);
+	    });
+	}
+	
+
 
         // peers
         var parents = _.keys(geo.parents);

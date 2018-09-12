@@ -92,7 +92,19 @@ function MapItGeometryLoader() {
         });
     };
 
-
+    this.loadPointsForGeo = function(geo_code, success){
+        url = 'http://localhost:8000/api/point/v1/facilities?parent_geo_code=' +geo_code;
+        d3.json(url, function(data){
+            success({'data': data['data']});
+        })
+    };
+    this.loadLatLngForGeo = function(geo_code, success){
+	url = 'http://localhost:8000/api/point/v1/facilities?facility=' +geo_code;
+	d3.json(url, function(data){
+	    success(data['data']);
+	})
+    };
+    
     this.loadGeometryForGeo = function(geo_level, geo_code, geo_version, success) {
         var mapit_type = MAPIT.level_codes[geo_level];
         var mapit_simplify = MAPIT.level_simplify[mapit_type];
