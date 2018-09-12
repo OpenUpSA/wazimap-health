@@ -3,6 +3,7 @@ from collections import OrderedDict
 from wazimap.data.tables import get_datatable
 from wazimap.data.utils import get_session, merge_dicts, get_stat_data, percent, current_context, dataset_context, group_remainder
 from wazimap.geo import geo_data
+from point_stats import get_public_facility, get_facility_services
 
 
 PROFILE_SECTIONS = (
@@ -100,6 +101,9 @@ def get_profile(geo, profile_name, request):
         comp_geos = geo_data.get_comparative_geos(geo)
         data = {}
         sections = list(PROFILE_SECTIONS)
+        if geo.geo_level == 'point':
+            data['services'] = get_facility_services(geo.geo_code)
+            return data
         if geo.geo_level not in ['country', 'province', 'district', 'municipality']:
             pass
             # Raise error as we don't have this data
@@ -149,7 +153,6 @@ def get_demographics_profile(geo, session, display_profile, comparative=False):
         ['age groups in 10 years'], geo, session,
         table_universe='Population',
         table_dataset='Census and Community Survey')
-
     youth_gender_data, _ = get_stat_data(
         ['gender'], geo, session,
         table_fields = ['gender', 'population group'],
@@ -886,7 +889,11 @@ def get_health_profile(geo, session, display_profile, comparative=False):
         },
         'youth_female_given_birth': youth_female_given_birth,
         'youth_female_given_birth_by_age_group': youth_female_given_birth_by_age_group
+        
     }
+    final_data.update(get_public_facility(geo.geo_code))
+    if (geo.geo_level == 'point'):
+        final_data.update(get_facility_services(geo.geo_code))
 
     if display_profile == 'WC' and geo.geo_level != 'ward':
         # We don't have data on ward level for the following
@@ -948,4 +955,7 @@ def get_health_profile(geo, session, display_profile, comparative=False):
             'youth_male_top10_causes_of_death': youth_male_top10_causes_of_death if not comparative else youth_male_causes_of_death
         })
 
+
     return final_data
+
+
