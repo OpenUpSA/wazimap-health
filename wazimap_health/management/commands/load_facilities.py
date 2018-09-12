@@ -7,7 +7,7 @@ from wazimap_health.models import (PublicHealthFacilities,
 
 
 class Command(BaseCommand):
-    help = "Load the facilities from a csv file,"
+    help = "Load public health facilities from a csv file,"
 
     def add_arguments(self, parser):
         parser.add_argument('file', type=str)
