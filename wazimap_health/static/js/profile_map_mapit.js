@@ -24,18 +24,31 @@ ProfileMaps = function() {
             });
         }
 	if (geo_level == 'district'){
-	 GeometryLoader.loadPointsForGeo(geo_code, function(data){
+	    var health = [];
+	    var pharma = [];
+	    GeometryLoader.loadPointsForHealth(geo_code, function(data){
                 var map = self.map;
                 data['data'].forEach(function(clinic){
-                    L.marker([clinic['latitude'], clinic['longitude']]).bindPopup(clinic['name']).addTo(map).on('click', function(){
-			console.log(
-			    '/profiles/point-'+ clinic['facility_code']
-			)
+                    var h = L.marker([clinic['latitude'],
+			      clinic['longitude']]).bindPopup(clinic['name']).on('click', function(){
 			window.location = '/profiles/point-'+ clinic['facility_code']+'/';
+			      });
+		    health.push(h);
+                });
+         });
+	 GeometryLoader.loadPointsForPharmacy(geo_code, function(data){
+                var map = self.map;
+                data['data'].forEach(function(pharma){
+                    var p = L.marker([pharma['latitude'], pharma['longitude']]).bindPopup(pharma['name']).on('click', function(){
+			window.location = '/profiles/point-'+ pharma['facility_code']+'/';
 		    });
+		    pharma.push(p);
                 });
             });   
 	}
+	var overlayMap = {'Health Facilities': health, 'Private Pharmacies': pharma};
+	L.control.layers(overlayMap).addTo(self.map);
+	
 	if (geo_level == 'point'){
 	    GeometryLoader.loadLatLngForGeo(geo_code, function(data){
 		console.log(data['id']);

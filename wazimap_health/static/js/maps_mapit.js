@@ -92,14 +92,26 @@ function MapItGeometryLoader() {
         });
     };
 
-    this.loadPointsForGeo = function(geo_code, success){
+    this.loadPointsForPharmacy = function(geo_code, success){
+	url = 'http://localhost:8000/api/point/v1/pharmacies?geo_code=' +geo_code;
+        d3.json(url, function(data){
+            success({'data': data['data']});
+        })
+    }
+    this.loadPointsForHealth = function(geo_code, success){
         url = 'http://localhost:8000/api/point/v1/facilities?parent_geo_code=' +geo_code;
         d3.json(url, function(data){
             success({'data': data['data']});
         })
     };
     this.loadLatLngForGeo = function(geo_code, success){
-	url = 'http://localhost:8000/api/point/v1/facilities?facility=' +geo_code;
+	var facility;
+	if (geo_code.startswith('PPF')){
+	    facility = 'pharmacies'
+	}else{
+	    facility = 'facilities'
+	}
+	url = 'http://localhost:8000/api/point/v1/'+ facility+'?facility=' +geo_code;
 	d3.json(url, function(data){
 	    success(data['data']);
 	})
