@@ -16,7 +16,7 @@ class HealthFacilityAdminForm(forms.ModelForm):
 @admin.register(models.HealthFacilities)
 class HealthFacilityAdmin(admin.ModelAdmin):
     list_display = ('name', 'settlement', 'unit', 'facility_code',
-                    'geo_levels', 'parent_name', 'dataset',
+                    'dataset',
                     'latitude', 'longitude')
     list_filter = ('dataset',)
     form = HealthFacilityAdminForm
