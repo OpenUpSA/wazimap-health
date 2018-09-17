@@ -3,7 +3,7 @@ from collections import OrderedDict
 from wazimap.data.tables import get_datatable
 from wazimap.data.utils import get_session, merge_dicts, get_stat_data, percent, current_context, dataset_context, group_remainder
 from wazimap.geo import geo_data
-from point_stats import get_public_facility, get_facility_services
+from point_stats import get_facility_services, get_heath_details
 
 
 PROFILE_SECTIONS = (
@@ -891,7 +891,7 @@ def get_health_profile(geo, session, display_profile, comparative=False):
         'youth_female_given_birth_by_age_group': youth_female_given_birth_by_age_group
         
     }
-    final_data.update(get_public_facility(geo.geo_code))
+    final_data.update(get_heath_details(geo.geo_code))
     if (geo.geo_level == 'point'):
         final_data.update(get_facility_services(geo.geo_code))
 
