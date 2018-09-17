@@ -9,7 +9,7 @@ import requests
 log = logging.getLogger(__name__)
 
 SETTINGS = settings.WAZIMAP.setdefault('mapit', {})
-SETTINGS.setdefault('url', 'http://10.186.210.96:8000')
+SETTINGS.setdefault('url', 'http://mapit.code4sa.org/')
 
 SETTINGS.setdefault('generations', {
     '2011': '1',

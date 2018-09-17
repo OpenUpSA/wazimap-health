@@ -22,10 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'xf&mewbq*dp4ul-m^!-)+20e2i_&!u@eablvqln08e3@r(ec3e'
+SECRET_KEY = os.environ.get('HEALTH_SECRET_KEY', 'xf&mewbq*dp4ul-m^!-)+20e2i_&!u@eablvqln08e3@r(ec3e')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('HEALTH_DEBUG', 'true') == 'true'
 
 ALLOWED_HOSTS = ['*']
 
@@ -33,8 +33,10 @@ ROOT_URLCONF = 'wazimap_health.urls'
 
 # Application definition
 INSTALLED_APPS = [
-                  'wazimap_health',
-                  'rest_framework', 'django.contrib.postgres', 'django_admin_hstore_widget'] + INSTALLED_APPS
+    'wazimap_health',
+    'rest_framework',
+    'django.contrib.postgres',
+    'django_admin_hstore_widget'] + INSTALLED_APPS
 
 MIDDLEWARE_CLASSES = ('whitenoise.middleware.WhiteNoiseMiddleware',
                       'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,7 +60,7 @@ WAZIMAP['geodata'] = 'wazimap_health.geo.GeoData'
 WAZIMAP['geometry_data'] = {}
 WAZIMAP['default_geo_version'] = '2011'
 WAZIMAP['name'] = 'Health'
-WAZIMAP['url'] = 'http://wazimap.me'
+WAZIMAP['url'] = 'http://health.openup.org.za'
 WAZIMAP['country_code'] = 'ZA'
 WAZIMAP['latest_release_year'] = '2016'
 WAZIMAP['primary_dataset_name'] = 'Census and Community Survey'
@@ -71,13 +73,16 @@ WAZIMAP['available_release_years'] = {
 WAZIMAP['levels'] = {
     'country': {
         'plural': 'countries',
-        'children': ['province', 'district', 'point'],
+        'children': ['province', 'district', 'municipality', 'point'],
     },
     'province': {
-        'children': ['district', 'point'],
+        'children': ['district', 'municipality', 'point'],
     },
     'district': {
-        'children': ['point'],
+        'children': ['municipality', 'point'],
+    },
+    'municipality': {
+        'children': ['point']
     },
     'point': {
         'children': []
