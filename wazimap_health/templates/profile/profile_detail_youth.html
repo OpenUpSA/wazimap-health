@@ -9,7 +9,10 @@
         <div class="wrapper clearfix">
             <h3><img src="{% static 'img/youth-logo.png' %}">{{ geography.this.name }}</h3>
             <ul>
-		<li><a href="#services"><i class="fa fa-user"></i> <span>Services</span></a></li>
+		<li><a href="#PublicHealthFacilities"><i class="fa fa-building-o"></i> <span>Public Health Facilities</span></a></li>
+		<li><a href="#PrivatePharmacies"><i class="fa fa-building-o"></i> <span>Private Pharmacies</span></a></li>
+		<li><a href="#MarieStopes"><i class="fa fa-building-o"></i> <span>Marie Stopes</span></a></li>
+		
             </ul>
         </div>
     </nav>
@@ -526,7 +529,7 @@
     </header>
     <div class="section-container">
         <section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink" href="#public_facilities_settlement" id="public_facilities_settlement"> Health Settlements<i class="fa fa-link"></i></a></h2>
+            <h2 class="header-for-columns"><a class="permalink" href="#public_facilities_settlement" id="public_facilities_settlement">Settlements<i class="fa fa-link"></i></a></h2>
             <aside class="multi-line-header">
                 <p>Something Something about Public Health Facilities</p>
             </aside>
@@ -554,7 +557,7 @@
     </header>
     <div class="section-container">
         <section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink" href="#private_pharmacies_settlement" id="private_pharmacies_settlement"> Private Pharmacies Settlements<i class="fa fa-link"></i></a></h2>
+            <h2 class="header-for-columns"><a class="permalink" href="#private_pharmacies_settlement" id="private_pharmacies_settlement">Settlements<i class="fa fa-link"></i></a></h2>
             <aside class="multi-line-header">
                 <p></p>
             </aside>
@@ -572,6 +575,23 @@
 		{% include 'profile/_blocks/_stat_list.html' with stat=health.pharmacy_total stat_type='number' %}
             </div>
             <div class="column-half" id="chart-histogram-health-pharmacy_unit" data-stat-type="scaled-percentage" data-chart-title="Pharmacy Units" data-decimal-places="0"></div>
+        </section>
+    </div>
+</article>
+<article id="MarieStopes" class="clearfix">
+    <header class="section-contents">
+        <h1><i class="fa fa-fw fa-heartbeat"></i>Marie Stopes</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#marie_stopes_settlement" id="marie_stopes_settlement">Settlements<i class="fa fa-link"></i></a></h2>
+            <aside class="multi-line-header">
+                <p></p>
+            </aside>
+            <div class="column-half">
+		{% include 'profile/_blocks/_stat_list.html' with stat=health.marie_stopes_total stat_type='number' %}
+            </div>
+            <div class="column-half" id="chart-histogram-health-marie_stopes_settlement" data-stat-type="scaled-percentage" data-chart-title="Settlement Facilities" data-decimal-places="0"></div>
         </section>
     </div>
 </article>
