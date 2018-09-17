@@ -92,29 +92,29 @@ function MapItGeometryLoader() {
         });
     };
 
-    this.loadPointsForPharmacy = function(geo_code, success){
-	url = 'http://localhost:8000/api/point/v1/pharmacies?geo_code=' +geo_code;
-        d3.json(url, function(data){
-            success({'data': data['data']});
-        })
-    }
+    // this.loadPointsForPharmacy = function(geo_code, success){
+    // 	url = 'http://localhost:8000/api/point/v1/pharmacies?geo_code=' +geo_code;
+    //     d3.json(url, function(data){
+    //         success({'data': data['data']});
+    //     })
+    // }
     this.loadPointsForHealth = function(geo_code, success){
-        url = 'http://localhost:8000/api/point/v1/facilities?parent_geo_code=' +geo_code;
+        url = 'http://localhost:8000/api/point/v1/facilities?geo_code=' +geo_code;
         d3.json(url, function(data){
             success({'data': data['data']});
-        })
+        });
     };
     this.loadLatLngForGeo = function(geo_code, success){
 	var facility;
-	if (geo_code.startswith('PPF')){
-	    facility = 'pharmacies'
+	if (geo_code.startsWith('PPF')){
+	    facility = 'pharmacies';
 	}else{
-	    facility = 'facilities'
+	    facility = 'facilities';
 	}
-	url = 'http://localhost:8000/api/point/v1/'+ facility+'?facility=' +geo_code;
+	url = 'http://localhost:8000/api/point/v1/facilities?facility_code=' +geo_code;
 	d3.json(url, function(data){
 	    success(data['data']);
-	})
+	});
     };
     
     this.loadGeometryForGeo = function(geo_level, geo_code, geo_version, success) {
