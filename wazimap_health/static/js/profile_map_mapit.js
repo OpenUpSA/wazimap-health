@@ -23,7 +23,8 @@ ProfileMaps = function() {
                 self.drawFocusFeature(feature);
             });
         }
-	if (geo_level == 'district'){
+	if (geo_level == 'municipality'){
+	    L.control.scale().addTo(this.map);
 	    var greenIcon = new L.Icon({
 		iconUrl: '/static/js/vendor/images/marker-icon-green.png',
 		shadowUrl: '/static/js/vendor/images/marker-shadow.png',
@@ -32,6 +33,15 @@ ProfileMaps = function() {
 		popupAnchor: [1, -34],
 		shadowSize: [41, 41]
 	    });
+	    var orangeIcon = new L.Icon({
+		iconUrl: '/static/js/vendor/images/marker-icon-orange.png',
+		shadowUrl: '/static/js/vendor/images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	    });
+	    
 	    var healthGroup = new L.LayerGroup().addTo(this.map);
 	    var pharmaGroup = new L.LayerGroup().addTo(this.map);
 	    var marieGroup = new L.LayerGroup().addTo(this.map);
@@ -56,7 +66,7 @@ ProfileMaps = function() {
 		    }else{
 			L.marker([facility['latitude'],
 				  facility['longitude']],
-				 {icon: greenIcon}).addTo(marieGroup).bindPopup(facility['name']).on('click', function(){
+				 {icon: orangeIcon}).addTo(marieGroup).bindPopup(facility['name']).on('click', function(){
 			window.location = '/profiles/point-'+ facility['facility_code']+'/';
 			      }).on('mouseover', function(e){
 				  this.openPopup();
@@ -65,7 +75,9 @@ ProfileMaps = function() {
                 });
 	    });
 	    
-	    var overlayMap = {'Health Facilities': healthGroup, 'Private Pharmacies': pharmaGroup};
+	    var overlayMap = {"<span style='color:#267fca'>Health Facilities</span>": healthGroup,
+			      "<span style='color:#24ac20'>Private Pharmacies</span>": pharmaGroup,
+			      "<span style='color:#cb8325'>Marie Stopes</span>": marieGroup};
 	    L.control.layers(null,overlayMap).addTo(this.map);
 	}
 	
@@ -127,7 +139,6 @@ ProfileMaps = function() {
 
         // if we're loading districts, we also want to load metros, because
         // districts don't give us full coverage
-	// We also need to load the point that
         if (level == 'district') {
             GeometryLoader.loadGeometrySet(parent + '|' + MAPIT.level_codes.municipality, 'municipality', parent_version, function(geojson) {
                 // only keep metros
