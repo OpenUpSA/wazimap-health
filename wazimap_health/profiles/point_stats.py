@@ -16,7 +16,9 @@ def get_heath_details(geo_code):
         'pharmacy_total': facility_total(geo_code, 'private_pharmacies'),
         'pharmacy_settlement': facility_settlement(geo_code,
                                                    'private_pharmacies'),
-        'pharmacy_unit': facility_unit(geo_code, 'private_pharmacies')
+        'pharmacy_unit': facility_unit(geo_code, 'private_pharmacies'),
+        'marie_stopes_total': facility_total(geo_code, 'marie_stopes'),
+        'marie_stopes_settlement': facility_settlement(geo_code, 'marie_stopes')
     }
 
 
@@ -28,7 +30,7 @@ def facility_total(geo_code, dataset):
     }
     total = HealthFacilities\
                        .objects\
-                       .filter(parent_geo_code=geo_code,
+                       .filter(geo_levels__overlap=[geo_code],
                                dataset=dataset)\
                        .count()
     global TOTAL
@@ -43,7 +45,8 @@ def facility_settlement(geo_code, dataset):
     """
     count = HealthFacilities\
                       .objects.values('settlement')\
-                      .filter(parent_geo_code=geo_code, dataset=dataset)\
+                      .filter(geo_levels__overlap=[geo_code],
+                              dataset=dataset)\
                       .annotate(total=Count('name'))\
                       .order_by('-total')
     stats = {}
@@ -69,7 +72,8 @@ def facility_unit(geo_code, dataset):
     """
     count = HealthFacilities\
                  .objects.values('unit')\
-                 .filter(parent_geo_code=geo_code, dataset=dataset)\
+                 .filter(geo_levels__overlap=[geo_code],
+                         dataset=dataset)\
                  .annotate(total=Count('name'))\
                  .order_by('-total')
     stats = {}
