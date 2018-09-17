@@ -1,14 +1,18 @@
 from django.contrib import admin
+from django import forms
+from django_admin_hstore_widget.forms import HStoreFormField
 
 from . import models
 
 
+class HealthFacilityAdminForm(forms.ModelForm):
+    service = HStoreFormField()
+
+    class Meta:
+        model = models.HealthFacilities
+        exclude = ()
+
+
+@admin.register(models.HealthFacilities)
 class HealthFacilityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'unit', 'facility_type',
-                    'latitude', 'longitude', 'ayfs_training', 'geo_code')
-
-
-admin.site.register(models.PublicHealthFacilities)
-admin.site.register(models.PublicHealthServices)
-admin.site.register(models.MarieStopes)
-admin.site.register(models.MarieStopesFacilities)
+    form = HealthFacilityAdminForm
