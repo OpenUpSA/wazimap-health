@@ -50,11 +50,11 @@ def facility_settlement(geo_code, dataset):
                       .annotate(total=Count('name'))\
                       .order_by('-total')
     stats = {}
-    for totals in count:
-        percent = (float(totals.values()[0]) / TOTAL) * 100
+    for result in count:
+        percent = (result['total'] / TOTAL) * 100
         stats.update({
-            totals.values()[1] or 'Unclassified': {'name': totals.values()[1] or 'Unclassified',
-                                                   'numerators': {'this': totals.values()[0]},
+            result['settlement'] or 'Unclassified': {'name': result['settlement'] or 'Unclassified',
+                                                   'numerators': {'this': result['total']},
                                                    'values': {'this': percent}},
             'metadata': {'citation': '',
                          'release': '',
@@ -77,11 +77,11 @@ def facility_unit(geo_code, dataset):
                  .annotate(total=Count('name'))\
                  .order_by('-total')
     stats = {}
-    for totals in count:
-        percent = (float(totals.values()[0]) / TOTAL) * 100
+    for result in count:
+        percent = (result['total']/ TOTAL) * 100
         stats.update({
-            totals.values()[1] or 'Unclassified': {'name': totals.values()[1] or 'Unclassified',
-                                 'numerators': {'this': totals.values()[0]},
+            result['unit'] or 'Unclassified': {'name': result['unit'] or 'Unclassified',
+                                 'numerators': {'this': result['total']},
                                  'values': {'this': percent}},
             'metadata': {'citation': '',
                          'release': '',
