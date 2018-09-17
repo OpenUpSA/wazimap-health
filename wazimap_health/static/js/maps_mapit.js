@@ -99,7 +99,7 @@ function MapItGeometryLoader() {
     //     })
     // }
     this.loadPointsForHealth = function(geo_code, success){
-        url = 'http://localhost:8000/api/point/v1/facilities?geo_code=' +geo_code;
+        url = '/api/point/v1/facilities?geo_code=' +geo_code;
         d3.json(url, function(data){
             success({'data': data['data']});
         });
@@ -111,7 +111,7 @@ function MapItGeometryLoader() {
 	}else{
 	    facility = 'facilities';
 	}
-	url = 'http://localhost:8000/api/point/v1/facilities?facility_code=' +geo_code;
+	url = '/api/point/v1/facilities?facility_code=' +geo_code;
 	d3.json(url, function(data){
 	    success(data['data']);
 	});
