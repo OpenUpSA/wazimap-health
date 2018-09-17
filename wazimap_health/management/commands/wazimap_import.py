@@ -14,7 +14,7 @@ class Command(BaseCommand):
                     {
                         'geo_code': facility.facility_code,
                         'geo_level': 'point',
-                        'parent_level': 'district',
+                        'parent_level': 'municipality',
                         'parent_code': facility.parent_geo_code,
                         'name': facility.name,
                         'version': '2011'

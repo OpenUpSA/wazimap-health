@@ -15,16 +15,21 @@ class Command(BaseCommand):
         """
         try:
             for facility in HealthFacilities.objects.all():
+                codes = []
                 lat = facility.latitude
                 lon = facility.longitude
-                url = MAPIT_URL + '{},{}?type=DC'.format(lon, lat)
+                url = MAPIT_URL + '{},{}?type=PR,DC,MN'.format(lon, lat)
                 req = requests.get(url)
                 geo = req.json()
                 if geo:
                     for _, value in geo.items():
-                        facility.parent_geo_code = value['codes']['MDB']
-                        facility.save(update_fields=['parent_geo_code'])
-                        self.stdout.write(self.style.SUCCESS("Geo Inserted"))
+                        codes.append(value['codes']['MDB'])
+                        if value['type'] == 'Municipality':
+                            facility.parent_name = value['name']
+                    facility.geo_levels = codes
+                    facility.save(update_fields=['geo_levels',
+                                                 'parent_name'])
+                    self.stdout.write(self.style.SUCCESS("Geo Inserted"))
                 else:
                     self.stdout.write(self.style.ERROR("No District found for"))
         except Exception as error:
