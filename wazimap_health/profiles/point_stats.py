@@ -1,42 +1,58 @@
 import json
-from wazimap_health.models import PublicHealthFacilities, PublicHealthServices
 from django.db.models import Count
 from django.core import serializers
+
+from wazimap_health.models import HealthFacilities
 
 TOTAL = 0
 
 
-def get_public_facility(geo_code):
+def get_heath_details(geo_code):
     return {
-        'public_health_facilities_total': total_facilities(geo_code),
-        'public_health_facilities_settlements': settlement_count(geo_code),
-        'public_health_facilities_unit': unit_count(geo_code)
+        'public_health_total': facility_total(geo_code, 'public_facilities'),
+        'public_health_settlement': facility_settlement(geo_code,
+                                                        'public_facilities'),
+        'public_health_unit': facility_unit(geo_code, 'public_facilities'),
+        'pharmacy_total': facility_total(geo_code, 'private_pharmacies'),
+        'pharmacy_settlement': facility_settlement(geo_code,
+                                                   'private_pharmacies'),
+        'pharmacy_unit': facility_unit(geo_code, 'private_pharmacies')
     }
 
 
-def total_facilities(geo_code):
-    total = PublicHealthFacilities\
+def facility_total(geo_code, dataset):
+    name = {
+        'public_facilities': 'Total Public Health Facilities',
+        'private_pharmacies': 'Total Private Pharmacies',
+        'marie_stopes': 'Total Marie Stopes Facilities'
+    }
+    total = HealthFacilities\
                        .objects\
-                       .filter(parent_geo_code=geo_code)\
+                       .filter(parent_geo_code=geo_code,
+                               dataset=dataset)\
                        .count()
     global TOTAL
+    TOTAL = 0
     TOTAL = float(total)
-    return {'values': {'this': total}, 'name': 'Total Facilities'}
+    return {'values': {'this': total},
+            'name': name[dataset]}
 
-
-def settlement_count(geo_code):
-    count = PublicHealthFacilities\
+def facility_settlement(geo_code, dataset):
+    """
+    Return totals about the type of settlements
+    """
+    count = HealthFacilities\
                       .objects.values('settlement')\
-                      .filter(parent_geo_code=geo_code)\
+                      .filter(parent_geo_code=geo_code, dataset=dataset)\
                       .annotate(total=Count('name'))\
                       .order_by('-total')
     stats = {}
     for totals in count:
         percent = (totals.values()[0] / TOTAL) * 100
         stats.update({
-            totals.values()[1]: {'name': totals.values()[1],
-                                 'numerators': {'this': totals.values()[0]},
-                                 'values': {'this': percent}},
+            totals.values()[1] or 'Unclassified': {'name': totals.values()[1] or 'Unclassified',
+                                                   'numerators': {'this': totals.values()[0]},
+                                                   'values': {'this': percent}},
             'metadata': {'citation': '',
                          'release': '',
                          'table_id': '',
@@ -47,17 +63,20 @@ def settlement_count(geo_code):
     return stats
 
 
-def unit_count(geo_code):
-    count = PublicHealthFacilities\
+def facility_unit(geo_code, dataset):
+    """
+    Return totals for the unit types
+    """
+    count = HealthFacilities\
                  .objects.values('unit')\
-                 .filter(parent_geo_code=geo_code)\
+                 .filter(parent_geo_code=geo_code, dataset=dataset)\
                  .annotate(total=Count('name'))\
                  .order_by('-total')
     stats = {}
     for totals in count:
         percent = (totals.values()[0] / TOTAL) * 100
         stats.update({
-            totals.values()[1]: {'name': totals.values()[1],
+            totals.values()[1] or 'Unclassified': {'name': totals.values()[1] or 'Unclassified',
                                  'numerators': {'this': totals.values()[0]},
                                  'values': {'this': percent}},
             'metadata': {'citation': '',
@@ -71,9 +90,16 @@ def unit_count(geo_code):
 
 
 def get_facility_services(geo_code):
-    query = PublicHealthServices\
+    """
+    Choose the models created by the code
+    PPF = Private Pharmacies
+    PHF = Public Health Facilities
+    MSS = Marie Stopes
+    """
+    query = HealthFacilities\
             .objects\
-            .filter(facility__facility_code=geo_code)
+            .filter(facility_code=geo_code)
     data = serializers.serialize('json', query)
     model_data = json.loads(data)
-    return {'services': model_data[0]['fields']}
+    service = model_data[0]['fields']
+    return {'services': json.loads(service['service'])}
