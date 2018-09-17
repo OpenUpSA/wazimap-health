@@ -51,7 +51,7 @@ def facility_settlement(geo_code, dataset):
                       .order_by('-total')
     stats = {}
     for totals in count:
-        percent = (totals.values()[0] / TOTAL) * 100
+        percent = (float(totals.values()[0]) / TOTAL) * 100
         stats.update({
             totals.values()[1] or 'Unclassified': {'name': totals.values()[1] or 'Unclassified',
                                                    'numerators': {'this': totals.values()[0]},
@@ -78,7 +78,7 @@ def facility_unit(geo_code, dataset):
                  .order_by('-total')
     stats = {}
     for totals in count:
-        percent = (totals.values()[0] / TOTAL) * 100
+        percent = (float(totals.values()[0]) / TOTAL) * 100
         stats.update({
             totals.values()[1] or 'Unclassified': {'name': totals.values()[1] or 'Unclassified',
                                  'numerators': {'this': totals.values()[0]},
