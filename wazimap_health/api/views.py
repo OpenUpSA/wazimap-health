@@ -14,7 +14,9 @@ class HealthFacilityView(APIView):
         geo_code = request.query_params.get('geo_code', None)
         facility_code = request.query_params.get('facility_code', None)
         if geo_code:
-            query = HealthFacilities.objects.filter(parent_geo_code=geo_code)
+            query = HealthFacilities\
+                    .objects\
+                    .filter(geo_levels__overlap=[geo_code])
             serialize = serializers.HealthFacilitySerializer(query, many=True)
             return Response(
                 {
