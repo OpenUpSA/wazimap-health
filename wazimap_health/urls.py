@@ -6,10 +6,15 @@ from wazimap import urls
 from api import views as api
 
 urlpatterns = patterns('',
-                       url(r'^api/point/v1/facilities$',
-                           api.HealthFacilityView.as_view(),
+                       url(r'^api/point/v1/health/facilities$',
+                           api.HealthView.as_view(),
                            name='health_facility'),
-                       #url(r'^api/point/v1/facilities/(?P<geo_code>\w+)/services$'),
+                       url('^api/point/v1/education/facilities$',
+                           api.HigherEducationView.as_view(),
+                           name='higher_education'),
+                       url(r'^api/point/v1/facilities',
+                           api.FacilityView.as_view(),
+                           name='facility'),
                        url(r'^admin/', include(admin_site.urls)))
 
 urlpatterns += urls.urlpatterns

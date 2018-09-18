@@ -41,6 +41,15 @@ ProfileMaps = function() {
 		popupAnchor: [1, -34],
 		shadowSize: [41, 41]
 	    });
+	    var blackIcon = new L.Icon({
+		iconUrl: '/static/js/vendor/images/marker-icon-black.png',
+		shadowUrl: '/static/js/vendor/images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	    });
+	    
 	    
 	    var healthGroup = new L.LayerGroup().addTo(this.map);
 	    var pharmaGroup = new L.LayerGroup().addTo(this.map);
@@ -74,10 +83,23 @@ ProfileMaps = function() {
 		    }
                 });
 	    });
+	    var higherEdGroup = new L.LayerGroup().addTo(this.map);
+	    GeometryLoader.loadPointsForEducation(geo_code, function(data){
+		data['data'].forEach(function(facility){
+		    L.marker([facility['latitude'],
+				  facility['longitude']],
+				 {icon: blackIcon}).addTo(higherEdGroup).bindPopup(facility['name']).on('click', function(){
+			window.location = '/profiles/point-'+ facility['facility_code']+'/';
+			      }).on('mouseover', function(e){
+				  this.openPopup();
+			      });
+		});
+	    });
 	    
 	    var overlayMap = {"<span style='color:#267fca'>Health Facilities</span>": healthGroup,
 			      "<span style='color:#24ac20'>Private Pharmacies</span>": pharmaGroup,
-			      "<span style='color:#cb8325'>Marie Stopes</span>": marieGroup};
+			      "<span style='color:#cb8325'>Marie Stopes</span>": marieGroup,
+			      "<span style='color:#3c3c3c'>Higher Education</span>": higherEdGroup};
 	    L.control.layers(null,overlayMap).addTo(this.map);
 	}
 	

@@ -31,4 +31,19 @@ class HealthFacilityAdmin(admin.ModelAdmin):
     form = HealthFacilityAdminForm
 
 
+class HigherEducationAdminForm(forms.ModelForm):
+    service = HStoreFormField()
+
+    class Meta:
+        model = models.HigherEducation
+        exclude = ()
+
+
+class HigherEducationAdmin(admin.ModelAdmin):
+    list_display = ('name', 'institution', 'classification', 'facility_code')
+    list_filter = ('classification',)
+    form = HigherEducationAdminForm
+
+
 admin_site.register(models.HealthFacilities, HealthFacilityAdmin)
+admin_site.register(models.HigherEducation, HigherEducationAdmin)

@@ -99,19 +99,26 @@ function MapItGeometryLoader() {
     //     })
     // }
     this.loadPointsForHealth = function(geo_code, success){
-        url = '/api/point/v1/facilities?geo_code=' +geo_code;
+        url = '/api/point/v1/health/facilities?geo_code=' +geo_code;
         d3.json(url, function(data){
+            success({'data': data['data']});
+        });
+	
+    };
+    this.loadPointsForEducation = function(geo_code, success){
+	url = '/api/point/v1/education/facilities?geo_code=' +geo_code;
+	d3.json(url, function(data){
             success({'data': data['data']});
         });
     };
     this.loadLatLngForGeo = function(geo_code, success){
-	var facility;
-	if (geo_code.startsWith('PPF')){
-	    facility = 'pharmacies';
+	var dataset;
+	if (geo_code.startsWith('HEI')){
+	    dataset = 'education';
 	}else{
-	    facility = 'facilities';
+	    dataset= 'health';
 	}
-	url = '/api/point/v1/facilities?facility_code=' +geo_code;
+	url = '/api/point/v1/facilities?code=' +geo_code + '&dataset='+dataset;
 	d3.json(url, function(data){
 	    success(data['data']);
 	});

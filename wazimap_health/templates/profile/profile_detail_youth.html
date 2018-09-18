@@ -12,6 +12,8 @@
 		<li><a href="#PublicHealthFacilities"><i class="fa fa-building-o"></i> <span>Public Health Facilities</span></a></li>
 		<li><a href="#PrivatePharmacies"><i class="fa fa-building-o"></i> <span>Private Pharmacies</span></a></li>
 		<li><a href="#MarieStopes"><i class="fa fa-building-o"></i> <span>Marie Stopes</span></a></li>
+		<li><a href="#HigherEducation"><i class="fa fa-graduation-cap"></i><span>Higher Education</span></a></li>
+		<li><a href="#BasicEducation"><i class="fa fa-book-reader"></i><span>Basic Education</span></a></li>
 		
             </ul>
         </div>
@@ -531,7 +533,7 @@
         <section class="clearfix stat-row">
             <h2 class="header-for-columns"><a class="permalink" href="#public_facilities_settlement" id="public_facilities_settlement">Settlements<i class="fa fa-link"></i></a></h2>
             <aside class="multi-line-header">
-                <p>Something Something about Public Health Facilities</p>
+                <p></p>
             </aside>
             <div class="column-half">
 		{% include 'profile/_blocks/_stat_list.html' with stat=health.public_health_total stat_type='number' %}
@@ -548,7 +550,7 @@
             </div>
             <div class="column-half" id="chart-histogram-health-public_health_unit" data-stat-type="scaled-percentage" data-chart-title="Facility Types" data-decimal-places="0"></div>
         </section>
-    </div>
+        </div>
 </article>
 
 <article id="PrivatePharmacies" class="clearfix">
@@ -578,20 +580,54 @@
         </section>
     </div>
 </article>
-<article id="MarieStopes" class="clearfix">
+<!-- <article id="MarieStopes" class="clearfix">
+     <header class="section-contents">
+     <h1><i class="fa fa-fw fa-heartbeat"></i>Marie Stopes</h1>
+     </header>
+     <div class="section-container">
+     <section class="clearfix stat-row">
+     <h2 class="header-for-columns"><a class="permalink" href="#marie_stopes_settlement" id="marie_stopes_settlement">Settlements<i class="fa fa-link"></i></a></h2>
+     <aside class="multi-line-header">
+     <p></p>
+     </aside>
+     <div class="column-half">
+     {% include 'profile/_blocks/_stat_list.html' with stat=health.marie_stopes_total stat_type='number' %}
+     </div>
+     <div class="column-half" id="chart-histogram-health-marie_stopes_settlement" data-stat-type="scaled-percentage" data-chart-title="Settlement Facilities" data-decimal-places="0"></div>
+     </section>
+     </div>
+     </article> -->
+<article id="HigherEducation" class="clearfix">
     <header class="section-contents">
-        <h1><i class="fa fa-fw fa-heartbeat"></i>Marie Stopes</h1>
+        <h1><i class="fa fa-fw fa-graduation-cap"></i>Higher Education</h1>
     </header>
     <div class="section-container">
         <section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink" href="#marie_stopes_settlement" id="marie_stopes_settlement">Settlements<i class="fa fa-link"></i></a></h2>
+            <h2 class="header-for-columns"><a class="permalink" href="#higher_education" id="higher_education">Institutions<i class="fa fa-link"></i></a></h2>
             <aside class="multi-line-header">
                 <p></p>
             </aside>
             <div class="column-half">
-		{% include 'profile/_blocks/_stat_list.html' with stat=health.marie_stopes_total stat_type='number' %}
+		{% include 'profile/_blocks/_stat_list.html' with stat=health.higher_education_total stat_type='number' %}
             </div>
-            <div class="column-half" id="chart-histogram-health-marie_stopes_settlement" data-stat-type="scaled-percentage" data-chart-title="Settlement Facilities" data-decimal-places="0"></div>
+            <div class="column-half" id="chart-histogram-health-higher_education_classification" data-stat-type="scaled-percentage" data-chart-title="Institution Classifications" data-decimal-places="0"></div>
+        </section>
+    </div>
+</article>
+<article id="BasicEducation" class="clearfix">
+    <header class="section-contents">
+        <h1><i class="fa fa-fw fa-graduation-cap"></i>Basic Education</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#basic_education" id="basic_education">Schools<i class="fa fa-link"></i></a></h2>
+            <aside class="multi-line-header">
+                <p></p>
+            </aside>
+            <div class="column-half">
+		{% include 'profile/_blocks/_stat_list.html' with stat=health.basic_education_total stat_type='number' %}
+            </div>
+            <div class="column-half" id="chart-histogram-health-higher_education_classifications" data-stat-type="scaled-percentage" data-chart-title="School Classifications" data-decimal-places="0"></div>
         </section>
     </div>
 </article>
