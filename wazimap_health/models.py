@@ -5,8 +5,8 @@ from django.contrib.postgres.fields import HStoreField, ArrayField
 class HealthFacilities(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200, blank=True)
-    latitude = models.DecimalField(decimal_places=5, max_digits=7)
-    longitude = models.DecimalField(decimal_places=5, max_digits=7)
+    latitude = models.DecimalField(decimal_places=5, max_digits=10)
+    longitude = models.DecimalField(decimal_places=5, max_digits=10)
     settlement = models.CharField(max_length=100, blank=True)
     unit = models.CharField(max_length=50, blank=True)
     facility_code = models.CharField(max_length=20, unique=True)
@@ -18,7 +18,7 @@ class HealthFacilities(models.Model):
 
     class Meta:
         db_table = 'health_facilities'
-        unique_together = ('name', 'latitude', 'longitude')
+        unique_together = ('name', 'latitude', 'longitude', 'facility_code')
 
     def __str__(self):
         return self.name
@@ -52,6 +52,7 @@ class BasicEducation(models.Model):
     address = models.CharField(max_length=100, blank=True)
     sector = models.CharField(max_length=50, blank=True)
     phase = models.CharField(max_length=20, blank=True)
+    special_need = models.CharField(max_length=5)
     dataset = models.CharField(max_length=50)
     facility_code = models.CharField(max_length=100, unique=True)
     geo_levels = ArrayField(

@@ -1,13 +1,15 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from wazimap_health.models import HealthFacilities, HigherEducation
+from wazimap_health.models import HealthFacilities, HigherEducation, BasicEducation
 
 from . import serializers
 
 
-
 class PointView(APIView):
+    """
+    Get all the points within a particular geography
+    """
     model = None
     model_serializer = None
 
@@ -19,19 +21,11 @@ class PointView(APIView):
                     .objects\
                     .filter(geo_levels__overlap=[self.geo_code])
             serialize = self.model_serializer(query, many=True)
-            return Response(
-                {
-                    'data': serialize.data
-                }
-            )
+            return Response({'data': serialize.data})
         elif self.facility_code:
             query = self.model.objects.get(facility_code=self.facility_code)
             serialize = self.model_serializer(query)
-            return Response(
-                {
-                    'data': serialize.data
-                }
-            )
+            return Response({'data': serialize.data})
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -45,6 +39,10 @@ class HigherEducationView(PointView):
     model = HigherEducation
     model_serializer = serializers.HigherEducationSerializer
 
+
+class BasicEducationView(PointView):
+    model = BasicEducation
+    model_serializer = serializers.BasicEducationSerializer
 
 
 class FacilityView(APIView):
@@ -60,19 +58,20 @@ class FacilityView(APIView):
                 model = HealthFacilities
                 model_serializer = serializers.HealthFacilitySerializer
             elif dataset == 'education':
-                model = HigherEducation
-                model_serializer = serializers.HigherEducationSerializer
+                if facility_code.startswith('BEI'):
+                    model = BasicEducation
+                    model_serializer = serializers.BasicEducationSerializer
+                else:
+                    model = HigherEducation
+                    model_serializer = serializers.HigherEducationSerializer
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
             query = model.objects.get(facility_code=facility_code)
             serialize = model_serializer(query)
-            return Response(
-                {
-                    'data': serialize.data
-                }
-            )
+            return Response({'data': serialize.data})
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 # class HealthFacilityView(APIView):
 #     """
@@ -101,7 +100,6 @@ class FacilityView(APIView):
 #             )
 #         else:
 #             return Response(status=status.HTTP_400_BAD_REQUEST)
-
 
 # class HigherEducationView(APIView):
 #     """
