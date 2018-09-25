@@ -1,7 +1,7 @@
 import requests
 
 from django.core.management.base import BaseCommand, CommandError
-from wazimap_health.models import HealthFacilities, HigherEducation
+from wazimap_health.models import HealthFacilities, HigherEducation, BasicEducation
 from wazimap.models import Geography
 
 MAPIT_URL = "http://10.186.210.96:8000/point/4326/"
@@ -17,8 +17,8 @@ class Command(BaseCommand):
         try:
             model = eval(options.get('model'))
             for facility in model.objects.all():
-                url = MAPIT_URL + '{},{}?type=MN'.format(facility.longitude,
-                                                               facility.latitude)
+                url = MAPIT_URL + '{},{}?type=MN'.format(
+                    facility.longitude, facility.latitude)
                 req = requests.get(url)
                 geo = req.json()
                 if geo:
@@ -32,12 +32,7 @@ class Command(BaseCommand):
                                 'name': facility.name,
                                 'version': '2011'
                             },
-                            geo_code=facility.facility_code
-                        )
-                self.stdout.write(
-                        self.style.SUCCESS(
-                            'Point Data added for'
-                        )
-                    )
+                            geo_code=facility.facility_code)
+                self.stdout.write(self.style.SUCCESS('Point Data added for'))
         except Exception as error:
-                raise CommandError(error)
+            raise CommandError(error)

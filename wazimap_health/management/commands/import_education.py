@@ -10,7 +10,6 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('file', type=str)
         parser.add_argument('--dataset', action='store', dest='dataset')
-        parser.add_argument('--type', action='store', dest='type')
 
     def handle(self, *args, **kwargs):
 
@@ -23,12 +22,12 @@ class Command(BaseCommand):
                 if kwargs['dataset'] == 'higher_education':
                     higher_education(reader)
                 elif kwargs['dataset'] == 'basic_education':
-                    basic_education(reader, kwargs['type'])
+                    basic_education(reader)
                 else:
                     raise CommandError('Unknown education dataset')
 
-        except Exception as error:
-            raise CommandError(error)
+        except Exception:
+            raise
 
 
 def higher_education(reader):
@@ -60,39 +59,39 @@ def higher_education(reader):
     return
 
 
-def basic_education(reader, education_type):
+def basic_education(reader):
     """
     Import basic education records
     """
-    education_code = {'special': 'SBEI', 'ordinary': 'BEI'}
-    dataset = {
-        'special': 'special_needs_education',
-        'ordinary': 'basic_education'
-    }
-    code = 1
+    code_prefix = 'BEI'
+    code = 24798
     for row in reader:
-        row.pop('Province')
-        row.pop('LMunName')
-        row.pop('DMunName')
-        models.BasicEducation\
-            .objects\
-            .update_or_create(
-                {
-                    'name': row.pop('Institution_Name'),
-                    'sector': row.pop('Sector'),
-                    'phase': row.pop('Phase') or '',
-                    'latitude': row.pop('GIS_Lat'),
-                    'longitude': row.pop('GIS_Long'),
-                    'address': row.pop('StreetAddress'),
-                    'dataset': dataset[education_type],
-                    'facility_code': '{}{}'.format(
-                        education_code[education_type],
-                        code),
-                    'service': dict(row)
-                },
-                facility_code='{}{}'.format(education_code[education_type],
-                                            code)
-            )
-        print('Saved')
-        code += 1
-    return
+        try:
+            print('Working on {}'.format(row['Institution_Name']))
+            row.pop('Province')
+            row.pop('LMunName')
+            row.pop('DMunName')
+            models.BasicEducation\
+                .objects\
+                .update_or_create(
+                    {
+                        'name': row.pop('Institution_Name'),
+                        'sector': row.pop('Sector'),
+                        'phase': row.pop('Phase') or '',
+                        'latitude': row.pop('GIS_Latitude'),
+                        'longitude': row.pop('GIS_Longitude'),
+                        'address': row.pop('StreetAddress'),
+                        'special_need': row.pop('SpecialNeed'),
+                        'dataset': 'basic_education',
+                        'facility_code': '{}{}'.format(code_prefix, code),
+                        'service': dict(row)
+                    },
+                    facility_code='{}{}'.format(code_prefix,
+                                                code),
+                )
+            print('Saved')
+            code += 1
+        except Exception:
+            print("Bad xy coordinates or bad data")
+            raise
+    print("The last Value is {}".format(code))

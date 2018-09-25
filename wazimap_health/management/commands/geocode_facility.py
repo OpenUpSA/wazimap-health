@@ -1,7 +1,7 @@
 import requests
 
 from django.core.management.base import BaseCommand, CommandError
-from wazimap_health.models import HealthFacilities, HigherEducation
+from wazimap_health.models import HealthFacilities, HigherEducation, BasicEducation
 
 MAPIT_URL = "http://10.186.210.96:8000/point/4326/"
 
