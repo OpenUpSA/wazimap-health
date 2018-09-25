@@ -147,6 +147,17 @@
 		</div>
                 <div class="column-half" id="chart-histogram-health-higher_education_classification" data-stat-type="scaled-percentage" data-chart-title="Institution Classifications" data-decimal-places="0"></div>
             </section>
+	    <section class="clearfix stat-row">
+                <h2 class="header-for-columns"><a class="permalink" href="#basic_education" id="basic_education">Basic Education<i class="fa fa-link"></i></a></h2>
+                <aside class="multi-line-header">
+                    <p></p>
+		</aside>
+                <div class="column-third">
+		    {% include 'profile/_blocks/_stat_list.html' with stat=health.basic_education_total stat_type='number' %}
+		</div>
+                <div class="column-third" id="chart-histogram-health-basic_education_phase" data-stat-type="scaled-percentage" data-chart-title="Phases" data-decimal-places="0"></div>
+		<div class="column-third" id="chart-histogram-health-basic_education_sector" data-stat-type="scaled-percentage" data-chart-title="Sectors" data-decimal-places="0"></div>
+            </section>
 
 	    {% if display_profile == 'WC' %}
 	    <section class="clearfix stat-row">

@@ -105,15 +105,21 @@ function MapItGeometryLoader() {
         });
 	
     };
-    this.loadPointsForEducation = function(geo_code, success){
-	url = '/api/point/v1/education/facilities?geo_code=' +geo_code;
+    this.loadPointsForHigherEducation = function(geo_code, success){
+	url = '/api/point/v1/education/higher/facilities?geo_code=' +geo_code;
+	d3.json(url, function(data){
+            success({'data': data['data']});
+        });
+    };
+    this.loadPointsForBasicEducation = function(geo_code, success){
+	url = '/api/point/v1/education/basic/facilities?geo_code=' +geo_code;
 	d3.json(url, function(data){
             success({'data': data['data']});
         });
     };
     this.loadLatLngForGeo = function(geo_code, success){
 	var dataset;
-	if (geo_code.startsWith('HEI')){
+	if (geo_code.includes('EI')){
 	    dataset = 'education';
 	}else{
 	    dataset= 'health';
