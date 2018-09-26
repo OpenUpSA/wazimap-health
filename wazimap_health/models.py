@@ -5,8 +5,8 @@ from django.contrib.postgres.fields import HStoreField, ArrayField
 class HealthFacilities(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200, blank=True)
-    latitude = models.DecimalField(decimal_places=5, max_digits=10)
-    longitude = models.DecimalField(decimal_places=5, max_digits=10)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     settlement = models.CharField(max_length=100, blank=True)
     unit = models.CharField(max_length=50, blank=True)
     facility_code = models.CharField(max_length=20, unique=True)
@@ -29,8 +29,8 @@ class HigherEducation(models.Model):
     name = models.CharField(max_length=100, verbose_name='School Name')
     facility_code = models.CharField(max_length=100, unique=True)
     classification = models.CharField(max_length=100, blank=True)
-    latitude = models.DecimalField(decimal_places=5, max_digits=7)
-    longitude = models.DecimalField(decimal_places=5, max_digits=7)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     address = models.CharField(max_length=100, blank=True)
     dataset = models.CharField(max_length=20)
     geo_levels = ArrayField(
@@ -47,8 +47,8 @@ class HigherEducation(models.Model):
 
 class BasicEducation(models.Model):
     name = models.CharField(max_length=100)
-    latitude = models.DecimalField(decimal_places=5, max_digits=7)
-    longitude = models.DecimalField(decimal_places=5, max_digits=7)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     address = models.CharField(max_length=100, blank=True)
     sector = models.CharField(max_length=50, blank=True)
     phase = models.CharField(max_length=20, blank=True)

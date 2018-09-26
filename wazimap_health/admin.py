@@ -1,12 +1,10 @@
 import csv
-import xlwt
 
 from django.contrib import admin
 from django.contrib.admin import AdminSite
 from django import forms
 from django_admin_hstore_widget.forms import HStoreFormField
 from django.http import HttpResponse
-
 from wazimap.models import Geography
 from . import models
 
@@ -35,25 +33,45 @@ class HealthFacilityAdmin(admin.ModelAdmin):
     form = HealthFacilityAdminForm
     actions = ['export_csv']
 
+    def _get_fields(self, obj):
+        """
+        We need to get the fields especially from the service column
+        """
+        facility_fields = self._flattern(obj, '__').keys()
+        sorted_fields = sorted(facility_fields)
+        return sorted_fields
+
+    def _flattern(self, obj, separator):
+        """
+        Convert the dictionary with nested dictionaries to flat dictionary
+        """
+        facility = {}
+        for i in obj.keys():
+            if isinstance(obj[i], dict):
+                service = flattern(obj[i], separator)
+                for j in service.keys():
+                    facility[i + separator + j] = service[j]
+            else:
+                facility[i] = obj[i]
+        return facility
+
     def export_csv(self, request, queryset):
-        field_names = [
-            'facility_code', 'name', 'latitude', 'longitude', 'address',
-            'settlement', 'unit'
-        ]
 
-        response = HttpResponse(content='text/csv')
+        response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=export.csv'
-        #work_book = xlwt.Workbook(encoding='utf-8')
-        #work_sheet = work_book.add_sheet('Health Facilities')
-        #row_num = 0
-        writer = csv.writer(response)
 
-        writer.writerow(field_names)
-        for obj in queryset:
-            writer.writerow([
-                obj.facility_code, obj.name, obj.latitude, obj.longitude,
-                obj.address, obj.settlement, obj.unit
-            ])
+        facility = queryset.values('name', 'address', 'latitude', 'longitude',
+                                   'settlement', 'unit', 'service')[0]
+        writer = csv.DictWriter(
+            response, fieldnames=self._get_fields(facility))
+        writer.writeheader()
+        for obj in queryset.values('name', 'address', 'latitude', 'longitude',
+                                   'settlement', 'unit', 'service'):
+            q = self._flattern(obj, '__')
+            writer.writerow({
+                k: v.encode('utf8') if isinstance(v, unicode) else v
+                for k, v in q.items()
+            })
 
         return response
 
@@ -92,3 +110,18 @@ admin_site.register(models.HealthFacilities, HealthFacilityAdmin)
 admin_site.register(models.HigherEducation, HigherEducationAdmin)
 admin_site.register(Geography)
 admin_site.register(models.BasicEducation, BasicEducationAdmin)
+
+
+def flattern(obj, separator):
+    """
+    Convert the dictionary with nested dictionaries to flat dictionary
+    """
+    facility = {}
+    for i in obj.keys():
+        if isinstance(obj[i], dict):
+            service = flattern(obj[i], separator)
+            for j in service.keys():
+                facility[i + separator + j] = service[j]
+        else:
+            facility[i] = obj[i]
+    return facility
