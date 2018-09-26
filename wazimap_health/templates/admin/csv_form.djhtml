@@ -1,0 +1,27 @@
+{% extends 'admin/base_site.html' %}
+{% load i18n admin_static admin_modify %}
+{% load admin_urls %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+	<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+	&rsaquo;<a href="{% url 'admin:index' %}">{% trans 'Health Facilities' %}</a>
+	&rsaquo;<a href="{% url 'admin:index' %}">{% trans 'Import' %}</a>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <div>
+	<h3>Import Health CSV</h3>
+    </div>
+    <div>
+        <form action="." method="POST" enctype="multipart/form-data">
+	    {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload CSV</button>
+        </form>
+    </div>
+    <br />
+
+{% endblock %}
