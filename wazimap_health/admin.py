@@ -139,7 +139,7 @@ class HealthFacilityAdmin(admin.ModelAdmin, ExportImportMixin):
         custom_urls = patterns('',
                                url(r'^import-health-csv/$',
                                    self.admin_site.admin_view(self.import_csv),
-                                   name='import_csv'))
+                                   name='import_health_csv'))
         return custom_urls + urls
 
 
@@ -172,7 +172,7 @@ class HigherEducationAdmin(admin.ModelAdmin, ExportImportMixin):
         custom_urls = patterns('',
                                url(r'^import-higher-education-csv/$',
                                    self.admin_site.admin_view(self.import_csv),
-                                   name='import_csv'))
+                                   name='import_higher_csv'))
         return custom_urls + urls
 
     def import_csv(self, request):
@@ -209,7 +209,7 @@ class BasicEducationAdmin(admin.ModelAdmin, ExportImportMixin):
         custom_urls = patterns('',
                                url(r'^import-basic-education-csv/$',
                                    self.admin_site.admin_view(self.import_csv),
-                                   name='import_csv'))
+                                   name='import_basic_csv'))
         return custom_urls + urls
 
     def import_csv(self, request):

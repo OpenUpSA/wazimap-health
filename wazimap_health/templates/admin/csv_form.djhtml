@@ -1,7 +1,6 @@
 {% extends 'admin/base_site.html' %}
 {% load i18n admin_static admin_modify %}
 {% load admin_urls %}
-{% load admin_static %}
 {% load staticfiles %}
 
 
@@ -15,8 +14,8 @@
     {% block breadcrumbs %}
     <div class="breadcrumbs">
 	<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-	&rsaquo;<a href="{% url 'admin:index' %}">{% trans 'Health Facilities' %}</a>
-	&rsaquo;<a href="{% url 'admin:index' %}">{% trans 'Import' %}</a>
+	&rsaquo;<a href="{% url 'admin:app_list' app_label='wazimap_health' %}">{% trans 'Health Facilities' %}</a>
+	&rsaquo;<a>{% trans 'Import' %}</a>
     </div>
 {% endblock %}
 
