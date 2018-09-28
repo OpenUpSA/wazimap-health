@@ -1,0 +1,5 @@
+{% extends 'admin/import_change_list.djhtml' %}}
+
+{% block dataset_url %}
+    <li><a class="addlink" href="import-health-csv/">Import Health CSV</a></li>
+{% endblock %}

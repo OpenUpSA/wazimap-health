@@ -1,0 +1,5 @@
+{% extends 'admin/import_change_list.djhtml' %}}
+
+{% block dataset_url %}
+    <li><a class="addlink" href="import-basic-education-csv/">Import Basic Education CSV</a></li>
+{% endblock %}

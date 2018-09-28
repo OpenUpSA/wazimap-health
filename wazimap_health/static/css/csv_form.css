@@ -1,0 +1,38 @@
+.loader {
+	 display: none;
+	 border: 16px solid #f3f3f3; /* Light grey */
+	 border-top: 16px solid #3498db; /* Blue */
+	 border-radius: 50%;
+	 width: 60px;
+	 height: 60px;
+	 animation: spin 2s linear infinite;
+     }
+     .successnote {
+	 font-size: 14px;
+	 font-weight: 700;
+	 display: block;
+	 padding: 10px 12px;
+	 margin: 0 0 10px 0;
+	 color: #155724;
+	 border: 1px solid #155724;
+	 border-radius: 4px;
+	 background-color: #d4edda;
+	 background-position: 5px 12px;
+     }
+     .infonote {
+	 font-size: 14px;
+	 font-weight: 700;
+	 display: block;
+	 padding: 10px 12px;
+	 margin: 0 0 10px 0;
+	 color: #004085;
+	 border: 1px solid #004085;
+	 border-radius: 4px;
+	 background-color: #cce5ff;
+	 background-position: 5px 12px;
+     }
+
+     @keyframes spin {
+	 0% { transform: rotate(0deg); }
+	 100% { transform: rotate(360deg); }
+     }
