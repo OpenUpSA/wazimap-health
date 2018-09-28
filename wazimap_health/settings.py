@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/1.9/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
-
+import sys
+reload(sys)
+sys.setdefaultencoding('UTF8')
 import os
 import dj_database_url
 from wazimap.settings import *
@@ -17,12 +19,12 @@ from wazimap.settings import *
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('HEALTH_SECRET_KEY', 'xf&mewbq*dp4ul-m^!-)+20e2i_&!u@eablvqln08e3@r(ec3e')
+SECRET_KEY = os.environ.get(
+    'HEALTH_SECRET_KEY', 'xf&mewbq*dp4ul-m^!-)+20e2i_&!u@eablvqln08e3@r(ec3e')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('HEALTH_DEBUG', 'true') == 'true'
@@ -33,24 +35,26 @@ ROOT_URLCONF = 'wazimap_health.urls'
 
 # Application definition
 INSTALLED_APPS = [
-    'wazimap_health',
-    'rest_framework',
-    'django.contrib.postgres',
-    'django_admin_hstore_widget'] + INSTALLED_APPS
+    'wazimap_health', 'rest_framework', 'django.contrib.postgres',
+    'django_admin_hstore_widget'
+] + INSTALLED_APPS
 
-MIDDLEWARE_CLASSES = ('whitenoise.middleware.WhiteNoiseMiddleware',
-                      'django.contrib.sessions.middleware.SessionMiddleware',
-                      'django.contrib.auth.middleware.AuthenticationMiddleware',
-                      'django.contrib.messages.middleware.MessageMiddleware') + MIDDLEWARE_CLASSES
+MIDDLEWARE_CLASSES = (
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware'
+) + MIDDLEWARE_CLASSES
 
+TEMPLATE_CONTEXT_PROCESSORS = ('django.contrib.auth.context_processors.auth',
+                               ) + TEMPLATE_CONTEXT_PROCESSORS
 
-TEMPLATE_CONTEXT_PROCESSORS = ('django.contrib.auth.context_processors.auth',) + TEMPLATE_CONTEXT_PROCESSORS
-
-DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql://wazimap_health:wazimap_health@10.186.210.252/wazimap_health')
+DATABASE_URL = os.environ.get(
+    'DATABASE_URL',
+    'postgresql://wazimap_health:wazimap_health@10.186.210.252/wazimap_health')
 DATABASES = {
     'default': dj_database_url.parse(DATABASE_URL),
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -101,7 +105,8 @@ LOGGING = {
     'disable_existing_loggers': True,
     'formatters': {
         'verbose': {
-            'format': '%(asctime)s %(levelname)s %(module)s %(process)d %(thread)d %(message)s'
+            'format':
+            '%(asctime)s %(levelname)s %(module)s %(process)d %(thread)d %(message)s'
         },
     },
     'handlers': {

@@ -1,73 +1,44 @@
+from __future__ import unicode_literals
 import csv
 
 from django.contrib import admin
 from django.contrib.admin import AdminSite
 from django import forms
 from django_admin_hstore_widget.forms import HStoreFormField
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.conf.urls import url, patterns
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from .csv_import import ProcessImport
 
 from wazimap.models import Geography
 from . import models
 
 
 class CsvImportForm(forms.Form):
-    DATASET_CHOICE = (('PHF', 'Public Health Facilities'),
-                      ('PPF', 'Private Pharamacies'), ('MSS', 'Marie Stopes'))
-    dataset = forms.ChoiceField(choices=DATASET_CHOICE)
     csv_file = forms.FileField()
 
 
-class HealthAdminSite(AdminSite):
-    site_title = 'Clinton Health Access Initiative'
-    site_header = 'CHAI Administration'
-    index_title = 'CHAI Admin'
+class HealthImportForm(CsvImportForm):
+    DATASET_CHOICE = (('public_health', 'Public Health Facilities'),
+                      ('private_pharmacies', 'Private Pharamacies'),
+                      ('marie_stopes', 'Marie Stopes'))
+    dataset = forms.ChoiceField(choices=DATASET_CHOICE)
 
 
-admin_site = HealthAdminSite()
+class BasicImportForm(CsvImportForm):
+    DATASET_CHOICE = (('basic_education', 'Basic Education'), )
+    dataset = forms.ChoiceField(choices=DATASET_CHOICE)
 
 
-class HealthFacilityAdminForm(forms.ModelForm):
-    service = HStoreFormField()
-
-    class Meta:
-        model = models.HealthFacilities
-        exclude = ()
+class HigherImportForm(CsvImportForm):
+    DATASET_CHOICE = (('higher_education', 'Higher Education'), )
+    dataset = forms.ChoiceField(choices=DATASET_CHOICE)
 
 
-class HealthFacilityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'settlement', 'unit', 'facility_code', 'dataset',
-                    'latitude', 'longitude')
-    list_filter = ('dataset', )
-    form = HealthFacilityAdminForm
-    actions = ['export_csv']
-    change_list_template = 'admin/facility_changelist.djhtml'
+class ExportImportMixin:
+    csv_form = None
 
-    def get_urls(self):
-        urls = super(HealthFacilityAdmin, self).get_urls()
-        custom_urls = patterns('',
-                               url(r'^import-csv/$',
-                                   self.admin_site.admin_view(self.import_csv),
-                                   name='import_csv'))
-        return custom_urls + urls
-
-    def import_csv(self, request):
-        """
-        Import a csv file from a user
-        """
-        if request.method == "POST":
-            csv_file = request.FILES["csv_file"]
-            dataset = request.POST['dataset']
-            #reader = csv.reader(csv_file)
-            # read each row here
-            self.message_user(request, "Your csv file has been imported")
-            return redirect("..")
-        form = CsvImportForm()
-        payload = {"form": form}
-        return render(request, "admin/csv_form.djhtml", payload)
-
-    def _get_fields(self, obj):
+    def _get_facility_fields(self, obj):
         """
         We need to get the fields especially from the service column
         """
@@ -84,23 +55,48 @@ class HealthFacilityAdmin(admin.ModelAdmin):
             if isinstance(obj[i], dict):
                 service = self._flattern(obj[i], separator)
                 for j in service.keys():
-                    facility[i + separator + j] = service[j]
+                    facility[j] = service[j]
             else:
                 facility[i] = obj[i]
         return facility
 
-    def export_csv(self, request, queryset):
+    def import_csv(self, request, form):
+        """
+        Import a csv file from a user
+        """
+        if request.method == 'POST' and request.is_ajax():
+            form = form(request.POST, request.FILES)
+            if form.is_valid():
+                try:
+                    dataset = form.cleaned_data['dataset']
+                    csv_file = request.FILES['csv_file']
+                    reader = csv.DictReader(csv_file)
+                    process = ProcessImport(dataset, reader)
+                    process.import_csv()
+                    return JsonResponse({'status': 'ok'})
+                except Exception as error:
+                    return JsonResponse({
+                        'status': 'error',
+                        'form': str(error)
+                    })
+            else:
+                return JsonResponse({
+                    'status': 'error',
+                    'form': form.errors.as_json()
+                })
+        form = form()
+        payload = {"form": form}
+        return render(request, "admin/csv_form.djhtml", payload)
 
+    def export_csv(self, request, queryset, export_fields):
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename=export.csv'
+        response['Content-Disposition'] = 'attachment;filename=export.csv'
 
-        facility = queryset.values('name', 'address', 'latitude', 'longitude',
-                                   'settlement', 'unit', 'service')[0]
+        facility = queryset.values(*export_fields)[0]
         writer = csv.DictWriter(
-            response, fieldnames=self._get_fields(facility))
+            response, fieldnames=self._get_facility_fields(facility))
         writer.writeheader()
-        for obj in queryset.values('name', 'address', 'latitude', 'longitude',
-                                   'settlement', 'unit', 'service'):
+        for obj in queryset.values(*export_fields):
             q = self._flattern(obj, '__')
             writer.writerow({
                 k: v.encode('utf8') if isinstance(v, unicode) else v
@@ -109,7 +105,42 @@ class HealthFacilityAdmin(admin.ModelAdmin):
 
         return response
 
+
+class HealthFacilityAdminForm(forms.ModelForm):
+    service = HStoreFormField()
+
+    class Meta:
+        model = models.HealthFacilities
+        exclude = ()
+
+
+class HealthFacilityAdmin(admin.ModelAdmin, ExportImportMixin):
+    list_display = ('name', 'settlement', 'unit', 'facility_code', 'dataset',
+                    'latitude', 'longitude')
+    list_filter = ('dataset', 'settlement', 'unit')
+    form = HealthFacilityAdminForm
+    actions = ['export_csv']
+    change_list_template = 'admin/health_changelist.djhtml'
+
+    def export_csv(self, request, queryset):
+        export_fields = ('name', 'address', 'latitude', 'longitude',
+                         'settlement', 'unit', 'service', 'facility_code')
+        return super(HealthFacilityAdmin, self).export_csv(
+            request, queryset, export_fields)
+
+    def import_csv(self, request):
+        csv_form = HealthImportForm
+        return super(HealthFacilityAdmin, self).import_csv(request, csv_form)
+
     export_csv.short_description = 'Export Health Facilities'
+
+    def get_urls(self):
+        urls = super(HealthFacilityAdmin, self).get_urls()
+        custom_urls = patterns('',
+                               url(r'^import-health-csv/$',
+                                   self.admin_site.admin_view(self.import_csv),
+                                   name='import_csv'))
+        return custom_urls + urls
 
 
 class HigherEducationAdminForm(forms.ModelForm):
@@ -120,10 +151,33 @@ class HigherEducationAdminForm(forms.ModelForm):
         exclude = ()
 
 
-class HigherEducationAdmin(admin.ModelAdmin):
+class HigherEducationAdmin(admin.ModelAdmin, ExportImportMixin):
     list_display = ('name', 'institution', 'classification', 'facility_code')
     list_filter = ('classification', )
     form = HigherEducationAdminForm
+    actions = ['export_csv']
+    change_list_template = 'admin/higher_ed_changelist.djhtml'
+
+    def export_csv(self, request, queryset):
+        export_fields = ('name', 'institution', 'classification',
+                         'facility_code', 'service', 'latitude', 'longitude',
+                         'address')
+        return super(HigherEducationAdmin, self).export_csv(
+            request, queryset, export_fields)
+
+    export_csv.short_description = 'Export higher education institutions'
+
+    def get_urls(self):
+        urls = super(HigherEducationAdmin, self).get_urls()
+        custom_urls = patterns('',
+                               url(r'^import-higher-education-csv/$',
+                                   self.admin_site.admin_view(self.import_csv),
+                                   name='import_csv'))
+        return custom_urls + urls
+
+    def import_csv(self, request):
+        form = HigherImportForm
+        return super(HigherEducationAdmin, self).import_csv(request, form)
 
 
 class BasicEducationAdminForm(forms.ModelForm):
@@ -134,12 +188,42 @@ class BasicEducationAdminForm(forms.ModelForm):
         exclude = ()
 
 
-class BasicEducationAdmin(admin.ModelAdmin):
+class BasicEducationAdmin(admin.ModelAdmin, ExportImportMixin):
     list_display = ('name', 'sector', 'phase', 'facility_code')
     list_filter = ('phase', 'sector', 'special_need')
     form = BasicEducationAdminForm
+    actions = ['export_csv']
+    change_list_template = 'admin/basic_ed_changelist.djhtml'
+
+    def export_csv(self, request, queryset):
+        export_fields = ('name', 'sector', 'phase', 'facility_code',
+                         'special_need', 'address', 'service', 'latitude',
+                         'longitude')
+        return super(BasicEducationAdmin, self).export_csv(
+            request, queryset, export_fields)
+
+    export_csv.short_description = 'Export basic education institutions'
+
+    def get_urls(self):
+        urls = super(BasicEducationAdmin, self).get_urls()
+        custom_urls = patterns('',
+                               url(r'^import-basic-education-csv/$',
+                                   self.admin_site.admin_view(self.import_csv),
+                                   name='import_csv'))
+        return custom_urls + urls
+
+    def import_csv(self, request):
+        form = BasicImportForm
+        return super(BasicEducationAdmin, self).import_csv(request, form)
 
 
+class HealthAdminSite(AdminSite):
+    site_title = 'Clinton Health Access Initiative'
+    site_header = 'CHAI Administration'
+    index_title = 'CHAI Admin'
+
+
+admin_site = HealthAdminSite()
 admin_site.register(models.HealthFacilities, HealthFacilityAdmin)
 admin_site.register(models.HigherEducation, HigherEducationAdmin)
 admin_site.register(Geography)

@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.db import models
 from django.contrib.postgres.fields import HStoreField, ArrayField
 
@@ -12,8 +13,7 @@ class HealthFacilities(models.Model):
     facility_code = models.CharField(max_length=20, unique=True)
     geo_levels = ArrayField(
         models.CharField(max_length=20), blank=True, null=True)
-    parent_name = models.CharField(max_length=100, blank=True)
-    dataset = models.CharField(max_length=20)
+    dataset = models.CharField(max_length=50)
     service = HStoreField()
 
     class Meta:

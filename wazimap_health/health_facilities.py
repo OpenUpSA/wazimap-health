@@ -2,7 +2,7 @@ from .models import HealthFacilities
 
 
 def pharmacies(reader, code_prefix):
-    code = 1
+    code = 5084
     for row in reader:
         row.pop('Province')
         row.pop('District')
@@ -25,10 +25,11 @@ def pharmacies(reader, code_prefix):
             )
         code += 1
         print("Facility Entered")
+    print(code)
 
 
 def public_facilities(reader, code_prefix):
-    code = 1
+    code = 19
     for row in reader:
         row.pop('Province')
         row.pop('District')
@@ -44,13 +45,14 @@ def public_facilities(reader, code_prefix):
                     'latitude': row.pop('Latitude'),
                     'longitude': row.pop('Longitude'),
                     'facility_code': '{}{}'.format(code_prefix, code),
-                    'dataset': 'public_facilities',
+                    'dataset': 'public_health',
                     'service': dict(row)
                 },
                 facility_code='{}{}'.format(code_prefix, code)
             )
         code += 1
         print("Facility Entered")
+    print(code)
 
 
 def marie_stopes(reader, code_prefix):
@@ -75,3 +77,4 @@ def marie_stopes(reader, code_prefix):
             )
         code += 1
         print("Facility Entered")
+    print(code)

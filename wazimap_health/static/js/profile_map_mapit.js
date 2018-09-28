@@ -73,7 +73,7 @@ ProfileMaps = function() {
 			      }).on('mouseover', function(e){
 				  this.openPopup();
 			      });
-		    }else if (facility['dataset'] == 'public_facilities'){
+		    }else if (facility['dataset'] == 'public_health'){
 			L.marker([facility['latitude'],
 				  facility['longitude']]).addTo(healthGroup).bindPopup(facility['name']).on('click', function(){
 			window.location = '/profiles/point-'+ facility['facility_code']+'/';

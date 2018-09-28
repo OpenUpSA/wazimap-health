@@ -1,8 +1,18 @@
 {% extends 'admin/base_site.html' %}
 {% load i18n admin_static admin_modify %}
 {% load admin_urls %}
+{% load admin_static %}
+{% load staticfiles %}
 
-{% block breadcrumbs %}
+
+{% block extrastyle %}
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/grid.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/csv_form.css' %}">
+    <script type="text/javascript" src="{% static 'js/csv_form.js' %}"></script>
+{% endblock %}
+
+    {% block breadcrumbs %}
     <div class="breadcrumbs">
 	<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
 	&rsaquo;<a href="{% url 'admin:index' %}">{% trans 'Health Facilities' %}</a>
@@ -12,16 +22,39 @@
 
 
 {% block content %}
-    <div>
-	<h3>Import Health CSV</h3>
+    <div class="container">
+	<div class="row">
+	    <div class="col-3"></div>
+	    <div class="col-6">
+		<h3>Import CSV File</h3>
+		<div class="infonote">
+		    <ul>
+			<li>Only .csv file formats are supported</li>
+			<li>If a new facility has been added, please make sure that it has been given a facility code</li>
+		    </ul>
+		</div>
+		<div>
+		    <p id="errorMessage" class="errornote" style="display:none;">
+			Unable to upload file
+		    </p>
+		    <p id="successMessage" class="successnote" style="display:none;">
+			File Uploaded and Processed
+		    </p>
+		</div>
+		<div>
+		    <form id="csv_import_form" action="." method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit">Upload CSV</button>
+		    </form>
+		</div>
+		<div>
+		    <p id="errorDetail" class="errornote" style="display:none;"></p>
+		</div>
+		<div class="loader"></div>
+	    </div>
+	    <div class="col-3"></div>
+	</div>
     </div>
-    <div>
-        <form action="." method="POST" enctype="multipart/form-data">
-	    {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Upload CSV</button>
-        </form>
-    </div>
-    <br />
-
 {% endblock %}
+
