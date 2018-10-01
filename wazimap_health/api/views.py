@@ -40,6 +40,75 @@ class HealthServiceView(APIView):
 
     def get(self, request):
         return Response({
+            'services': [{
+                'id': '001',
+                'name': 'Oral Pills (contraception)'
+            }, {
+                'id': '002',
+                'name': 'Injectables'
+            }, {
+                'id': '003',
+                'name': 'IUDs  (contraception)'
+            }, {
+                'id': '004',
+                'name': 'Implants (contraception)'
+            }, {
+                'id': '005',
+                'name': 'Female Sterilization (contraception)'
+            }, {
+                'id': '006',
+                'name': 'Male Sterilization (contraception)'
+            }, {
+                'id': '007',
+                'name': 'Male Medical Circumcision (MMC)'
+            }, {
+                'id': '008',
+                'name': 'TB'
+            }, {
+                'id': '009',
+                'name': 'Maternal Health'
+            }, {
+                'id': '010',
+                'name': 'Mental Health'
+            }, {
+                'id': '011',
+                'name': 'Child Health'
+            }, {
+                'id': '012',
+                'name': 'Oral health services'
+            }, {
+                'id': '013',
+                'name': 'Rehabilitation Services'
+            }, {
+                'id': '014',
+                'name': 'Minor Ailments'
+            }, {
+                'id': '015',
+                'name': 'Sexually Transmitted Infections Screenings'
+            }, {
+                'id': '016',
+                'name': 'HIV Testing'
+            }, {
+                'id': '017',
+                'name': 'HIV Treatment (ART)'
+            }, {
+                'id': '018',
+                'name': 'Oral PrEP'
+            }, {
+                'id': '019',
+                'name': 'Termination of Pregnancy - 1st Trimester'
+            }, {
+                'id': '020',
+                'name': 'Termination of Pregnancy - 2nd Trimester'
+            }, {
+                'id': '021',
+                'name': 'AYFS Accredited'
+            }, {
+                'id': '022',
+                'name': 'CCMDD Pick Up Point'
+            }]
+        })
+        return Response({
             'services': {
                 '001': 'Oral Pills (contraception)',
                 '002': 'Injectables',
