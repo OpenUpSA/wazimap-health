@@ -100,6 +100,8 @@ WAZIMAP['mapit'] = {
     }
 }
 
+MAPIT_LOCATION_URL = "http://10.186.210.96:8000/point/4326/"
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,

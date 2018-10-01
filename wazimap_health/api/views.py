@@ -1,8 +1,11 @@
+import requests
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from wazimap.models import Geography
 from wazimap_health.models import HealthFacilities, HigherEducation, BasicEducation
-
+from django.conf import settings
 from . import serializers
 
 
@@ -28,6 +31,123 @@ class PointView(APIView):
             return Response({'data': serialize.data})
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class HealthServiceView(APIView):
+    """
+    List all the possible Health Services
+    """
+
+    def get(self, request):
+        return Response({
+            'services': {
+                '001': 'Oral Pills (contraception)',
+                '002': 'Injectables',
+                '003': 'IUDs  (contraception)',
+                '004': 'Implants (contraception)',
+                '005': 'Female Sterilization (contraception)',
+                '006': 'Male Sterilization (contraception)',
+                '007': 'Male Medical Circumcision (MMC)',
+                '008': 'TB',
+                '009': 'Maternal Health',
+                '010': 'Mental Health',
+                '011': 'Child Health',
+                '012': 'Oral health services',
+                '013': 'Rehabilitation Services',
+                '014': 'Minor Ailments',
+                '015': 'Sexually Transmitted Infections Screenings',
+                '016': 'HIV Testing',
+                '017': 'HIV Treatment (ART)',
+                '018': 'Oral PrEP',
+                '019': 'Termination of Pregnancy - 1st Trimester',
+                '020': 'Termination of Pregnancy - 2nd Trimester',
+                '021': 'AYFS Accredited',
+                '022': 'CCMDD Pick Up Point',
+            },
+        })
+
+
+class ServiceView(APIView):
+    """
+    Find all the facilities that have a particular service.
+
+    This will also depend on the users location
+    
+    ***The users location should be provided as a query paramater with latitude longitude***
+    
+    ```
+    ?location=lat,lon
+    ```
+    
+
+    """
+
+    services = {
+        '001': 'Oral Pills (contraception)',
+        '002': 'Injectables',
+        '003': 'IUDs  (contraception)',
+        '004': 'Implants (contraception)',
+        '005': 'Female Sterilization (contraception)',
+        '006': 'Male Sterilization (contraception)',
+        '007': 'Male Medical Circumcision (MMC)',
+        '008': 'TB',
+        '009': 'Maternal Health',
+        '010': 'Mental Health',
+        '011': 'Child Health',
+        '012': 'Oral health services',
+        '013': 'Rehabilitation Services',
+        '014': 'Minor Ailments',
+        '015': 'Sexually Transmitted Infections Screenings',
+        '016': 'HIV Testing',
+        '017': 'HIV Treatment (ART)',
+        '018': 'Oral PrEP',
+        '019': 'Termination of Pregnancy - 1st Trimester',
+        '020': 'Termination of Pregnancy - 2nd Trimester',
+        '021': 'AYFS Accredited',
+        '022': 'CCMDD Pick Up Point',
+    }
+
+    def get(self, request, service_id):
+        location = request.query_params.get('location', None)
+        if location is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        lat, lon = location.split(',')
+        url = settings.MAPIT_LOCATION_URL + '{},{}?type=MN'.format(lon, lat)
+        req = requests.get(url)
+        geo = req.json()
+        if geo:
+            for _, value in geo.items():
+                mdb = value['codes']['MDB']
+                municipality_name = value['name']
+            query = HealthFacilities\
+                .objects\
+                .filter(service__contains={self.services[service_id]: 'Yes'},
+                        geo_levels__contains=[mdb])
+            serialize = serializers.HealthFacilitySerializer(query, many=True)
+            return Response({
+                'data': serialize.data,
+                'municipality': municipality_name,
+                'municipality_code': mdb,
+                'service': self.services[service_id]
+            })
+        else:
+            return Response(
+                {
+                    'error': 'No data for location'
+                },
+                status=status.HTTP_404_NOT_FOUND)
+
+
+class GeographyView(APIView):
+    """
+    Return a List of all the districts in the country
+    """
+
+    def get(self, request):
+        query = Geography.objects.filter(parent_level='province', version=2016)
+        serialize = serializers.GeographySerializer(query, many=True)
+
+        return Response({'data': serialize.data})
 
 
 class HealthView(PointView):
@@ -71,48 +191,3 @@ class FacilityView(APIView):
             serialize = model_serializer(query)
             return Response({'data': serialize.data})
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-# class HealthFacilityView(APIView):
-#     """
-#     Show all the health facilities within a district
-#     """
-#     def get(self, request):
-#         geo_code = request.query_params.get('geo_code', None)
-#         facility_code = request.query_params.get('facility_code', None)
-#         if geo_code:
-#             query = HealthFacilities\
-#                     .objects\
-#                     .filter(geo_levels__overlap=[geo_code])
-#             serialize = serializers.HealthFacilitySerializer(query, many=True)
-#             return Response(
-#                 {
-#                     'data': serialize.data
-#                 }
-#             )
-#         elif facility_code:
-#             query = HealthFacilities.objects.get(facility_code=facility_code)
-#             serialize = serializers.HealthFacilitySerializer(query)
-#             return Response(
-#                 {
-#                     'data': serialize.data
-#                 }
-#             )
-#         else:
-#             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-# class HigherEducationView(APIView):
-#     """
-#     Show all the higher education institutions within a municipality
-#     """
-#     def get(self, request):
-#         geo_code = request.query_params.get('geo_code', None)
-#         if geo_code:
-#             query = HigherEducation\
-#                     .objects\
-#                     .filter(geo_levels__overlap=[geo_code])
-#             serialize = serializers.HigherEducationSerializer(query, many=True)
-#             return Response({
-#                 'data': serialize.data
-#             })
-#         return Response(status=status.HTTP_400_BAD_REQUEST)
