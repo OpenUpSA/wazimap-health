@@ -3,8 +3,8 @@ from rest_framework.documentation import include_docs_urls
 from django.contrib import admin
 from .admin import admin_site
 from wazimap import urls
-
 from api import views as api
+from .api import schema
 
 urlpatterns = patterns(
     '',
@@ -13,6 +13,7 @@ urlpatterns = patterns(
         include_docs_urls(
             title='Health Facility API',
             public=False,
+            #generator_class=schema.CustomSchemaGenerator,
             patterns=[
                 url(r'^api/point/v1/services$',
                     api.HealthServiceView.as_view(),
@@ -20,10 +21,6 @@ urlpatterns = patterns(
                 url(r'^api/point/v1/services/(?P<service_id>\d+)$',
                     api.ServiceView.as_view(),
                     name='geo_service'),
-                # url(r'^api/point/v1/geography$',
-                #     api.GeographyView.as_view(),
-                #     name='service_geography'),
-                # url(r'^api/point/v1/geography/(?P<district_id>\w+)')
             ])),
     url(r'^api/point/v1/health/facilities$',
         api.HealthView.as_view(),
