@@ -100,7 +100,7 @@ WAZIMAP['mapit'] = {
     }
 }
 
-MAPIT_LOCATION_URL = "http://10.186.210.96:8000/point/4326/"
+MAPIT_LOCATION_URL = "https://mapit.code4sa.org/point/4326/"
 
 LOGGING = {
     'version': 1,
