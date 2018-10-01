@@ -5,7 +5,6 @@ from .admin import admin_site
 from wazimap import urls
 
 from api import views as api
-from api import schema
 
 urlpatterns = patterns(
     '',
