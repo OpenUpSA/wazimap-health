@@ -3,6 +3,8 @@ import csv
 
 from django.contrib import admin
 from django.contrib.admin import AdminSite
+from django.contrib.auth import admin as useradmin
+from django.contrib.auth import models as admin_models
 from django import forms
 from django_admin_hstore_widget.forms import HStoreFormField
 from django.http import HttpResponse, JsonResponse
@@ -228,3 +230,4 @@ admin_site.register(models.HealthFacilities, HealthFacilityAdmin)
 admin_site.register(models.HigherEducation, HigherEducationAdmin)
 admin_site.register(Geography)
 admin_site.register(models.BasicEducation, BasicEducationAdmin)
+admin_site.register(admin_models.User, useradmin.UserAdmin)
