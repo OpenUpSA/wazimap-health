@@ -108,32 +108,6 @@ class HealthServiceView(APIView):
                 'name': 'CCMDD Pick Up Point'
             }]
         })
-        return Response({
-            'services': {
-                '001': 'Oral Pills (contraception)',
-                '002': 'Injectables',
-                '003': 'IUDs  (contraception)',
-                '004': 'Implants (contraception)',
-                '005': 'Female Sterilization (contraception)',
-                '006': 'Male Sterilization (contraception)',
-                '007': 'Male Medical Circumcision (MMC)',
-                '008': 'TB',
-                '009': 'Maternal Health',
-                '010': 'Mental Health',
-                '011': 'Child Health',
-                '012': 'Oral health services',
-                '013': 'Rehabilitation Services',
-                '014': 'Minor Ailments',
-                '015': 'Sexually Transmitted Infections Screenings',
-                '016': 'HIV Testing',
-                '017': 'HIV Treatment (ART)',
-                '018': 'Oral PrEP',
-                '019': 'Termination of Pregnancy - 1st Trimester',
-                '020': 'Termination of Pregnancy - 2nd Trimester',
-                '021': 'AYFS Accredited',
-                '022': 'CCMDD Pick Up Point',
-            },
-        })
 
 
 class ServiceView(APIView):
@@ -142,7 +116,7 @@ class ServiceView(APIView):
 
     This will also depend on the users location
     
-    ***The users location should be provided as a query paramater with latitude longitude***
+    ***The users location should be provided as a query paramater with latitude longitude coordinates***
     
     ```
     ?location=lat,lon
