@@ -50,7 +50,7 @@
 {% endblock %}
 
 {% block profile_detail %}
-{% if geography.this.full_geoid|startswith:"point" %}
+{% if geography.this.full_geoid|startswith:"point-HSF" %}
 <style>
   ul{
          -moz-column-count: 2;
@@ -74,15 +74,16 @@
 		        {% if value == "Yes" %}
 		        <i class="fa fa-fw fa-check" style="color:green"></i>
 		        {% else %}
-		        <i class="fa fa-fw fa-times" style="color:red"></i>
-		        {% endif %}
-		        {{key}}
+		            <i class="fa fa-fw fa-times" style="color:red"></i>
+		            {% endif %}
+		            {{key}}
 		</li>
-		    {% endfor %}
+		        {% endfor %}
 	    </ul>
 	</section>
     </div>
 </article>
+{% elif geography.this.full_geoid|startswith:"point"%}
 {% else %}
 <article id="demographics" class="clearfix">
     <header class="section-contents">
