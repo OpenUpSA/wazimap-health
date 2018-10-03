@@ -36,11 +36,13 @@ ROOT_URLCONF = 'wazimap_health.urls'
 # Application definition
 INSTALLED_APPS = [
     'wazimap_health', 'rest_framework', 'django.contrib.postgres',
-    'django_admin_hstore_widget'
+    'django_admin_hstore_widget', 'elasticapm.contrib.django'
 ] + INSTALLED_APPS
 
 MIDDLEWARE_CLASSES = (
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'elasticapm.contrib.django.middleware.TracingMiddleware',
+    'elasticapm.contrib.django.middleware.Catch404Middleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware'
@@ -104,6 +106,11 @@ WAZIMAP['mapit'] = {
 
 MAPIT_LOCATION_URL = "https://mapit.code4sa.org/point/4326/"
 
+LOGSTASH_URL = os.environ.get('LOGSTASH_URL', '')
+APM_SERVER_URL = os.environ.get('APM_SERVER_URL', '')
+
+ELASTIC_APM = {'SERVICE_NAME': 'Wazimap Health', 'SERVER_URL': APM_SERVER_URL}
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -119,6 +126,20 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
+        'logstash': {
+            'level': 'DEBUG',
+            'class': 'logstash.TCPLogstashHandler',
+            'host': LOGSTASH_URL,
+            'port': 5959,
+            'version': 1,
+            'message_type': 'logstash',
+            'fqdn': False,
+            'tags': ['Wazimap Health']
+        },
+        'elasticapm': {
+            'level': 'INFO',
+            'class': 'elasticapm.contrib.django.handlers.LoggingHandler',
+        },
     },
     'loggers': {
         '': {
@@ -126,12 +147,15 @@ LOGGING = {
             'level': 'ERROR',
         },
         'django': {
+            'handlers': ['elasticapm', 'console'],
             'level': 'DEBUG' if DEBUG else 'INFO',
         },
         'django.template': {
+            'handlers': ['elasticapm', 'console'],
             'level': 'ERROR',
         },
         'wazimap': {
+            'handlers': ['elasticapm', 'console'],
             'level': 'DEBUG' if DEBUG else 'INFO',
         },
     }
