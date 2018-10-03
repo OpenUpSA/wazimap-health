@@ -58,13 +58,14 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
+WAZIMAP['ga_tracking_id'] = 'UA-93649482-12'
 WAZIMAP['profile_builder'] = 'wazimap_health.profiles.health.get_profile'
 WAZIMAP['default_profile'] = 'youth'
 WAZIMAP['geodata'] = 'wazimap_health.geo.GeoData'
 WAZIMAP['geometry_data'] = {}
 WAZIMAP['default_geo_version'] = '2011'
 WAZIMAP['name'] = 'Clinton Health Access Initiative'
-WAZIMAP['url'] = 'http://health.openup.org.za'
+WAZIMAP['url'] = 'http://wazimap-health.openup.org.za'
 WAZIMAP['country_code'] = 'ZA'
 WAZIMAP['latest_release_year'] = '2016'
 WAZIMAP['primary_dataset_name'] = 'Census and Community Survey'
@@ -90,8 +91,9 @@ WAZIMAP['levels'] = {
     },
     'point': {
         'children': []
-    }
+    },
 }
+
 WAZIMAP['mapit'] = {
     'generations': {
         '2011': '1',
