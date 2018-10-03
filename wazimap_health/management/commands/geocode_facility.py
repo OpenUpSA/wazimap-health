@@ -1,9 +1,8 @@
 import requests
 
 from django.core.management.base import BaseCommand, CommandError
+from django.conf import settings
 from wazimap_health.models import HealthFacilities, HigherEducation, BasicEducation
-
-MAPIT_URL = "http://10.186.210.96:8000/point/4326/"
 
 
 class Command(BaseCommand):
@@ -22,7 +21,8 @@ class Command(BaseCommand):
                 codes = []
                 lat = facility.latitude
                 lon = facility.longitude
-                url = MAPIT_URL + '{},{}?type=PR,DC,MN'.format(lon, lat)
+                url = settings.MAPIT_LOCATION_URL + '{},{}?type=PR,DC,MN'.format(
+                    lon, lat)
                 req = requests.get(url)
                 geo = req.json()
                 if geo:
