@@ -121,7 +121,7 @@ ProfileMaps = function() {
 			      "<span style='color:#cb8325'>Marie Stopes</span>": marieGroup,
 			      "<span style='color:#3c3c3c'>Higher Education</span>": higherEdGroup,
 			     "<span style='color:#9823c9'>Basic Education</span>": basicEdGroup};
-	    L.control.layers(null,overlayMap).addTo(this.map);
+	    L.control.layers(null,overlayMap, {collapsed:false}).addTo(this.map);
 	}
 	
 	
