@@ -10,11 +10,11 @@ TOTAL = 0
 def get_heath_details(geo_code):
     return {
         'public_health_total':
-        facility_total(geo_code, 'public_facilities'),
+        facility_total(geo_code, 'public_health'),
         'public_health_settlement':
-        facility_settlement(geo_code, 'public_facilities'),
+        facility_settlement(geo_code, 'public_health'),
         'public_health_unit':
-        facility_unit(geo_code, 'public_facilities'),
+        facility_unit(geo_code, 'public_health'),
         'pharmacy_total':
         facility_total(geo_code, 'private_pharmacies'),
         'pharmacy_settlement':
@@ -48,7 +48,7 @@ def get_basic_education_details(geo_code):
 
 def facility_total(geo_code, dataset):
     name = {
-        'public_facilities': 'Total Public Health Facilities',
+        'public_health': 'Total Public Health Facilities',
         'private_pharmacies': 'Total Private Pharmacies',
         'marie_stopes': 'Total Marie Stopes Facilities'
     }
