@@ -6,6 +6,13 @@ from wazimap_health.models import HealthFacilities, HigherEducation, BasicEducat
 
 TOTAL = 0
 
+CITATIONS = {
+    'private_pharmacies': 'Independent Community Pharmacy Association',
+    'public_health':
+    'DHIS-The District Health Information System ( 2017-2018)',
+    'marie_stopes': 'DHIS-The District Health Information System ( 2017-2018)',
+}
+
 
 def get_heath_details(geo_code):
     return {
@@ -87,8 +94,8 @@ def facility_settlement(geo_code, dataset):
                 }
             },
             'metadata': {
-                'citation': '',
-                'release': '',
+                'citation': CITATIONS[dataset],
+                'release': CITATIONS[dataset],
                 'table_id': '',
                 'universe': '',
                 'year': '2018'
@@ -122,8 +129,8 @@ def facility_unit(geo_code, dataset):
                 }
             },
             'metadata': {
-                'citation': '',
-                'release': '',
+                'citation': CITATIONS[dataset],
+                'release': CITATIONS[dataset],
                 'table_id': '',
                 'universe': '',
                 'year': '2018'
@@ -198,8 +205,8 @@ def higher_ed_classification(geo_code):
                 }
             },
             'metadata': {
-                'citation': '',
-                'release': '',
+                'citation': 'DHET',
+                'release': 'Department of Higher Education and Training',
                 'table_id': '',
                 'universe': '',
                 'year': '2018'
@@ -251,8 +258,8 @@ def basic_education_phase(geo_code):
                 }
             },
             'metadata': {
-                'citation': '',
-                'release': '',
+                'citation': 'DBE (2017)',
+                'release': 'National Department of Basic Education',
                 'table_id': '',
                 'universe': '',
                 'year': '2018'
@@ -285,8 +292,8 @@ def basic_education_sector(geo_code):
                 }
             },
             'metadata': {
-                'citation': '',
-                'release': '',
+                'citation': 'DBE (2017)',
+                'release': 'National Department of Basic Education',
                 'table_id': '',
                 'universe': '',
                 'year': '2018'
