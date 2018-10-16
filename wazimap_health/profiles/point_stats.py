@@ -159,8 +159,30 @@ def get_facility_services(geo_code):
             .filter(facility_code=geo_code)
     data = serializers.serialize('json', query)
     model_data = json.loads(data)
-    service = model_data[0]['fields']
-    return {'services': json.loads(service['service'])}
+    detail = model_data[0]['fields']
+    print(detail)
+    if geo_code.startswith('HSF'):
+        info = {
+            'settlement': detail['settlement'],
+            'unit': detail['unit'],
+            'address': detail['address'],
+            'service': json.loads(detail['service'])
+        }
+    elif geo_code.startswith('BEI'):
+        info = {
+            'sector': detail['sector'],
+            'phase': detail['phase'],
+            'address': detail['address'],
+            'special_need': detail['special_need']
+        }
+    elif geo_code.startswith('HEI'):
+        info = {
+            'institution': detail['institution'],
+            'classification': detail['classification'],
+            'address': detail['address']
+        }
+
+    return info
 
 
 def higher_ed_total(geo_code):

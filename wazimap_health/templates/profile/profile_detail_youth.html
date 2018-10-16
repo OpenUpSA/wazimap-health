@@ -22,6 +22,9 @@
 
 {% block profile_header_population %}
 {% if geography.this.full_geoid|startswith:"point" %}
+{% include 'profile/_point_profile_details.html' %}
+
+
 {% else %}
 <span class="value">{{ demographics.youth_population_total.values.this|floatformat:"0" }}</span>
 <span class="name">Youth aged 15-24 population</span>
@@ -33,7 +36,10 @@
 <span class="name"> youth per square kilometre</span>
 {% endblock %}
 
+
+
 {% block profile_header_tail %}
+{% if not geography.this.full_geoid|startswith:"point" %}
 <div class="column-full">
     <strong>{{ primary_releases.active.name }} {{ primary_releases.active.year }}</strong>
     {% if primary_releases.other %}
@@ -47,6 +53,7 @@
     </div>
     {% endif %}
 </div>
+{% endif %}
 {% endblock %}
 
 {% block profile_detail %}
@@ -64,22 +71,12 @@
 <article id="Services" class="clearfix">
         <header class="section-contents">
 	    <h1>Services Offered</h1>
-	    {{services.services.service}}
     </header>
         <div class="section-container">
 	    <section class="clearfix stat-row">
 	        <ul class="fa-ul">
-		    {% for key, value in services.services.items %}
-		    <li>
-		        {% if value == "Yes" %}
-		        <i class="fa fa-fw fa-check" style="color:green"></i>
-		        {% else %}
-		            <i class="fa fa-fw fa-times" style="color:red"></i>
-		            {% endif %}
-		            {{key}}
-		</li>
-		        {% endfor %}
-	    </ul>
+		    {% include 'profile/_exclude_services.html' %}
+		</ul>
 	</section>
     </div>
 </article>

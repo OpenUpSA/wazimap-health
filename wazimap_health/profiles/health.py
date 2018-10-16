@@ -92,7 +92,7 @@ def get_profile(geo, profile_name, request):
         data = {}
         sections = list(PROFILE_SECTIONS)
         if geo.geo_level == 'point':
-            data['services'] = get_facility_services(geo.geo_code)
+            data['facility_detail'] = get_facility_services(geo.geo_code)
             return data
         if geo.geo_level not in [
                 'country', 'province', 'district', 'municipality'

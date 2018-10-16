@@ -1,0 +1,29 @@
+{% load startswith %}
+
+
+{% if geography.this.full_geoid|startswith:"point-HSF"%}
+<div class="stat">
+    <span class="secondary">
+	<span class="name">Address: <b>{{facility_detail.address}}</b></span>
+	<span class="name">Settlement: <b>{{facility_detail.settlement}}</b></span>
+	<span class="name">Facility Unit: <b>{{facility_detail.unit}}</b></span>
+    </span>
+</div>
+{% elif geography.this.full_geoid|startswith:"point-BEI" %}
+<div class="stat">
+    <span class="secondary">
+	<span class="name">Sector: <b>{{facility_detail.sector}}</b></span>
+	<span class="name">Phase: <b>{{facility_detail.phase}}</b></span>
+	<span class="name">Special Need: <b>{{facility_detail.special_need}}</b></span>
+	<span class="name">Address: <b>{{facility_detail.address}}</b></span>
+    </span>
+</div>
+{% elif geography.this.full_geoid|startswith:"point-HEI" %}
+<div class="stat">
+    <span class="secondary">
+	<span class="name">Insitution: <b>{{facility_detail.institution}}</b></span>
+	<span class="name">Classification: <b>{{facility_detail.classification}}</b></span>
+	<span class="name">Address: <b>{{facility_detail.address}}</b></span>
+    </span>
+</div>
+{% endif %}
