@@ -1,0 +1,12 @@
+{% for key, value in facility_detail.service.items %}
+<li>
+    {% if key != 'Status' and key != 'Address' %}
+        {% if value == "Yes" %}
+        <i class="fa fa-fw fa-check" style="color:green"></i>
+            {% else %}
+        <i class="fa fa-fw fa-times" style="color:red"></i>
+        {% endif %}
+       {{key}}
+    {% endif %}
+</li>
+{% endfor %}
