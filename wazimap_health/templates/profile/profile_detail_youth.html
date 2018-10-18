@@ -323,44 +323,26 @@
 		    <div class="column-third" id="chart-histogram-health-youth_female_given_birth_by_age_group" data-stat-type="scaled-percentage" data-chart-title="Female youth reported to have given birth to a child by age"></div>
 			</section>
 	<section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink" href="#public_facilities_settlement" id="public_facilities_settlement">Public Health Settlements<i class="fa fa-link"></i></a></h2>
+            <h2 class="header-for-columns"><a class="permalink" href="#public_facilities_settlement" id="public_facilities_settlement">Public Health<i class="fa fa-link"></i></a></h2>
             <aside class="multi-line-header">
-                <p></p>
+                <p>* A percentage of 0 does not necessarily mean that there are no facilities avaliable, it could mean that the total of facilities expressed as a percentage is very close to 0</p>
             </aside>
             <div class="column-half">
 		{% include 'profile/_blocks/_stat_list.html' with stat=health.public_health_total stat_type='number' %}
             </div>
             <div class="column-half" id="chart-histogram-health-public_health_settlement" data-stat-type="scaled-percentage" data-chart-title="Settlement Types" data-decimal-places="0"></div>
+	    <div class="column-two-third" id="chart-histogram-health-public_health_unit" data-stat-type="scaled-percentage" data-chart-title="Unit Types" data-decimal-places="0"></div>
         </section>
-        <section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink" href="#public_facilities_unit" id="public_facilities_unit">Public Health Units<i class="fa fa-link"></i></a></h2>
-            <aside>
-                <p></p>
+	<section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#private_pharmacies_settlement" id="private_pharmacies_settlement">Private Pharmacy<i class="fa fa-link"></i></a></h2>
+            <aside class="multi-line-header">
+                <p>* A percentage of 0 does not necessarily mean that there are no facilities avaliable, it could mean that the total of facilities expressed as a percentage is very close to 0</p>
             </aside>
             <div class="column-third">
-		{% include 'profile/_blocks/_stat_list.html' with stat=health.public_health_total stat_type='number' %}
-            </div>
-	    <div class="column-two-third" id="chart-histogram-health-public_health_unit" data-stat-type="scaled-percentage" data-chart-title="Unit Types" data-decimal-places="0"></div>
-		</section>
-	<section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink" href="#private_pharmacies_settlement" id="private_pharmacies_settlement">Private Pharmacy Settlements<i class="fa fa-link"></i></a></h2>
-            <aside class="multi-line-header">
-                <p></p>
-            </aside>
-            <div class="column-half">
 		{% include 'profile/_blocks/_stat_list.html' with stat=health.pharmacy_total stat_type='number' %}
             </div>
-            <div class="column-half" id="chart-histogram-health-pharmacy_settlement" data-stat-type="scaled-percentage" data-chart-title="Settlement Types" data-decimal-places="0"></div>
-        </section>
-        <section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink" href="#public_facilities_unit" id="public_facilities_unit">Private Pharmacy Units<i class="fa fa-link"></i></a></h2>
-            <aside>
-                <p></p>
-            </aside>
-            <div class="column-half">
-		{% include 'profile/_blocks/_stat_list.html' with stat=health.pharmacy_total stat_type='number' %}
-            </div>
-            <div class="column-half" id="chart-histogram-health-pharmacy_unit" data-stat-type="scaled-percentage" data-chart-title="Units Types" data-decimal-places="0"></div>
+            <div class="column-third" id="chart-histogram-health-pharmacy_settlement" data-stat-type="scaled-percentage" data-chart-title="Settlement Types" data-decimal-places="0"></div>
+	    <div class="column-third" id="chart-histogram-health-pharmacy_unit" data-stat-type="scaled-percentage" data-chart-title="Units Types" data-decimal-places="0"></div>
         </section>
 	{% if display_profile == 'WC' and geography.this.geo_level != 'ward'%}
 	<section class="clearfix stat-row">
