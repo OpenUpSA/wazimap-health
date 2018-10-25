@@ -234,7 +234,19 @@ def higher_ed_classification(geo_code):
                 'year': '2018'
             }
         })
-    return stats
+    if stats:
+        return stats
+    else:
+        stats.update({
+            'metadata': {
+                'citation': 'DHET',
+                'release': 'Department of Higher Education and Training',
+                'table_id': '',
+                'universe': '',
+                'year': '2018'
+            }
+        })
+        return stats
 
 
 def basic_education_total(geo_code):
