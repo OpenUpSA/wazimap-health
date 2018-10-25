@@ -1179,6 +1179,10 @@ def get_health_profile(geo, session, display_profile, comparative=False):
         table_dataset='Census and Community Survey',
         key_order=DIFFICULTY_FUNCTIONING_KEY_ORDER)
 
+    epidemiology_table = get_datatable('epidemiology')
+    epidemiology, _ = epidemiology_table.get_stat_data(
+        geo, total=None, percent=False)
+
     youth_female_given_birth, _ = get_stat_data(
         ['given birth'],
         geo,
@@ -1222,7 +1226,48 @@ def get_health_profile(geo, session, display_profile, comparative=False):
         'youth_female_given_birth':
         youth_female_given_birth,
         'youth_female_given_birth_by_age_group':
-        youth_female_given_birth_by_age_group
+        youth_female_given_birth_by_age_group,
+        'epidemiology_deliveries': {
+            'name': 'Deliveries below the age of 19',
+            'values': {
+                'this': epidemiology['deliveries_less_19']['values']['this']
+            }
+        },
+        'epidemiology_hiv_prevelance': {
+            'name': 'Hiv prevalence below the age of 15',
+            'values': {
+                'this':
+                epidemiology['hic_prevalence_less_15']['values']['this']
+            }
+        },
+        'epidemiology_ternimation_pregnancy_10_19': {
+            'name': 'Termination of pregancies between the ages of 10-19',
+            'values': {
+                'this':
+                epidemiology['ternimation_pregnancy_10_19']['values']['this']
+            }
+        },
+        'epidemiology_ternimation_pregnancy_more_20': {
+            'name': 'Ternimation of pregnancies above the age of 20',
+            'values': {
+                'this':
+                epidemiology['ternimation_pregnancy_more_20']['values']['this']
+            }
+        },
+        'epidemiology_maternal_mortality': {
+            'name': 'Maternal Mortality',
+            'values': {
+                'this': epidemiology['maternal_mortality']['values']['this']
+            }
+        },
+        'epidemiology_mcpr': {
+            'name': 'mCPR ( Including Condom Calculation)',
+            'values': {
+                'this': epidemiology['mcpr']['values']['this']
+            }
+        },
+        'epidemiology':
+        epidemiology
     }
     final_data.update(get_heath_details(geo.geo_code))
     final_data.update(get_higher_ed_details(geo.geo_code))

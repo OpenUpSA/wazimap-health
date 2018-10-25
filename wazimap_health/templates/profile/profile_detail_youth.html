@@ -110,23 +110,23 @@
 <article id="education" class="clearfix">
     <header class="section-contents">
 	<h1><i class="fa fa-fw fa-graduation-cap"></i>Education</h1>
-    </header>
+        </header>
     <div class="section-container">
 	<section class="clearfix stat-row">
 	    <h2 class="header-for-columns"><a class="permalink" href="#progress_school" id="progress_school">Progress through school<i class="fa fa-link"></i></a></h2>
 	    <div class="column-quarter">
 		{% include 'profile/_blocks/_stat_list.html' with stat=education.youth_perc_completed_grade9 stat_type='percentage' decimals='-1' %}
-	    </div>
+		    </div>
 	    <div class="column-half" id="chart-pie-education-youth_completed_grade9" data-stat-type="percentage" data-chart-title="Youth aged 16-17 by grade 9 completion"></div>
 	    <div class="column-quarter" id="chart-histogram-education-youth_completed_grade9_by_gender" data-stat-type="scaled-percentage" data-chart-title="Youth aged 16-17 who completed grade 9 by gender"></div>
-	</section>
+		</section>
 	<section class="clearfix stat-row">
 	    <h2 class="header-for-columns"><a class="permalink" href="#education_levels" id="education_levels">Highest educational level<i class="fa fa-link"></i></a></h2>
 	    <div class="column-quarter">
 		{% include 'profile/_blocks/_stat_list.html' with stat=education.youth_perc_matric stat_type='percentage' decimals='-1' %}
 	    </div>
 	    <div class="column-half" id="chart-histogram-education-youth_education_level" data-stat-type="scaled-percentage" data-chart-title="Youth aged 20-24 by highest educational level"></div>
-	</section>
+		</section>
 	<section class="clearfix stat-row">
 	    <h2 class="header-for-columns"><a class="permalink" href="#education_attendance" id="education_attendance">Educational attendance<i class="fa fa-link"></i></a></h2>
 	    <div class="column-quarter">
@@ -134,8 +134,8 @@
 	    </div>
 	    <div class="column-half" id="chart-histogram-education-youth_education_attending_by_age" data-stat-type="scaled-percentage" data-chart-title="Youth attendance at an educational institution by age"></div>
 	    <div class="column-quarter" id="chart-histogram-education-youth_education_attending_by_gender" data-stat-type="scaled-percentage" data-chart-title="Youth attending an educational institution by gender"></div>
-	    
-	    <section class="clearfix stat-row">
+	</section>
+	<section class="clearfix stat-row">
                 <h2 class="header-for-columns"><a class="permalink" href="#higher_education" id="higher_education">Higher Education<i class="fa fa-link"></i></a></h2>
                 <aside class="multi-line-header">
                     <p></p>
@@ -144,8 +144,8 @@
 		    {% include 'profile/_blocks/_stat_list.html' with stat=health.higher_education_total stat_type='number' %}
 		</div>
                 <div class="column-half" id="chart-histogram-health-higher_education_classification" data-stat-type="scaled-percentage" data-chart-title="Institution Classifications" data-decimal-places="0"></div>
-            </section>
-	    <section class="clearfix stat-row">
+	</section>
+	<section class="clearfix stat-row">
                 <h2 class="header-for-columns"><a class="permalink" href="#basic_education" id="basic_education">Basic Education<i class="fa fa-link"></i></a></h2>
                 <aside class="multi-line-header">
                     <p></p>
@@ -155,10 +155,9 @@
 		</div>
                 <div class="column-third" id="chart-histogram-health-basic_education_phase" data-stat-type="scaled-percentage" data-chart-title="Phases" data-decimal-places="0"></div>
 		<div class="column-third" id="chart-histogram-health-basic_education_sector" data-stat-type="scaled-percentage" data-chart-title="Sectors" data-decimal-places="0"></div>
-            </section>
-
-	    {% if display_profile == 'WC' %}
-	    <section class="clearfix stat-row">
+		</section>
+	{% if display_profile == 'WC' %}
+	<section class="clearfix stat-row">
 	        <h2 class="header-for-columns"><a class="permalink" href="#systemic_evaluations" id="systemic_evaluations">Grade 9 Systemic evaluations<i class="fa fa-link"></i></a></h2>
 	        <aside>
 		    <p>Test results from each school were allocated to the corresponding ward in which they were located. A number of wards do not contain any secondary schools and thus will display no data for these charts</p>
@@ -168,7 +167,7 @@
 		</div>
 	        <div class="column-half" id="chart-histogram-education-youth_ave_mean_score_by_year" data-stat-type="scaled-percentage" data-chart-title="Average mean score in both language and mathematics by year"></div>
 	    </section>
-	    <section class="clearfix stat-row grouped-row">
+	<section class="clearfix stat-row grouped-row">
 	        <aside>
 		    <p>The systemic  evaluations are compulsory for all public schools. Many, but not all, independent schools also choose to participate.</p>
 		</aside>
@@ -178,14 +177,14 @@
 	        <div class="column-half" id="chart-histogram-education-youth_ave_language_score_by_year" data-stat-type="scaled-percentage" data-chart-title="Average score in language by year"></div>
 	        <div class="column-quarter" id="chart-pie-education-youth_language_outcome_latest" data-stat-type="percentage" data-chart-title="Percentage passed in language"></div>
 	    </section>
-	    <section class="clearfix stat-row grouped-row">
+	<section class="clearfix stat-row grouped-row">
 	        <div class="column-quarter">
 		    {% include 'profile/_blocks/_stat_list.html' with stat=education.youth_ave_maths_score_latest stat_type='percentage' decimals='-1' %}
 		</div>
 	        <div class="column-half" id="chart-histogram-education-youth_ave_maths_score_by_year" data-stat-type="scaled-percentage" data-chart-title="Average score in mathematics by year"></div>
 	        <div class="column-quarter" id="chart-pie-education-youth_maths_outcome_latest" data-stat-type="percentage" data-chart-title="Percentage passed in mathematics"></div>
 	    </section>
-	    <section class="clearfix stat-row">
+	<section class="clearfix stat-row">
 	        <h2 class="header-for-columns"><a class="permalink" href="#matric_passes" id="matric_passes">Matric passes<i class="fa fa-link"></i></a></h2>
 	        <aside>
 		    <p>Data from each school were allocated to the corresponding ward in which they were located. A number of wards do not contain any secondary schools and thus will display no data for these charts.</p>
@@ -196,7 +195,7 @@
 	        <div class="column-quarter" id="chart-pie-education-youth_matric_outcome_latest" data-stat-type="percentage" data-chart-title="Matric pass rate"></div>
 	        <div class="column-half" id="chart-histogram-education-youth_matric_outcome_by_year" data-stat-type="scaled-percentage" data-chart-title="Matric pass rate by year"></div>
 	    </section>
-	    <section class="clearfix stat-row grouped-row">
+	<section class="clearfix stat-row grouped-row">
 	        <aside>
 		    <p>* i.e. when the matric class was in grade 8. This is essentially the throughput pass rate from Grade 8 to matric</p>
 		</aside>
@@ -206,7 +205,7 @@
 	        <div class="column-quarter" id="chart-pie-education-youth_matric_throughput_latest" data-stat-type="percentage" data-chart-title="Matric passes as % of grade 8 enrolment four years earlier *"></div>
 	        <div class="column-half" id="chart-histogram-education-youth_matric_throughput_rate_by_year" data-stat-type="scaled-percentage" data-chart-title="Matric passes as % of grade 8 enrolment by year"></div>
 	    </section>
-	    <section class="clearfix stat-row grouped-row">
+	<section class="clearfix stat-row grouped-row">
 	        <aside>
 		    <p>It is likely that students without a bachelor pass either passed with a diploma or certificate, dropped out or failed</p>
 		    <p>* i.e. when the matric class was in grade 8</p>
@@ -217,7 +216,7 @@
 	        <div class="column-quarter" id="chart-pie-education-youth_bachelor_outcome_latest" data-stat-type="percentage" data-chart-title="Bachelor passes as % of grade 8 enrolment four years earlier *"></div>
 	        <div class="column-half" id="chart-histogram-education-youth_bachelor_passes_by_year" data-stat-type="scaled-percentage" data-chart-title="Bachelor passes as % of grade 8 enrolment by year"></div>
 	    </section>
-	    <section class="clearfix stat-row">
+	<section class="clearfix stat-row">
 	        <h2 class="header-for-columns"><a class="permalink" href="#student_dropout" id="student_dropout">Student dropout<i class="fa fa-link"></i></a></h2>
 	        <aside>
 		    <p>Data from each school were allocated to the corresponding ward in which they were located. A number of wards do not contain any secondary schools and thus will display no data for these charts.</p>
@@ -227,7 +226,7 @@
 		</div>
 	        <div class="column-half" id="chart-histogram-education-youth_student_dropout_rate_by_year" data-stat-type="scaled-percentage" data-chart-title="% dropout between grade 10 and matric  by year"></div>
 	    </section>
-	    {% endif %}
+	{% endif %}
     </div>
 </article>
 
@@ -295,7 +294,6 @@
     </div>
 </article>
 {% endif %}
-
 <article id="health" class="clearfix">
     <header class="section-contents">
 	<h1><i class="fa fa-fw fa-heartbeat"></i>Health and Wellness</h1>
@@ -376,9 +374,37 @@
 	    <div class="column-quarter">
 		{% include 'profile/_blocks/_stat_list.html' with stat=health.youth_male_interpersonal_violence_deaths stat_type='percentage' decimals='-1' %}
 	    </div>
-	    <div class="column-three-quarters" id="chart-histogram-health-youth_male_top10_causes_of_death" data-stat-type="scaled-percentage" data-chart-title="Leading causes of death for male youth, 2010-2013" data-decimal-places="0"></div>
+	            <div class="column-three-quarters" id="chart-histogram-health-youth_male_top10_causes_of_death" data-stat-type="scaled-percentage" data-chart-title="Leading causes of death for male youth, 2010-2013" data-decimal-places="0"></div>
 	</section>
-	{% endif %}
+	        {% endif %}
+    </div>
+</article>
+<article id="epidemiology" class="clearfix">
+    <header class="section-contents">
+	<h1><i class="fa fa-fw fa-group"></i>Epidemiology</h1>
+    </header>
+    <div class="section-container">
+	<section class="clearfix stat-row">
+	    <div class="column-quarter">
+		{% include 'profile/_blocks/_stat_list.html' with stat=health.epidemiology_deliveries stat_type='number' %}
+	    </div>
+	    <div class="column-quarter">
+		{% include 'profile/_blocks/_stat_list.html' with stat=health.epidemiology_hiv_prevelance stat_type='percentage' %}
+	    </div>
+	    <div class="column-quarter">
+		{% include 'profile/_blocks/_stat_list.html' with stat=health.epidemiology_ternimation_pregnancy_10_19 stat_type='number' %}
+	    </div>
+	    <div class="column-quarter">
+		{% include 'profile/_blocks/_stat_list.html' with stat=health.epidemiology_ternimation_pregnancy_more_20 stat_type='number' %}
+	    </div>
+	    <div class="column-quarter">
+		{% include 'profile/_blocks/_stat_list.html' with stat=health.epidemiology_mcpr stat_type='percentage' %}
+	    </div>
+	    <div class="column-quarter">
+		{% include 'profile/_blocks/_stat_list.html' with stat=health.epidemiology_maternal_mortality stat_type='number' %}
+	    </div>
+	</section>
+
     </div>
 </article>
 {% endif %}
