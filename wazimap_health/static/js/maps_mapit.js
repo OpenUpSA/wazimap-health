@@ -92,12 +92,6 @@ function MapItGeometryLoader() {
         });
     };
 
-    // this.loadPointsForPharmacy = function(geo_code, success){
-    // 	url = 'http://localhost:8000/api/point/v1/pharmacies?geo_code=' +geo_code;
-    //     d3.json(url, function(data){
-    //         success({'data': data['data']});
-    //     })
-    // }
     this.loadPointsForHealth = function(geo_code, success){
         url = '/api/point/v1/health/facilities?geo_code=' +geo_code;
         d3.json(url, function(data){
