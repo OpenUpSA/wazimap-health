@@ -1266,8 +1266,6 @@ def get_health_profile(geo, session, display_profile, comparative=False):
                 'this': epidemiology['mcpr']['values']['this']
             }
         },
-        'epidemiology':
-        epidemiology
     }
     final_data.update(get_heath_details(geo.geo_code))
     final_data.update(get_higher_ed_details(geo.geo_code))
