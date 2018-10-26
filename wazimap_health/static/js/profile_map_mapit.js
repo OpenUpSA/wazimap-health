@@ -222,19 +222,21 @@ ProfileMaps = function() {
         "opacity": 0.3,
         "fillOpacity": 0.3,
     };
+    
     this.sheConquers = ['Mbombela', 'King Dalindyebo',
 			'Bushbuckridge', 'Nkomazi', 'City of Johannesburg',
 			'Emfuleni', 'Tshwane', 'Ekurhuleni',
 			'Matjhabeng', 'Msunduzi', 'Qaukeni',
 			'Umzimvubu', 'Rustenburg', 'Govan Mbeki',
 			'Polokwane', 'Tygerberg', 'Sol Plaatjie'];
+    
     this.drawFeatures = function(features) {
 	return L.geoJson(features, {
 	    style: function(feature){
 		if (self.sheConquers.includes(feature.properties.name)){
-		    return this.conquerStyle;
+		    return self.conquerStyle;
 		}else{
-		    return this.layerStyle;
+		    return self.layerStyle;
 		}
 	    },  onEachFeature: function(feature, layer) {
 		layer.bindLabel(feature.properties.name, {direction: 'auto'});
