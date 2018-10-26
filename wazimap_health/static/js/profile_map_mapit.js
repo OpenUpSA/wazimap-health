@@ -215,7 +215,7 @@ ProfileMaps = function() {
         "fillOpacity": 0.7,
     };
     this.conquerStyle = {
-	"clickable": false,
+	"clickable": true,
         "color": "#FF1493",
         "fillColor": "#FF1493",
         "weight": 1.0,
