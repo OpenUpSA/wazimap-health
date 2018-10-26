@@ -13,6 +13,14 @@ ProfileMaps = function() {
         var geo_level = geo.this.geo_level;
         var geo_code = geo.this.geo_code;
         var geo_version = geo.this.version;
+	var legend = L.control({position: 'bottomright'});
+    legend.onAdd = function(){
+	var div = L.DomUtil.create('div', 'areaInfo areaLegend');
+	div.innerHTML = '<i style="background:#FF1493"></i>' +
+	    'She Conquers Area';
+	return div;
+    },
+    legend.addTo(this.map);
 
         // add demarcation boundaries
         if (geo_level == 'country') {
@@ -115,7 +123,6 @@ ProfileMaps = function() {
 			      });
 		});
 	    });
-	    
 	    var overlayMap = {"<span style='color:#267fca'>Health Facilities</span>": healthGroup,
 			      "<span style='color:#24ac20'>Private Pharmacies</span>": pharmaGroup,
 			      "<span style='color:#cb8325'>Marie Stopes</span>": marieGroup,
@@ -193,5 +200,65 @@ ProfileMaps = function() {
                 self.drawFeatures(geojson);
             });
         }
+    };
+    this.layerStyle = {
+        "clickable": true,
+        "color": "#00d",
+        "fillColor": "#ccc",
+        "weight": 1.0,
+        "opacity": 0.3,
+        "fillOpacity": 0.3,
+    };
+
+    this.hoverStyle = {
+        "fillColor": "#66c2a5",
+        "fillOpacity": 0.7,
+    };
+    this.conquerStyle = {
+	"clickable": false,
+        "color": "#FF1493",
+        "fillColor": "#FF1493",
+        "weight": 1.0,
+        "opacity": 0.3,
+        "fillOpacity": 0.3,
+    };
+    this.sheConquers = ['Mbombela', 'King Dalindyebo',
+			'Bushbuckridge', 'Nkomazi', 'City of Johannesburg',
+			'Emfuleni', 'Tshwane', 'Ekurhuleni',
+			'Matjhabeng', 'Msunduzi', 'Qaukeni',
+			'Umzimvubu', 'Rustenburg', 'Govan Mbeki',
+			'Polokwane', 'Tygerberg', 'Sol Plaatjie'];
+    this.drawFeatures = function(features) {
+	return L.geoJson(features, {
+	    style: function(feature){
+		if (self.sheConquers.includes(feature.properties.name)){
+		    return this.conquerStyle;
+		}else{
+		    return this.layerStyle;
+		}
+	    },  onEachFeature: function(feature, layer) {
+		layer.bindLabel(feature.properties.name, {direction: 'auto'});
+		if (self.sheConquers.includes(feature.properties.name)){
+		   layer.on('mouseover', function() {
+                       layer.setStyle(self.conquerStyle);
+                   });
+                    layer.on('mouseout', function() {
+			layer.setStyle(self.conquerStyle);
+                    });
+		}else{
+		    layer.on('mouseover', function() {
+			layer.setStyle(self.hoverStyle);
+                    });
+                    layer.on('mouseout', function() {
+			layer.setStyle(self.layerStyle);
+                    });
+		}
+
+                layer.on('click', function() {
+                    window.location = '/profiles/' + feature.properties.level + '-' + feature.properties.code + '/';
+                });
+            },
+	    
+	}).addTo(this.map);
     };
 };
