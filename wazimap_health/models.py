@@ -65,3 +65,68 @@ class BasicEducation(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Organisation(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    logo = models.ImageField(upload_to='uploads/')
+
+    class Meta:
+        db_table = 'partner_orgainisation'
+
+    def __str__(self):
+        return self.name
+
+
+class Contact(models.Model):
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.CASCADE, related_name='contacts')
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=15)
+
+    class Meta:
+        db_table = 'partner_contact'
+        unique_together = ('organisation', 'name')
+
+
+class Activity(models.Model):
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.CASCADE, related_name='activities')
+    activity_number = models.IntegerField()
+    hiv_aids_focus = models.BooleanField(verbose_name='Main Focus on HIV/AIDS')
+    category = models.CharField(
+        max_length=100, verbose_name='Implementation activity category')
+    other_category = models.CharField(max_length=100)
+    donor_agency = models.CharField(max_length=100)
+    activity = models.CharField(max_length=255)
+    she_conquers_element = models.CharField(max_length=100)
+    other_she_conquers = models.CharField(max_length=255)
+    timeline = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = 'partner_activity'
+
+
+class Target(models.Model):
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.CASCADE, related_name='targets')
+    audience = models.CharField(max_length=255)
+    other_audience = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'partner_target'
+
+
+class AreaImplementation(models.Model):
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.CASCADE, related_name='areas')
+    location_type = models.CharField(max_length=255)
+    other_location_type = models.CharField(max_length=255)
+    province = models.CharField(max_length=20)
+    more_province = models.CharField(max_length=20)
+    district_municiplaity = models.CharField(max_length=100)
+
+
+class Meta:
+    db_table = 'partner_area_implementation'
