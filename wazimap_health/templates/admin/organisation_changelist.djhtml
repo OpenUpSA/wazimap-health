@@ -1,0 +1,5 @@
+{% extends 'admin/import_change_list.djhtml' %}}
+
+{% block dataset_url %}
+    <li><a class="addlink" href="upload-partner-template">Add Organisation Template</a></li>
+{% endblock %}
