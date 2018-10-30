@@ -89,6 +89,9 @@ class Contact(models.Model):
         db_table = 'partner_contact'
         unique_together = ('organisation', 'name')
 
+    def __str__(self):
+        return self.name
+
 
 class Activity(models.Model):
     organisation = models.ForeignKey(
@@ -96,37 +99,97 @@ class Activity(models.Model):
     activity_number = models.IntegerField()
     hiv_aids_focus = models.BooleanField(verbose_name='Main Focus on HIV/AIDS')
     category = models.CharField(
-        max_length=100, verbose_name='Implementation activity category')
-    other_category = models.CharField(max_length=100)
-    donor_agency = models.CharField(max_length=100)
-    activity = models.CharField(max_length=255)
-    she_conquers_element = models.CharField(max_length=100)
-    other_she_conquers = models.CharField(max_length=255)
-    timeline = models.CharField(max_length=100)
+        max_length=100,
+        verbose_name='Implementation activity category',
+        blank=True,
+        null=True)
+    other_category = models.CharField(max_length=100, blank=True, null=True)
+    donor_agency = models.CharField(max_length=100, blank=True, null=True)
+    activity = models.CharField(max_length=255, blank=True, null=True)
+    she_conquers_element = models.CharField(
+        max_length=100, blank=True, null=True)
+    other_she_conquers = models.CharField(
+        max_length=255, blank=True, null=True)
+    timeline = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         db_table = 'partner_activity'
+
+    def __str__(self):
+        return self.activity
 
 
 class Target(models.Model):
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE, related_name='targets')
-    audience = models.CharField(max_length=255)
-    other_audience = models.CharField(max_length=255)
+    audience = models.CharField(max_length=255, blank=True, null=True)
+    other_audience = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         db_table = 'partner_target'
+
+    def __str__(self):
+        return self.audience
 
 
 class AreaImplementation(models.Model):
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE, related_name='areas')
-    location_type = models.CharField(max_length=255)
-    other_location_type = models.CharField(max_length=255)
-    province = models.CharField(max_length=20)
-    more_province = models.CharField(max_length=20)
-    district_municiplaity = models.CharField(max_length=100)
+    location_type = models.CharField(max_length=255, blank=True, null=True)
+    other_location_type = models.CharField(
+        max_length=255, blank=True, null=True)
+    province = models.CharField(max_length=100, blank=True, null=True)
+    more_province = models.CharField(max_length=100, blank=True, null=True)
+    district = models.CharField(max_length=255, blank=True, null=True)
+    municipality = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'partner_area_implementation'
+
+    def __str__(self):
+        return self.province
 
 
-class Meta:
-    db_table = 'partner_area_implementation'
+class PartnerHigherEducation(models.Model):
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.CASCADE, related_name='higher_ed')
+    province = models.CharField(max_length=50)
+    institution = models.CharField(max_length=50)
+    campus = models.CharField(max_length=100)
+    activity_number = models.CharField(max_length=10)
+
+    class Meta:
+        db_table = 'partner_higher_education_facilities'
+
+    def __str__(self):
+        return self.institution
+
+
+class PartnerHealth(models.Model):
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.CASCADE, related_name='health')
+    province = models.CharField(max_length=50)
+    district = models.CharField(max_length=50)
+    facility = models.CharField(max_length=50)
+    activity_number = models.CharField(max_length=10)
+
+    class Meta:
+        db_table = 'partner_health_facilities'
+
+    def __str__(self):
+        return self.facility
+
+
+class PartnerBasicEducation(models.Model):
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.CASCADE, related_name='basic_ed')
+    province = models.CharField(max_length=50)
+    district = models.CharField(max_length=50)
+    school = models.CharField(max_length=50)
+    activity_number = models.CharField(max_length=10)
+
+    class Meta:
+        db_table = 'partner_basic_education_facilities'
+
+    def __str__(self):
+        return self.school
