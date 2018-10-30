@@ -14,42 +14,44 @@ $(document).ready(function(){
 	     }
 	     return cookieValue;
 	 }
-	 var csrftoken = getCookie('csrftoken');
-	 $('#partner_import_form').on('submit',function(event){
-	     event.preventDefault();
-	     var partnerForm = document.getElementById('partner_import_form');
-	     var partnerDataForm = new FormData(this);
-	     $.ajax({
-		 url: partnerForm.getAttribute('action'),
-		 type: partnerForm.getAttribute('method'),
-		 data: partnerDataForm,
-		 processData: false,
-		 contentType: false,
-		 beforeSend: function(xhr, settings){
-		     xhr.setRequestHeader("X-CSRFToken", csrftoken);
-		     $(".loader").css("display", "block");
-		 },
-		 success: function(data){
-		     if (data['status'] == 'ok'){
-			 console.log("Partner Sheet has been imported");
-			 $("#successMessage").css("display", 'block');
-		     }
-		     else{
-			 console.log("Error Uploading Partner Sheet");
-			 $("#errorMessage").css("display", 'block');
-			 $('#errorDetail').css("display", 'block');
-			 $('#errorDetail').html(data['form']);
-		     }
-		 },
-		 complete: function(data){
-		     $(".loader").css("display", "none");
-		 },
-		 error: function(xhr,message, error){
-		     console.log(xhr.status +  " : "+ xhr.responseText);
-		     $('#errorDetail').css("display", 'block');
-		     $('#errorDetail').html(xhr.status +  " : "+ xhr.responseText);
-		 },
-
-	     }); 
-	 });
-     });
+    var csrftoken = getCookie('csrftoken');
+    $('#errorDetail').css("display", 'none');
+    $("#errorMessage").css("display", 'none');
+    $('#partner_import_form').on('submit',function(event){
+	event.preventDefault();
+	var partnerForm = document.getElementById('partner_import_form');
+	var partnerDataForm = new FormData(this);
+	$.ajax({
+	    url: partnerForm.getAttribute('action'),
+	    type: partnerForm.getAttribute('method'),
+	    data: partnerDataForm,
+	    processData: false,
+	    contentType: false,
+	    beforeSend: function(xhr, settings){
+		xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		$(".loader").css("display", "block");
+	    },
+	    success: function(data){
+		if (data['status'] == 'ok'){
+		    console.log("Partner Sheet has been imported");
+		    $("#successMessage").css("display", 'block');
+		}
+		else{
+		    console.log("Error Uploading Partner Sheet");
+		    $("#errorMessage").css("display", 'block');
+		    $('#errorDetail').css("display", 'block');
+		    $('#errorDetail').html(data['form']);
+		}
+	    },
+	    complete: function(data){
+		$(".loader").css("display", "none");
+	    },
+	    error: function(xhr,message, error){
+		console.log(xhr.status +  " : "+ xhr.responseText);
+		$('#errorDetail').css("display", 'block');
+		$('#errorDetail').html(xhr.status +  " : "+ xhr.responseText);
+	    },
+	    
+	}); 
+    });
+});
