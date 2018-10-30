@@ -14,6 +14,7 @@ from .csv_import import ProcessImport
 
 from wazimap.models import Geography
 from . import models
+from partner import PartnerForm, process_excelsheet
 
 
 class CsvImportForm(forms.Form):
@@ -225,9 +226,86 @@ class HealthAdminSite(AdminSite):
     index_title = 'CHAI Admin'
 
 
+class OrganisationAdmin(admin.ModelAdmin):
+    change_list_template = 'admin/organisation_changelist.djhtml'
+
+    def import_partner_sheet(self, request):
+        if request.method == 'POST' and request.is_ajax():
+            form = PartnerForm(request.POST, request.FILES)
+            if form.is_valid():
+                logo = request.FILES['logo']
+                excel_sheet = request.FILES['excel_sheet']
+                try:
+                    process_excelsheet(logo, excel_sheet)
+                    return JsonResponse({
+                        'status': 'ok',
+                    })
+                except Exception as error:
+                    return JsonResponse({
+                        'status': 'error',
+                        'form': str(error)
+                    })
+
+            else:
+                return JsonResponse({
+                    'status': 'error',
+                    'form': form.errors.as_json()
+                })
+
+        form = PartnerForm()
+        return render(request, 'admin/upload_partner_sheet.djhtml', {
+            'form': form
+        })
+
+    def get_urls(self):
+        urls = super(OrganisationAdmin, self).get_urls()
+        custom_urls = patterns('',
+                               url(r'^upload-partner-template$',
+                                   self.admin_site.admin_view(
+                                       self.import_partner_sheet),
+                                   name='import_partner_sheet'))
+        return custom_urls + urls
+
+
+class ActivityAdmin(admin.ModelAdmin):
+    list_display = ('organisation', 'activity')
+
+
+class AreaImplementationAdmin(admin.ModelAdmin):
+    list_display = ('organisation', 'province')
+
+
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('organisation', 'name')
+
+
+class TargetAdmin(admin.ModelAdmin):
+    list_display = ('organisation', 'audience')
+
+
+class PartnerBasicEducationAdmin(admin.ModelAdmin):
+    list_display = ('organisation', 'school', 'activity_number')
+
+
+class PartnerHealthAdmin(admin.ModelAdmin):
+    list_display = ('organisation', 'facility', 'activity_number')
+
+
+class PartnerHigherEducationAdmin(admin.ModelAdmin):
+    list_display = ('organisation', 'campus', 'activity_number')
+
+
 admin_site = HealthAdminSite()
 admin_site.register(models.HealthFacilities, HealthFacilityAdmin)
 admin_site.register(models.HigherEducation, HigherEducationAdmin)
 admin_site.register(Geography)
 admin_site.register(models.BasicEducation, BasicEducationAdmin)
 admin_site.register(admin_models.User, useradmin.UserAdmin)
+admin_site.register(models.Organisation, OrganisationAdmin)
+admin_site.register(models.Activity, ActivityAdmin)
+admin_site.register(models.AreaImplementation, AreaImplementationAdmin)
+admin_site.register(models.Contact, ContactAdmin)
+admin_site.register(models.Target, TargetAdmin)
+admin_site.register(models.PartnerBasicEducation, PartnerBasicEducationAdmin)
+admin_site.register(models.PartnerHigherEducation, PartnerHigherEducationAdmin)
+admin_site.register(models.PartnerHealth, PartnerHealthAdmin)
