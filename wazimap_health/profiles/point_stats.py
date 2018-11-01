@@ -39,7 +39,6 @@ def get_higher_ed_details(geo_code):
     return {
         'higher_education_total': higher_ed_total(geo_code),
         'higher_education_classification': higher_ed_classification(geo_code),
-        'higher_education_campus': get_institution_campuses(geo_code)
     }
 
 
@@ -179,13 +178,14 @@ def get_facility_services(geo_code):
         info = {
             'institution': detail['institution'],
             'classification': detail['classification'],
-            'address': detail['address']
+            'address': detail['address'],
+            'service': json.loads(detail['service'])
         }
 
     return info
 
 
-def get_institution_campuses(geo_code):
+def get_institution_campus(geo_code):
     if geo_code.startswith('HEI'):
         place = HigherEducation.objects.get(facility_code=geo_code)
         campuses = HigherEducation\
@@ -200,11 +200,6 @@ def get_institution_campuses(geo_code):
         for campus in model_data:
             detail.append({'name': campus['fields']['name']})
         institution['campus'] = detail
-        institution['info'] = {
-            'institution': place.institution,
-            'classification': place.classification,
-            'address': place.address
-        }
         return institution
 
 
