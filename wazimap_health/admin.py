@@ -155,7 +155,8 @@ class HigherEducationAdminForm(forms.ModelForm):
 
 
 class HigherEducationAdmin(admin.ModelAdmin, ExportImportMixin):
-    list_display = ('name', 'institution', 'classification', 'facility_code')
+    list_display = ('name', 'institution', 'classification', 'facility_code',
+                    'latitude', 'longitude')
     list_filter = ('classification', )
     form = HigherEducationAdminForm
     actions = ['export_csv']
