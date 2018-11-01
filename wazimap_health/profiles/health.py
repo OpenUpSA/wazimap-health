@@ -5,7 +5,7 @@ from wazimap.data.utils import get_session, merge_dicts, get_stat_data, percent,
 from wazimap.geo import geo_data
 from point_stats import (get_facility_services, get_heath_details,
                          get_higher_ed_details, get_basic_education_details,
-                         get_institution_campuses)
+                         get_institution_campus)
 
 PROFILE_SECTIONS = ("demographics", "education", "economic_opportunities",
                     "living_environment", "poverty", "safety", "health")
@@ -96,7 +96,8 @@ def get_profile(geo, profile_name, request):
             data['facility_detail'] = get_facility_services(geo.geo_code)
             return data
         elif geo.geo_code.startswith('HEI'):
-            data['institution'] = get_institution_campuses(geo.geo_code)
+            data['institution'] = get_institution_campus(geo.geo_code)
+            data['facility_detail'] = get_facility_services(geo.geo_code)
             return data
         if geo.geo_level not in [
                 'country', 'province', 'district', 'municipality'
