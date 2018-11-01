@@ -38,7 +38,8 @@ def get_heath_details(geo_code):
 def get_higher_ed_details(geo_code):
     return {
         'higher_education_total': higher_ed_total(geo_code),
-        'higher_education_classification': higher_ed_classification(geo_code)
+        'higher_education_classification': higher_ed_classification(geo_code),
+        'higher_education_campus': get_institution_campuses(geo_code)
     }
 
 
@@ -160,7 +161,6 @@ def get_facility_services(geo_code):
     data = serializers.serialize('json', query)
     model_data = json.loads(data)
     detail = model_data[0]['fields']
-    print(detail)
     if geo_code.startswith('HSF'):
         info = {
             'settlement': detail['settlement'],
@@ -183,6 +183,29 @@ def get_facility_services(geo_code):
         }
 
     return info
+
+
+def get_institution_campuses(geo_code):
+    if geo_code.startswith('HEI'):
+        place = HigherEducation.objects.get(facility_code=geo_code)
+        campuses = HigherEducation\
+                   .objects\
+                   .only('name')\
+                   .filter(institution=place.institution)\
+                   .exclude(facility_code=place.facility_code)
+        data = serializers.serialize('json', campuses)
+        model_data = json.loads(data)
+        institution = {}
+        detail = []
+        for campus in model_data:
+            detail.append({'name': campus['fields']['name']})
+        institution['campus'] = detail
+        institution['info'] = {
+            'institution': place.institution,
+            'classification': place.classification,
+            'address': place.address
+        }
+        return institution
 
 
 def higher_ed_total(geo_code):

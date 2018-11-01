@@ -77,6 +77,21 @@
 	        <ul class="fa-ul">
 		    {% include 'profile/_exclude_services.html' %}
 		</ul>
+	    </section>
+	</div>
+</article>
+{% elif geography.this.full_geoid|startswith:"point-HEI" %}
+<article id="Campuses" class="clearfix">
+    <header class="section-contents">
+	<h1>Campuses</h1>
+    </header>
+    <div class="section-container">
+	<section class="clearfix stat-row">
+	    <ul>
+		{% for campus in institution.campus %}
+		<li>{{campus.name}}</li>
+		{% endfor %}
+	    </ul>
 	</section>
     </div>
 </article>
