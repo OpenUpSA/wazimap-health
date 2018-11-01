@@ -12,13 +12,14 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--model', action='store', dest='model')
+        parser.add_argument('--mapit', action='store', dest='url')
 
     def handle(self, *args, **options):
         try:
             model = eval(options.get('model'))
             for facility in model.objects.all():
-                url = MAPIT_URL + '{},{}?type=MN'.format(
-                    facility.longitude, facility.latitude)
+                url = '{}{},{}?type=MN'.format(
+                    options.get('url'), facility.longitude, facility.latitude)
                 req = requests.get(url)
                 geo = req.json()
                 if geo:
