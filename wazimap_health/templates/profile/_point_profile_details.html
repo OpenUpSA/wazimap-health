@@ -1,4 +1,5 @@
 {% load startswith %}
+{% load get %}
 
 
 {% if geography.this.full_geoid|startswith:"point-HSF"%}
@@ -7,6 +8,14 @@
 	<span class="name">Address: <b>{{facility_detail.address}}</b></span>
 	<span class="name">Settlement: <b>{{facility_detail.settlement}}</b></span>
 	<span class="name">Facility Unit: <b>{{facility_detail.unit}}</b></span>
+	<span class="name">AYFS Accredited: <b>
+	    {% if facility_detail.service|get:"AYFS Accredited"  == 'Yes' %}
+	    <i class="fa fa-fw fa-check" style="color:green"></i>
+	    {% else %}
+	    <i class="fa fa-fw fa-times" style="color:red"></i>
+	    {% endif %}
+	</b>
+	</span>
     </span>
 </div>
 {% elif geography.this.full_geoid|startswith:"point-BEI" %}
@@ -21,9 +30,9 @@
 {% elif geography.this.full_geoid|startswith:"point-HEI" %}
 <div class="stat">
     <span class="secondary">
-	<span class="name">Insitution: <b>{{institution.info.institution}}</b></span>
-	<span class="name">Classification: <b>{{institution.info.classification}}</b></span>
-	<span class="name">Address: <b>{{institution.info.address}}</b></span>
+	<span class="name">Insitution: <b>{{facility_detail.institution}}</b></span>
+	<span class="name">Classification: <b>{{facility_detail.classification}}</b></span>
+	<span class="name">Address: <b>{{facility_detail.address}}</b></span>
     </span>
 </div>
 {% endif %}
