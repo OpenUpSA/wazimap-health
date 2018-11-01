@@ -4,8 +4,6 @@ from django.core.management.base import BaseCommand, CommandError
 from wazimap_health.models import HealthFacilities, HigherEducation, BasicEducation
 from wazimap.models import Geography
 
-MAPIT_URL = "http://10.186.210.96:8000/point/4326/"
-
 
 class Command(BaseCommand):
     help = "Tell wazimap about the point data, and which muncipality is belongs"
