@@ -42,11 +42,11 @@ def higher_education(reader):
               .objects\
               .update_or_create(
                   {
-                      'name': row.pop('School Name'),
+                      'name': row.pop('Other Campuses'),
                       'classification': row.pop('Classification'),
                       'latitude': row.pop('Latitude'),
                       'longitude': row.pop('Longitude'),
-                      'institution': row.pop('District'),
+                      'institution': row.pop('Institution'),
                       'address': row.pop('Physical Address'),
                       'dataset': 'higher_education',
                       'facility_code': '{}{}'.format(code_prefix, code),
