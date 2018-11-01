@@ -104,7 +104,7 @@ ProfileMaps = function() {
 		data['data'].forEach(function(facility){
 		    L.marker([facility['latitude'],
 				  facility['longitude']],
-				 {icon: blackIcon}).addTo(higherEdGroup).bindPopup(facility['name']).on('click', function(){
+				 {icon: blackIcon}).addTo(higherEdGroup).bindPopup(facility['institution'] + ' - '+facility['name']).on('click', function(){
 			window.location = '/profiles/point-'+ facility['facility_code']+'/';
 			      }).on('mouseover', function(e){
 				  this.openPopup();
