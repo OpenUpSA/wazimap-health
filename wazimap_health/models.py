@@ -39,7 +39,7 @@ class HigherEducation(models.Model):
 
     class Meta:
         db_table = 'higher_education'
-        unique_together = ('name', 'latitude', 'longitude')
+        unique_together = ('name', 'latitude', 'longitude', 'institution')
 
     def __str__(self):
         return self.name
