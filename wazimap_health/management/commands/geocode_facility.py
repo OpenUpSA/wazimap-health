@@ -10,6 +10,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--model', action='store', dest='model')
+        parser.add_argument('--mapit', action='store', dest='mapit')
 
     def handle(self, *args, **options):
         """
@@ -21,8 +22,9 @@ class Command(BaseCommand):
                 codes = []
                 lat = facility.latitude
                 lon = facility.longitude
-                url = settings.MAPIT_LOCATION_URL + '{},{}?type=PR,DC,MN'.format(
-                    lon, lat)
+                url = options.get(
+                    'mapit') + '{},{}?type=PR,DC,MN&generation=1'.format(
+                        lon, lat)
                 req = requests.get(url)
                 geo = req.json()
                 if geo:

@@ -16,7 +16,7 @@ class Command(BaseCommand):
         try:
             model = eval(options.get('model'))
             for facility in model.objects.all():
-                url = '{}{},{}?type=MN'.format(
+                url = '{}{},{}?type=MN&generation=1'.format(
                     options.get('url'), facility.longitude, facility.latitude)
                 req = requests.get(url)
                 geo = req.json()
