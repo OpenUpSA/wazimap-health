@@ -66,7 +66,7 @@ WAZIMAP['default_profile'] = 'youth'
 WAZIMAP['geodata'] = 'wazimap_health.geo.GeoData'
 WAZIMAP['geometry_data'] = {}
 WAZIMAP['default_geo_version'] = '2011'
-WAZIMAP['name'] = 'Health Initiative'
+WAZIMAP['name'] = 'Department of Health'
 WAZIMAP['url'] = 'http://wazimap-health.openup.org.za'
 WAZIMAP['country_code'] = 'ZA'
 WAZIMAP['latest_release_year'] = '2016'
@@ -99,7 +99,7 @@ WAZIMAP['levels'] = {
 WAZIMAP['mapit'] = {
     'generations': {
         '2011': '1',
-        '2016': '1',
+        '2016': '2',
         None: '1',
     }
 }
