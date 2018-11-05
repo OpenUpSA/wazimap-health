@@ -25,17 +25,19 @@
       </div>
       <span class="caption"><a href="{% url 'help' %}">More tips on using {{ WAZIMAP.name }}</a></span>
     </span>
-  {% endif %}
+    {% endif %}
 
-  {{ block.super }}
-{% endblock %}
+    {{ block.super }}
+    {% endblock %}
 
-{% block showcase %}
-{% endblock %}
+    {% block showcase %}
+    {% endblock %}
 
-{% block homepage_javascripb_libs %}
-{{ block.super }}
-<script src="{% static 'js/maps_mapit.js' %}"></script>
+    {% block homepage_javascripb_libs %}
+    {{ block.super }}
+    <script src="{% static 'js/maps_mapit.js' %}"></script>
 
-{% endblock %}
+    {% endblock %}
 
+    {% block nav_tools %}
+    {% endblock %}
