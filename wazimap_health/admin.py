@@ -119,11 +119,12 @@ class HealthFacilityAdminForm(forms.ModelForm):
 
 class HealthFacilityAdmin(admin.ModelAdmin, ExportImportMixin):
     list_display = ('name', 'settlement', 'unit', 'facility_code', 'dataset',
-                    'latitude', 'longitude')
+                    'latitude', 'longitude', 'geo_levels')
     list_filter = ('dataset', 'settlement', 'unit')
     form = HealthFacilityAdminForm
     actions = ['export_csv']
     change_list_template = 'admin/health_changelist.djhtml'
+    search_fields = ('name', )
 
     def export_csv(self, request, queryset):
         export_fields = ('name', 'address', 'latitude', 'longitude',
@@ -156,11 +157,12 @@ class HigherEducationAdminForm(forms.ModelForm):
 
 class HigherEducationAdmin(admin.ModelAdmin, ExportImportMixin):
     list_display = ('name', 'institution', 'classification', 'facility_code',
-                    'latitude', 'longitude')
+                    'latitude', 'longitude', 'geo_levels')
     list_filter = ('classification', )
     form = HigherEducationAdminForm
     actions = ['export_csv']
     change_list_template = 'admin/higher_ed_changelist.djhtml'
+    search_fields = ('name', )
 
     def export_csv(self, request, queryset):
         export_fields = ('name', 'institution', 'classification',
@@ -193,11 +195,13 @@ class BasicEducationAdminForm(forms.ModelForm):
 
 
 class BasicEducationAdmin(admin.ModelAdmin, ExportImportMixin):
-    list_display = ('name', 'sector', 'phase', 'facility_code')
+    list_display = ('name', 'sector', 'phase', 'facility_code', 'latitude',
+                    'longitude', 'geo_levels')
     list_filter = ('phase', 'sector', 'special_need')
     form = BasicEducationAdminForm
     actions = ['export_csv']
     change_list_template = 'admin/basic_ed_changelist.djhtml'
+    search_fields = ('name', )
 
     def export_csv(self, request, queryset):
         export_fields = ('name', 'sector', 'phase', 'facility_code',
