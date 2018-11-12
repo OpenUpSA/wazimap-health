@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.contrib.postgres.fields import HStoreField, ArrayField
+from django.utils.text import slugify
 
 
 class HealthFacilities(models.Model):
@@ -70,9 +71,15 @@ class BasicEducation(models.Model):
 class Organisation(models.Model):
     name = models.CharField(max_length=100, unique=True)
     logo = models.ImageField(upload_to='uploads/')
+    slug = models.SlugField(
+        null=True, blank=True, allow_unicode=True, max_length=255)
 
     class Meta:
         db_table = 'partner_orgainisation'
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name, allow_unicode=True)
+        super(Organisation, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -111,6 +118,15 @@ class Activity(models.Model):
     other_she_conquers = models.CharField(
         max_length=255, blank=True, null=True)
     timeline = models.CharField(max_length=100, blank=True, null=True)
+    audience = models.CharField(max_length=255, blank=True, null=True)
+    other_audience = models.CharField(max_length=255, blank=True, null=True)
+    location_type = models.CharField(max_length=255, blank=True, null=True)
+    other_location_type = models.CharField(
+        max_length=255, blank=True, null=True)
+    province = models.CharField(max_length=100, blank=True, null=True)
+    more_province = models.CharField(max_length=100, blank=True, null=True)
+    district = models.CharField(max_length=255, blank=True, null=True)
+    municipality = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'partner_activity'
@@ -122,8 +138,14 @@ class Activity(models.Model):
 class Target(models.Model):
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE, related_name='targets')
+    activity = models.ForeignKey(
+        Activity,
+        on_delete=models.CASCADE,
+        related_name='target_activity',
+        null=True)
     audience = models.CharField(max_length=255, blank=True, null=True)
     other_audience = models.CharField(max_length=255, blank=True, null=True)
+    activity_number = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'partner_target'
@@ -133,6 +155,11 @@ class Target(models.Model):
 
 
 class AreaImplementation(models.Model):
+    activity = models.ForeignKey(
+        Activity,
+        on_delete=models.CASCADE,
+        related_name='area_activity',
+        null=True)
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE, related_name='areas')
     location_type = models.CharField(max_length=255, blank=True, null=True)
@@ -142,6 +169,7 @@ class AreaImplementation(models.Model):
     more_province = models.CharField(max_length=100, blank=True, null=True)
     district = models.CharField(max_length=255, blank=True, null=True)
     municipality = models.TextField(blank=True, null=True)
+    activity_number = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'partner_area_implementation'
@@ -156,7 +184,7 @@ class PartnerHigherEducation(models.Model):
     province = models.CharField(max_length=50)
     institution = models.CharField(max_length=50)
     campus = models.CharField(max_length=100)
-    activity_number = models.CharField(max_length=10)
+    activity_number = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'partner_higher_education_facilities'
@@ -171,7 +199,7 @@ class PartnerHealth(models.Model):
     province = models.CharField(max_length=50)
     district = models.CharField(max_length=50)
     facility = models.CharField(max_length=50)
-    activity_number = models.CharField(max_length=10)
+    activity_number = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'partner_health_facilities'
