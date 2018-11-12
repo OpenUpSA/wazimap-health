@@ -104,6 +104,8 @@ WAZIMAP['mapit'] = {
     }
 }
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 MAPIT_LOCATION_URL = "https://mapit.code4sa.org/point/4326/"
 
 LOGSTASH_URL = os.environ.get('LOGSTASH_URL', '')
