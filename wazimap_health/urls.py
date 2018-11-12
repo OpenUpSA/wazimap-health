@@ -1,8 +1,11 @@
 from django.conf.urls import url, patterns, include
 from rest_framework.documentation import include_docs_urls
+from django.conf.urls.static import static
+from django.conf import settings
 from .admin import admin_site
 from wazimap import urls
 from api import views as api
+from . import views
 
 urlpatterns = patterns(
     '',
@@ -41,6 +44,10 @@ urlpatterns = patterns(
     url(r'^api/point/v1/geography$',
         api.GeographyView.as_view(),
         name='service_geography'),
-    url(r'^admin/', include(admin_site.urls)))
+    url(r'^admin/', include(admin_site.urls)),
+    url(r'^activity/(?P<geo_name>[\w -| ]+)/organisation/(?P<org_slug>[\w-]+)$',
+        views.organisation_profile,
+        name='organisation_profile'))
 
 urlpatterns += urls.urlpatterns
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
