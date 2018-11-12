@@ -273,11 +273,11 @@ class OrganisationAdmin(admin.ModelAdmin):
 
 
 class ActivityAdmin(admin.ModelAdmin):
-    list_display = ('organisation', 'activity')
+    list_display = ('organisation', 'activity', 'activity_number')
 
 
 class AreaImplementationAdmin(admin.ModelAdmin):
-    list_display = ('organisation', 'province')
+    list_display = ('organisation', 'province', 'activity_number')
 
 
 class ContactAdmin(admin.ModelAdmin):
@@ -285,7 +285,7 @@ class ContactAdmin(admin.ModelAdmin):
 
 
 class TargetAdmin(admin.ModelAdmin):
-    list_display = ('organisation', 'audience')
+    list_display = ('organisation', 'audience', 'activity_number')
 
 
 class PartnerBasicEducationAdmin(admin.ModelAdmin):
