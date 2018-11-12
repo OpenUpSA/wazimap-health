@@ -1,16 +1,18 @@
-from wazimap_health.models import Organisation, AreaImplementation
+from __future__ import unicode_literals
+
+from django.db.models import Q
+from wazimap_health.models import Activity
 
 
 def get_organization(geo):
     """
     Get the organisation working within the province.
     """
-    orgs = AreaImplementation\
+    orgs = Activity\
            .objects\
-           .filter(province=geo)\
-           .select_related('Organisation')\
+           .filter((Q(province=geo) | Q(province='All provinces')))\
            .only('organisation')\
-           .values('organisation__name')
-    return {}
+           .distinct('organisation')\
+           .values('organisation__name', 'organisation__slug')
 
-    return {'organisations': orgs}
+    return {'organisations': list(orgs), 'organisation_geo': geo.name}

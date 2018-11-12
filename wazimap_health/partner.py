@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from models import (Organisation, PartnerBasicEducation, PartnerHealth,
                     PartnerHigherEducation)
 from openpyxl import load_workbook
+import traceback
 
 
 class PartnerForm(forms.Form):
@@ -43,75 +44,57 @@ def process_excelsheet(logo, excel_sheet):
                     'email': person[1].value,
                     'phone': person[2].value
                 })
-        activity = sheet['E8':'M20']
-        activities = []
+        activity = sheet['E8':'U20']
         for act in activity:
             if not is_row_empty(act):
-                activities.append({
-                    'activity_number':
-                    act[0].value,
-                    'hiv_aids_focus':
-                    True if act[1].value == 'Yes' else False,
-                    'category':
-                    act[2].value,
-                    'other_category':
-                    act[3].value,
-                    'donor_agency':
-                    act[4].value,
-                    'activity':
-                    act[5].value,
-                    'she_conquers_element':
-                    act[6].value,
-                    'other_she_conquers':
-                    act[7].value,
-                    'timeline':
-                    act[8].value
-                })
-        org_targets = []
-        targets = sheet['N8':'O20']
-        for t in targets:
-            if not is_row_empty(t):
-                org_targets.append({
-                    'audience': t[0].value,
-                    'other_audience': t[1].value
-                })
-        areas = []
-        area_implementation = sheet['P8':'U20']
-        for area in area_implementation:
-            if not is_row_empty(area):
-                areas.append({
-                    'location_type': area[0].value,
-                    'other_location_type': area[1].value,
-                    'province': area[2].value,
-                    'more_province': area[3].value,
-                    'district': area[4].value,
-                    'municipality': area[5].value
-                })
+                row_activities = {
+                    'activity_number': act[0].value,
+                    'hiv_aids_focus': True if act[1].value == 'Yes' else False,
+                    'category': act[2].value,
+                    'other_category': act[3].value,
+                    'donor_agency': act[4].value,
+                    'activity': act[5].value,
+                    'she_conquers_element': act[6].value,
+                    'other_she_conquers': act[7].value,
+                    'timeline': act[8].value,
+                    'audience': act[9].value,
+                    'other_audience': act[10].value,
+                    'location_type': act[11].value,
+                    'other_location_type': act[12].value,
+                    'province': act[13].value,
+                    'more_province': act[14].value,
+                    'district': act[15].value,
+                    'municipality': act[16].value
+                }
+                org.activities.create(**row_activities)
+                # row_targets = {
+                #     'activity': act_obj,
+                #     'activity_number': act_number,
+                #     'audience': act[9].value,
+                #     'other_audience': act[10].value
+                # }
+                # org.targets.create(**row_targets)
+                # row_areas = {
+                #     'activity': act_obj,
+                #     'activity_number': act_number,
+                #     'location_type': act[11].value,
+                #     'other_location_type': act[12].value,
+                #     'province': act[13].value,
+                #     'more_province': act[14].value,
+                #     'district': act[15].value,
+                #     'municipality': act[16].value
+                # }
+                # org.areas.create(**row_areas)
         for p in persons:
             try:
                 org.contacts.create(**p)
-            except IntegrityError:
-                pass
-        for a in activities:
-            try:
-                org.activities.create(**a)
-            except IntegrityError:
-                pass
-        for o in org_targets:
-            try:
-                org.targets.create(**o)
-            except IntegrityError:
-                pass
-        for area in areas:
-            try:
-                org.areas.create(**area)
             except IntegrityError:
                 pass
         process_basic_education(org, template)
         process_health(org, template)
         process_higher_education(org, template)
     except Exception as error:
-        print(error)
+        traceback.print_exc()
         raise
 
 
