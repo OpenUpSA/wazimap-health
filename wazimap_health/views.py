@@ -18,6 +18,7 @@ def organisation_profile(request, geo_name, org_slug):
                .get(name=geo_name, version='2011')
     activities = Activity\
                  .objects\
+                 .order_by('activity_number')\
                  .filter(Q(organisation__slug=org_slug),
                          Q(province=geo_name)| Q(province="All provinces"))
     activity_numbers = []
