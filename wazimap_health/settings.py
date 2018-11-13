@@ -109,6 +109,7 @@ if DEBUG:
     MEDIA_URL = "/media/"
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
+    S3_USE_SIGV4 = True
     DEFAULT_FILE_STORAGE = 'wazimap_health.botopatch.S3Storage'
     AWS_S3_FILE_OVERWRITE = False
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
