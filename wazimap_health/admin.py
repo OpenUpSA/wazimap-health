@@ -276,28 +276,20 @@ class ActivityAdmin(admin.ModelAdmin):
     list_display = ('organisation', 'activity', 'activity_number')
 
 
-class AreaImplementationAdmin(admin.ModelAdmin):
-    list_display = ('organisation', 'province', 'activity_number')
-
-
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('organisation', 'name')
 
 
-class TargetAdmin(admin.ModelAdmin):
-    list_display = ('organisation', 'audience', 'activity_number')
-
-
 class PartnerBasicEducationAdmin(admin.ModelAdmin):
-    list_display = ('organisation', 'school', 'activity_number')
+    list_display = ('organisation', 'school', 'activity_number', 'province')
 
 
 class PartnerHealthAdmin(admin.ModelAdmin):
-    list_display = ('organisation', 'facility', 'activity_number')
+    list_display = ('organisation', 'facility', 'activity_number', 'province')
 
 
 class PartnerHigherEducationAdmin(admin.ModelAdmin):
-    list_display = ('organisation', 'campus', 'activity_number')
+    list_display = ('organisation', 'campus', 'activity_number', 'province')
 
 
 admin_site = HealthAdminSite()
@@ -308,9 +300,7 @@ admin_site.register(models.BasicEducation, BasicEducationAdmin)
 admin_site.register(admin_models.User, useradmin.UserAdmin)
 admin_site.register(models.Organisation, OrganisationAdmin)
 admin_site.register(models.Activity, ActivityAdmin)
-admin_site.register(models.AreaImplementation, AreaImplementationAdmin)
 admin_site.register(models.Contact, ContactAdmin)
-admin_site.register(models.Target, TargetAdmin)
 admin_site.register(models.PartnerBasicEducation, PartnerBasicEducationAdmin)
 admin_site.register(models.PartnerHigherEducation, PartnerHigherEducationAdmin)
 admin_site.register(models.PartnerHealth, PartnerHealthAdmin)

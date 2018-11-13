@@ -132,6 +132,58 @@
 			    </td>
 			</tr>
 		    </tbody>
+								</table>
+		<hr/>
+		<h4>Health Facility Locations</h4>
+		<table>
+		    <thead>
+			<th>District</th>
+			<th>Facility</th>
+		    </thead>
+		    <tbody>
+			{% for row in health %}
+			{% if row.activity_number == activity.activity_number %}
+			<tr>
+			    <td>{{row.district}}</td>
+			    <td>{{row.facility}}</td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+		    </tbody>
+		</table>
+		<h4>Higher Edication Locations</h4>
+		<table>
+		    <thead>
+			<th>Institution</th>
+			<th>Campus</th>
+		    </thead>
+		    <tbody>
+			{% for row in higher_ed %}
+			{% if row.activity_number == activity.activity_number %}
+			<tr>
+			    <td>{{row.institution}}</td>
+			    <td>{{row.campus}}</td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+		    </tbody>
+		</table>
+		<h4>Basic Education Locations</h4>
+		<table>
+		    <thead>
+			<th>District</th>
+			<th>School</th>
+		    </thead>
+		    <tbody>
+			{% for row in basic_ed %}
+			{% if row.activity_number == activity.activity_number %}
+			<tr>
+			    <td>{{row.district}}</td>
+			    <td>{{row.school}}</td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+		    </tbody>
 		</table>
 	    </div>
 	</div>

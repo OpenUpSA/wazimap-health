@@ -162,8 +162,8 @@ def process_health(organisation, template):
             partner_locations.append(
                 PartnerHealth(
                     organisation=organisation,
-                    province=place[0].value,
-                    district=place[1].value,
+                    province=place[1].value,
+                    district=place[0].value,
                     facility=place[2].value,
                     activity_number=place[3].value))
             # partner_locations.append({
