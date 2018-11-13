@@ -425,6 +425,7 @@
 
     </div>
 </article>
+{% if geography.this.full_geoid|startswith:"province" %}
 <article id="partner" class="clearfix">
     <header class="section-contents">
 	<h1><i class="fa fa-fw fa-group"></i>Organisations in Area</h1>
@@ -438,6 +439,7 @@
 	</ul>
     </div>
 </article>
+{% endif %}
 {% endif %}
 
 {% block citations %}

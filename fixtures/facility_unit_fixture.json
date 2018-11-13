@@ -1,0 +1,1 @@
+[{"model": "wazimap_health.FacilityUnit", "pk": 1, "fields": {"name": "Urban"}}, {"model": "wazimap_health.FacilityUnit", "pk": 2, "fields": {"name": "Rural"}}, {"model": "wazimap_health.FacilityUnit", "pk": 3, "fields": {"name": "Peri-Urban"}}, {"model": "wazimap_health.FacilityUnit", "pk": 4, "fields": {"name": "Other"}}]
