@@ -47,3 +47,4 @@ urllib3==1.23
 git+https://github.com/OpenUpSA/wazimap.git@releases#egg=wazimap[gdal]
 whitenoise==4.0
 django-storages==1.1.8
+boto==2.38.0
