@@ -119,6 +119,9 @@ else:
         'Cache-Control': 'max-age=86400',
     }
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# the URL for assets
+STATIC_URL = '/static/'
 MAPIT_LOCATION_URL = "https://mapit.code4sa.org/point/4326/"
 
 LOGSTASH_URL = os.environ.get('LOGSTASH_URL', '')
