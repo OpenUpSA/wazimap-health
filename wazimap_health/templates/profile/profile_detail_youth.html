@@ -432,7 +432,7 @@
     <div class="section-container">
 	<ul class="fa-ul">
 	    {% for name in health.organisations %}
-	    <li><a href="{% url 'organisation_profile' health.organisation_geo name.organisation__slug %}" target="_blank">{{name.organisation__name}}</a>
+	    <li><a href="{% url 'organisation_profile' health.organisation_geo name.organisation__slug %}" target="_blank"><h3>{{name.organisation__name}}</h3></a>
 	    </li>
 	    {% endfor %}
 	</ul>
