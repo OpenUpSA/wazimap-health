@@ -104,8 +104,21 @@ WAZIMAP['mapit'] = {
     }
 }
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+# file uploads
+if DEBUG:
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    DEFAULT_FILE_STORAGE = 'wazimap_health.botopatch.S3Storage'
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = "wazimap-health-media"
+    AWS_S3_HOST = "s3-eu-west-1.amazonaws.com"
+    AWS_HEADERS = {
+        'Cache-Control': 'max-age=86400',
+    }
+
 MAPIT_LOCATION_URL = "https://mapit.code4sa.org/point/4326/"
 
 LOGSTASH_URL = os.environ.get('LOGSTASH_URL', '')
