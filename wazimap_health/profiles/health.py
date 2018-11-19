@@ -3,7 +3,7 @@ from collections import OrderedDict
 from wazimap.data.tables import get_datatable
 from wazimap.data.utils import (get_session, merge_dicts, get_stat_data,
                                 percent, current_context, dataset_context,
-                                group_remainder)
+                                group_remainder, calculate_median_stat)
 from wazimap.geo import geo_data
 from point_stats import (get_facility_services, get_heath_details,
                          get_higher_ed_details, get_basic_education_details,
@@ -11,7 +11,8 @@ from point_stats import (get_facility_services, get_heath_details,
 from organizations import get_organization
 
 PROFILE_SECTIONS = ("demographics", "education", "economic_opportunities",
-                    "living_environment", "poverty", "safety", "health")
+                    "living_environment", "poverty", "safety", "health",
+                    'economics_profile')
 
 POPULATION_GROUP_ORDER = ('Black African', 'Coloured', 'Indian or Asian',
                           'White', 'Other')
@@ -86,6 +87,20 @@ GIVEN_BIRTH_AGE_GROUP_RECODE = {
         '24': '20-24'
     }
 }
+
+HOUSEHOLD_INCOME_2011 = OrderedDict()
+HOUSEHOLD_INCOME_2011['No Income'] = 'R0'
+HOUSEHOLD_INCOME_2011['R 1 - R 4800'] = 'Under R4800'
+HOUSEHOLD_INCOME_2011['R 4801 - R 9600'] = 'R5k - R10k'
+HOUSEHOLD_INCOME_2011['R 9601 - R 19200'] = 'R10k - R20k'
+HOUSEHOLD_INCOME_2011['R 19201 - R 38400'] = 'R20k - R40k'
+HOUSEHOLD_INCOME_2011['R 38401 -  R 76800'] = 'R40k - R75k'
+HOUSEHOLD_INCOME_2011['R 76801 - R 153600'] = 'R75k - R150k'
+HOUSEHOLD_INCOME_2011['R 153601 - R 307200'] = 'R150k - R300k'
+HOUSEHOLD_INCOME_2011['R 307201 - R 614400'] = 'R300k - R600k'
+HOUSEHOLD_INCOME_2011['R 614401- R 1228800'] = 'R600k - R1.2M'
+HOUSEHOLD_INCOME_2011['R 1228801 - R 2457600'] = 'R1.2M - R2.5M'
+HOUSEHOLD_INCOME_2011['R2457601 or more'] = 'Over R2.5M'
 
 
 def get_profile(geo, profile_name, request):
@@ -570,6 +585,14 @@ def get_economic_opportunities_profile(geo,
                                        session,
                                        display_profile,
                                        comparative=False):
+    annual_household_income, total_households = get_stat_data(
+        ['annual household income'],
+        geo,
+        session,
+        table_name='annual_household_income',
+        recode=HOUSEHOLD_INCOME_2011,
+        key_order=HOUSEHOLD_INCOME_2011.values())
+
     youth_labour_force_official, _ = get_stat_data(
         ['employment status'],
         geo,
@@ -733,7 +756,15 @@ def get_economic_opportunities_profile(geo,
             }
         },
         'youth_household_employment':
-        youth_household_employment
+        youth_household_employment,
+        'annual_household_income':
+        annual_household_income,
+        'total_number_households': {
+            'name': 'Total HouseHolds',
+            'values': {
+                'this': total_households
+            }
+        }
     }
 
     return final_data
