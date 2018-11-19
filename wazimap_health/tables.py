@@ -375,6 +375,13 @@ FieldTable(
     year='2013',
     value_type='Float')
 
+FieldTable(
+    ['annual household income'],
+    id='annual_household_income',
+    universe='Annual Household Income',
+    year='2011',
+    dataset='Census 2011')
+
 # Simple Tables
 SimpleTable(
     id='youth_population',
@@ -390,14 +397,6 @@ SimpleTable(
     description='Youth MPI score',
     dataset='',
     year='')
-
-SimpleTable(
-    id='household_income',
-    universe='Household',
-    total_column=None,
-    description='Household income',
-    year='2011',
-    dataset='Census 2011')
 
 SimpleTable(
     id='epidemiology',
