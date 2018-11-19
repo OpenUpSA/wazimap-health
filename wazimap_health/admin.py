@@ -12,7 +12,7 @@ from django.conf.urls import url, patterns
 from django.shortcuts import render
 from .csv_import import ProcessImport
 
-from wazimap.models import Geography
+from wazimap.models import Geography, SimpleTable, Dataset, Release, FieldTable, DBTable, FieldTableRelease, SimpleTableRelease
 from . import models
 from partner import PartnerForm, process_excelsheet
 
@@ -296,6 +296,13 @@ admin_site = HealthAdminSite()
 admin_site.register(models.HealthFacilities, HealthFacilityAdmin)
 admin_site.register(models.HigherEducation, HigherEducationAdmin)
 admin_site.register(Geography)
+admin_site.register(SimpleTable)
+admin_site.register(Release)
+admin_site.register(Dataset)
+admin_site.register(FieldTable)
+admin_site.register(DBTable)
+admin_site.register(FieldTableRelease)
+admin_site.register(SimpleTableRelease)
 admin_site.register(models.BasicEducation, BasicEducationAdmin)
 admin_site.register(admin_models.User, useradmin.UserAdmin)
 admin_site.register(models.Organisation, OrganisationAdmin)
