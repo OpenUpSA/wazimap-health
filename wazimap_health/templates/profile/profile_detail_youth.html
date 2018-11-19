@@ -127,6 +127,19 @@
 	</section>
     </div>
 </article>
+<article id="economic" class="clearfix">
+    <header class="section-contents">
+	<h1><i class="fa fa-fw fa-graduation-cap"></i>Economics</h1>
+    </header>
+    <div class="section-container">
+	<section class="clearfix stat-row">
+	    <div class="column-quarter">
+		{% include 'profile/_blocks/_stat_list.html' with stat=economic_opportunities.total_number_households stat_type='number' %}
+	    </div>
+	    <div class="column-two-thirds" id="chart-column-economic_opportunities-annual_household_income" data-stat-type="scaled-percentage" data-chart-title="Annual Household Income"></div>
+	</section>
+    </div>
+</article>
 <article id="education" class="clearfix">
     <header class="section-contents">
 	<h1><i class="fa fa-fw fa-graduation-cap"></i>Education</h1>
