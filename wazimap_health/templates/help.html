@@ -5,73 +5,61 @@
       <header>
         <h1 class="article-header">Using {{ WAZIMAP.name }}</h1>
       </header>
-      {% if WAZIMAP.video_links %}
-      <section class="clearfix">
-        <p>Check out the videos below for tips on how to use {{ WAZIMAP.name }}.</p>
-        <span class="column-half">
-          <h2 class="subhead">A quick introduction to {{ WAZIMAP.name }}</h2>
-          <div class="video-wrapper">
-            <iframe width="560" height="315" src="{{ WAZIMAP.video_links.intro }}" frameborder="0" allowfullscreen></iframe>
-          </div>
-        </span>
-        <span class="column-half">
-          <h2 class="subhead">Viewing data in tables</h2>
-          <div class="video-wrapper">
-            <iframe width="560" height="315" src="{{ WAZIMAP.video_links.table_view }}" frameborder="0" allowfullscreen></iframe>
-          </div>
-        </span>
-        <span class="column-half">
-          <h2 class="subhead">Exploring data on a map</h2>
-          <div class="video-wrapper">
-            <iframe width="560" height="315" src="{{ WAZIMAP.video_links.map_view }}" frameborder="0" allowfullscreen></iframe>
-          </div>
-        </span>
-        <span class="column-half">
-          <h2 class="subhead">Comparing the distribution of data between places</h2>
-          <div class="video-wrapper">
-            <iframe width="560" height="315" src="{{ WAZIMAP.video_links.distribution_view }}" frameborder="0" allowfullscreen></iframe>
-          </div>
-        </span>
-        <span class="column-half">
-          <h2 class="subhead">Comparing places side-by-side</h2>
-          <div class="video-wrapper">
-            <iframe width="560" height="315" src="{{ WAZIMAP.video_links.comparing_places }}" frameborder="0" allowfullscreen></iframe>
-          </div>
-        </span>
-      </section>
-      {% endif %}
-
-      {% if WAZIMAP.default_profile == 'census' %}
       <section>
-        <h2 class="subhead" id="faq">Frequently Asked Questions</h2>
-
-        <ul>
-          <li>
-            <h3 id="faq-average-hh-income">How can I use the "Average annual household income" and "Monthly income" figures?</h3>
-            <p>The "Average annual household income" and "Monthly income" figures are only an estimate and should be used with care. You can compare
-            them between two places to get a general idea of how income differs, but don't rely on it as an accurate
-            indicator of disposable income.</p>
-
-            <p>We calculate the figure by finding the median income band, and then using the middle of that band's income. For example, if the median income band is "R153 801 - R307 600", then we use R230 700 as the average household income. The median income band is the band at which the incomes of half of households are at or below.</p>
-          </li>
-
-          <li>
-            <h3 id="faq-2011">Why is the data from 2011?</h3>
-            <p>Most of the {{ WAZIMAP.name }} data is from the 2011 Census conducted by <a href="http://www.statssa.gov.za/">Stats SA</a>. A full census is only conducted every 10 years. The <a href="http://cs2016.statssa.gov.za/">Community Survey 2016</a> has additional data and we're looking at how to make it available in {{ WAZIMAP.name }}. The Community Survey data is not available at ward level and is not as comprehensive as the 2011 Census.</p>
-          </li>
-
-          <li>
-            <h3 id="faq-municipal-elections">What does the Municipal Election data show?</h3>
-            <p>The municipal election "voter turnout" is based on the sum of the larger of the Ward and Proportional Representation ballots in each voting district. "Voters by party" shows the sum of the Ward and Proportional Representation ballots.</p>
-            <p>Elections in local municipalities that fall in district municipalities actually have a third ballot (DC40), because the district council is elected partly by the councils of the costituent local municipalities, and partly by this third ballot. However, we only use the Ward and PR ballots so that comparison between ward, municipality and provincial regions are valid. You can find all the data, as well as a more detailed explanation of how municipal elections work, from the <a href="http://www.elections.org.za/">Independent Electoral Commission</a>. LocalGovernmentAction.org provides <a href="http://www.localgovernmentaction.org/activists-guide/key-processes/elections">another explanation of how local government elections work</a>.</p>
-          </li>
-
-          <li>
-            <h3 id="faq-newsletter">How can I stay up to date?</h3>
-            <p>Follow <a href="https://twitter.com/@Wazimap">@Wazimap on Twitter</a> or <a href="http://eepurl.com/cOswIj">sign up to our newsletter</a>.</p>
-          </li>
-        </ul>
+	  <h2>Help Sections</h2>
+	  <ul>
+	      <li><h3><a href="#find">Finding Places</a></h3></li>
+	      <li><h3><a href="#point">Facilities and Institutions</a></h3></li>
+	      <li><h3><a href="#campaign">Campaign Areas</a></h3></li>
+	  </ul>
       </section>
-      {% endif %}
+      <section>
+	  <hr>
+	  <h2 class="subhead" id="find">Finding Places</h2>
+	  <div class="column-half card">
+	      <img width="560" height="auto" src="{% static 'img/find_place_2.png' %}" />
+	      <span class="caption">Type in the name or address of a place. Then select the location you are interested in from the dropdown</span>
+	  </div>
+	  <div class="column-half card">
+	      <img width="560" height="auto" src="{% static 'img/click_find.png' %}" />
+	      <span class="caption">Alternatively, click on the map area you want to go to. The <span class="zoom-in">+</span> and <span class="zoom-out">-</span> zoom in and out</span>
+	  </div>
+      </section>
+      <hr/>
+      &nbsp;
+      <hr/>
+      &nbsp;
+      <section>
+	  <h2 class="subhead" id="point">Facilities and Institutions</h2>
+	  <p>On a municipal level, point data showing various health facilities and education institutions  can be viewed.</p>
+	  <img width="auto" height="560" src="{% static 'img/point_overview.png' %}" />
+
+	  <p>The points are coloured coded according to the facilities they belong to. The Filter menu towards the right of the map shows the colour key</p>
+	  <ul>
+	      <li><span style="color:#267fca">Public Health Facilities</span></li>
+	      <li><span style="color:#24ac20">Private Pharmacies</span></li>
+	      <li><span style="color:#cb8325">Marie Stopes Facilities</span></li>
+	      <li><span style="color:#3c3c3c">Higher Education Institutions</span></li>
+	      <li><span style="color:#9823c9">Basic Education Institutions</span></li>
+	  </ul>
+	  <p>By default, all the points from the various facilities and institutions are shown, the filter menu can be toggeled to only reveal the interested facility type</p>
+	  <p>Hovering over a point, will reveal the name of the facility and clicking the point will show the profile of the point</p>
+	  <h4> Point Profile Page</h4>
+	  <p>The profile point page will provide more details about a particular point, the below image shows details about a school.</p>
+	  <img width="auto" height="560" src="{% static 'img/point_profile.png' %}" />
+	  <p>For health facilities, as show below,services that are provided by the facility are shown</p>
+	  <img width="auto" height="560" src="{% static 'img/point_health_facility.png' %}" />
+	  
+      </section>
+      
+      <hr/>
+      &nbsp;
+      <hr/>
+      &nbsp;
+      <section>
+	  <h2 class="subhead" id="campaign">Campaign Areas</h2>
+	  <p>Geographical areas that are shaded in a different colour indicate that an organisation or campaign is working in that region. In the below example the <a href="http://sheconquerssa.co.za/">She Conquers Campaign</a> is operating in the City of Johannesburg metro and the Emfuleni municipality </p>
+	  <img width="auto" height="560" src="{% static 'img/campaign.png' %}"/>
+      </section>
   </article>
 {% endblock %}
