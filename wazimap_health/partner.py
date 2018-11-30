@@ -107,19 +107,23 @@ def process_higher_education(organisation, template):
     location = sheet['A2':'D560']
     for place in location:
         if place[3].value is not None:
-            partner_locations.append(
-                PartnerHigherEducation(
-                    organisation=organisation,
-                    province=place[0].value,
-                    institution=place[1].value,
-                    campus=place[2].value,
-                    activity_number=place[3].value))
-            # partner_locations.append({
-            #     'province': place[0].value,
-            #     'institution': place[1].value,
-            #     'campus': place[2].value,
-            #     'activity_number': place[3].value
-            # })
+            try:
+                for act_no in place[3].value.split(','):
+                    partner_locations.append(
+                        PartnerHigherEducation(
+                            organisation=organisation,
+                            province=place[0].value,
+                            institution=place[1].value,
+                            campus=place[2].value,
+                            activity_number=act_no))
+            except AttributeError:
+                partner_locations.append(
+                    PartnerHigherEducation(
+                        organisation=organisation,
+                        province=place[0].value,
+                        institution=place[1].value,
+                        campus=place[2].value,
+                        activity_number=place[3].value))
     if partner_locations:
         organisation.higher_ed.bulk_create(partner_locations)
 
@@ -133,19 +137,23 @@ def process_basic_education(organisation, template):
     location = sheet['A2':'D25290']
     for place in location:
         if place[3].value is not None:
-            partner_locations.append(
-                PartnerBasicEducation(
-                    organisation=organisation,
-                    province=place[1].value,
-                    district=place[0].value,
-                    school=place[2].value,
-                    activity_number=place[3].value))
-            # partner_locations.append({
-            #     'province': place[1].value,
-            #     'district': place[0].value,
-            #     'school': place[2].value,
-            #     'activity_number': place[3].value
-            # })
+            try:
+                for act_no in place[3].value.split(','):
+                    partner_locations.append(
+                        PartnerBasicEducation(
+                            organisation=organisation,
+                            province=place[1].value,
+                            district=place[0].value,
+                            school=place[2].value,
+                            activity_number=act_no))
+            except AttributeError:
+                partner_locations.append(
+                    PartnerBasicEducation(
+                        organisation=organisation,
+                        province=place[1].value,
+                        district=place[0].value,
+                        school=place[2].value,
+                        activity_number=place[3].value))
     if partner_locations:
         organisation.basic_ed.bulk_create(partner_locations)
 
@@ -159,18 +167,22 @@ def process_health(organisation, template):
     location = sheet['A2':'D5060']
     for place in location:
         if place[3].value is not None:
-            partner_locations.append(
-                PartnerHealth(
-                    organisation=organisation,
-                    province=place[1].value,
-                    district=place[0].value,
-                    facility=place[2].value,
-                    activity_number=place[3].value))
-            # partner_locations.append({
-            #     'province': place[0].value,
-            #     'district': place[1].value,
-            #     'facility': place[2].value,
-            #     'activity_number': place[3].value
-            # })
+            try:
+                for act_no in place[3].value.split(','):
+                    partner_locations.append(
+                        PartnerHealth(
+                            organisation=organisation,
+                            province=place[1].value,
+                            district=place[0].value,
+                            facility=place[2].value,
+                            activity_number=act_no))
+            except AttributeError:
+                partner_locations.append(
+                    PartnerHealth(
+                        organisation=organisation,
+                        province=place[1].value,
+                        district=place[0].value,
+                        facility=place[2].value,
+                        activity_number=place[3].value))
     if partner_locations:
         organisation.health.bulk_create(partner_locations)
