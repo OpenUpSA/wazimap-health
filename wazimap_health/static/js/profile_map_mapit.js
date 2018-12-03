@@ -17,7 +17,7 @@ ProfileMaps = function() {
     legend.onAdd = function(){
 	var div = L.DomUtil.create('div', 'areaInfo areaLegend');
 	div.innerHTML = '<i style="background:#FF1493"></i>' +
-	    'Marie Stopes - She Conquers Area';
+	    'She Conquers Area';
 	return div;
     },
     legend.addTo(this.map);
