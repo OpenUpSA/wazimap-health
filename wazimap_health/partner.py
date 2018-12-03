@@ -67,24 +67,7 @@ def process_excelsheet(logo, excel_sheet):
                     'municipality': act[16].value
                 }
                 org.activities.create(**row_activities)
-                # row_targets = {
-                #     'activity': act_obj,
-                #     'activity_number': act_number,
-                #     'audience': act[9].value,
-                #     'other_audience': act[10].value
-                # }
-                # org.targets.create(**row_targets)
-                # row_areas = {
-                #     'activity': act_obj,
-                #     'activity_number': act_number,
-                #     'location_type': act[11].value,
-                #     'other_location_type': act[12].value,
-                #     'province': act[13].value,
-                #     'more_province': act[14].value,
-                #     'district': act[15].value,
-                #     'municipality': act[16].value
-                # }
-                # org.areas.create(**row_areas)
+
         for p in persons:
             try:
                 org.contacts.create(**p)
