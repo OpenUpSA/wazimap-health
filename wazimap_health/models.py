@@ -89,8 +89,8 @@ class Contact(models.Model):
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE, related_name='contacts')
     name = models.CharField(max_length=100)
-    email = models.EmailField()
-    phone = models.CharField(max_length=30)
+    email = models.EmailField(null=True)
+    phone = models.CharField(max_length=30, null=True)
 
     class Meta:
         db_table = 'partner_contact'
