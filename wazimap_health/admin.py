@@ -140,10 +140,11 @@ class HealthFacilityAdmin(admin.ModelAdmin, ExportImportMixin):
 
     def get_urls(self):
         urls = super(HealthFacilityAdmin, self).get_urls()
-        custom_urls = patterns('',
-                               url(r'^import-health-csv/$',
-                                   self.admin_site.admin_view(self.import_csv),
-                                   name='import_health_csv'))
+        custom_urls = patterns(
+            '',
+            url(r'^import-health-csv/$',
+                self.admin_site.admin_view(self.import_csv),
+                name='import_health_csv'))
         return custom_urls + urls
 
 
@@ -156,8 +157,8 @@ class HigherEducationAdminForm(forms.ModelForm):
 
 
 class HigherEducationAdmin(admin.ModelAdmin, ExportImportMixin):
-    list_display = ('name', 'institution', 'classification', 'facility_code',
-                    'latitude', 'longitude', 'geo_levels')
+    list_display = ('name', 'classification', 'facility_code', 'latitude',
+                    'longitude', 'geo_levels')
     list_filter = ('classification', )
     form = HigherEducationAdminForm
     actions = ['export_csv']
@@ -175,10 +176,11 @@ class HigherEducationAdmin(admin.ModelAdmin, ExportImportMixin):
 
     def get_urls(self):
         urls = super(HigherEducationAdmin, self).get_urls()
-        custom_urls = patterns('',
-                               url(r'^import-higher-education-csv/$',
-                                   self.admin_site.admin_view(self.import_csv),
-                                   name='import_higher_csv'))
+        custom_urls = patterns(
+            '',
+            url(r'^import-higher-education-csv/$',
+                self.admin_site.admin_view(self.import_csv),
+                name='import_higher_csv'))
         return custom_urls + urls
 
     def import_csv(self, request):
@@ -214,10 +216,11 @@ class BasicEducationAdmin(admin.ModelAdmin, ExportImportMixin):
 
     def get_urls(self):
         urls = super(BasicEducationAdmin, self).get_urls()
-        custom_urls = patterns('',
-                               url(r'^import-basic-education-csv/$',
-                                   self.admin_site.admin_view(self.import_csv),
-                                   name='import_basic_csv'))
+        custom_urls = patterns(
+            '',
+            url(r'^import-basic-education-csv/$',
+                self.admin_site.admin_view(self.import_csv),
+                name='import_basic_csv'))
         return custom_urls + urls
 
     def import_csv(self, request):
@@ -258,17 +261,16 @@ class OrganisationAdmin(admin.ModelAdmin):
                 })
 
         form = PartnerForm()
-        return render(request, 'admin/upload_partner_sheet.djhtml', {
-            'form': form
-        })
+        return render(request, 'admin/upload_partner_sheet.djhtml',
+                      {'form': form})
 
     def get_urls(self):
         urls = super(OrganisationAdmin, self).get_urls()
-        custom_urls = patterns('',
-                               url(r'^upload-partner-template$',
-                                   self.admin_site.admin_view(
-                                       self.import_partner_sheet),
-                                   name='import_partner_sheet'))
+        custom_urls = patterns(
+            '',
+            url(r'^upload-partner-template$',
+                self.admin_site.admin_view(self.import_partner_sheet),
+                name='import_partner_sheet'))
         return custom_urls + urls
 
 

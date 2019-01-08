@@ -16,6 +16,7 @@ class Command(BaseCommand):
         try:
             model = eval(options.get('model'))
             for facility in model.objects.all():
+                self.style.SUCCESS('Working on -  %s' % facility.facility_code)
                 url = '{}{},{}?type=MN&generation=1'.format(
                     options.get('url'), facility.longitude, facility.latitude)
                 req = requests.get(url)
@@ -32,6 +33,8 @@ class Command(BaseCommand):
                                 'version': '2011'
                             },
                             geo_code=facility.facility_code)
-                self.stdout.write(self.style.SUCCESS('Point Data added for'))
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        'Point Data added for %s' % facility.facility_code))
         except Exception as error:
             raise CommandError(error)
