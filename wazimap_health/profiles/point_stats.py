@@ -209,7 +209,7 @@ def higher_ed_total(geo_code):
     """
     total = HigherEducation\
             .objects\
-            .filter(geo_levels__overlap=[geo_code])\
+            .filter(geo_levels__overlap=[geo_code], main_campus=True)\
             .count()
     global HIGHER_TOTAL
     HIGHER_TOTAL = 0
@@ -228,7 +228,7 @@ def higher_ed_classification(geo_code):
     """
     count = HigherEducation\
                  .objects.values('classification')\
-                 .filter(geo_levels__overlap=[geo_code])\
+                 .filter(geo_levels__overlap=[geo_code], main_campus=True)\
                  .annotate(total=Count('name'))\
                  .order_by('-total')
     stats = {}
