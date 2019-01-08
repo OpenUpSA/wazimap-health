@@ -26,13 +26,14 @@ class HealthFacilities(models.Model):
 
 
 class HigherEducation(models.Model):
-    institution = models.CharField(max_length=100)
-    name = models.CharField(max_length=100, verbose_name='School Name')
+    institution = models.CharField(max_length=255, null=True)
+    name = models.CharField(max_length=255, verbose_name='School Name')
     facility_code = models.CharField(max_length=100, unique=True)
     classification = models.CharField(max_length=100, blank=True)
     latitude = models.FloatField()
     longitude = models.FloatField()
     address = models.CharField(max_length=100, blank=True)
+    main_campus = models.BooleanField(default=False)
     dataset = models.CharField(max_length=20)
     geo_levels = ArrayField(
         models.CharField(max_length=20), blank=True, null=True)
@@ -40,7 +41,7 @@ class HigherEducation(models.Model):
 
     class Meta:
         db_table = 'higher_education'
-        unique_together = ('name', 'latitude', 'longitude', 'institution')
+        unique_together = ('name', 'latitude', 'longitude', 'facility_code')
 
     def __str__(self):
         return self.name
@@ -104,7 +105,8 @@ class Activity(models.Model):
     organisation = models.ForeignKey(
         Organisation, on_delete=models.CASCADE, related_name='activities')
     activity_number = models.IntegerField()
-    hiv_aids_focus = models.BooleanField(verbose_name='Main Focus on HIV/AIDS')
+    hiv_aids_focus = models.BooleanField(
+        verbose_name='Main Focus on HIV/AIDS', default=False)
     category = models.CharField(
         max_length=100,
         verbose_name='Implementation activity category',
@@ -188,6 +190,7 @@ class PartnerHigherEducation(models.Model):
 
     class Meta:
         db_table = 'partner_higher_education_facilities'
+        verbose_name_plural = 'Partner Higher Education Facilities'
 
     def __str__(self):
         return self.institution
@@ -203,6 +206,7 @@ class PartnerHealth(models.Model):
 
     class Meta:
         db_table = 'partner_health_facilities'
+        verbose_name_plural = 'Partner Health Facilities'
 
     def __str__(self):
         return self.facility
@@ -218,6 +222,7 @@ class PartnerBasicEducation(models.Model):
 
     class Meta:
         db_table = 'partner_basic_education_facilities'
+        verbose_name_plural = 'Partner Basic Education Facilities'
 
     def __str__(self):
         return self.school
