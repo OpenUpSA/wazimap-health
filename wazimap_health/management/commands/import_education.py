@@ -37,17 +37,23 @@ def higher_education(reader):
     code_prefix = 'HEI'
     code = 1
     for row in reader:
-        row.pop('Province')
+        name = row.pop('School Name')
+        print('Woking on {}'.format(name))
+        name = name.replace(u'\xa0', u'')
+        split_name = name.split('-')
+        if len(split_name) >= 3:
+            name = ''.join((split_name[0], ' ', split_name[2]))
         models.HigherEducation\
               .objects\
               .update_or_create(
                   {
-                      'name': row.pop('Other Campuses'),
+                      'name': name,
+                      'institution': row.pop('Institution'),
                       'classification': row.pop('Classification'),
                       'latitude': row.pop('Latitude'),
                       'longitude': row.pop('Longitude'),
-                      'institution': row.pop('Institution'),
                       'address': row.pop('Physical Address'),
+                      'main_campus': True if row.pop('Main') == 'Yes' else False,
                       'dataset': 'higher_education',
                       'facility_code': '{}{}'.format(code_prefix, code),
                       'service': dict(row)
