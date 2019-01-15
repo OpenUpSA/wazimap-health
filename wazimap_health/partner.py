@@ -1,5 +1,6 @@
 from django import forms
 from django.db import IntegrityError
+from django.db import transaction
 from models import (Organisation, PartnerBasicEducation, PartnerHealth,
                     PartnerHigherEducation)
 from openpyxl import load_workbook
@@ -25,6 +26,7 @@ def is_row_empty(row):
     return False
 
 
+@transaction.atomic
 def process_excelsheet(logo, excel_sheet):
     """
     process excel sheet and extract relevent information
