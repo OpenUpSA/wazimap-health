@@ -294,6 +294,11 @@ class PartnerHigherEducationAdmin(admin.ModelAdmin):
     list_display = ('organisation', 'campus', 'activity_number', 'province')
 
 
+class PartnerLocationAdmin(admin.ModelAdmin):
+    list_display = ('organisation', 'location_code', 'location_name',
+                    'activity_number')
+
+
 admin_site = HealthAdminSite()
 admin_site.register(models.HealthFacilities, HealthFacilityAdmin)
 admin_site.register(models.HigherEducation, HigherEducationAdmin)
@@ -313,3 +318,4 @@ admin_site.register(models.Contact, ContactAdmin)
 admin_site.register(models.PartnerBasicEducation, PartnerBasicEducationAdmin)
 admin_site.register(models.PartnerHigherEducation, PartnerHigherEducationAdmin)
 admin_site.register(models.PartnerHealth, PartnerHealthAdmin)
+admin_site.register(models.PartnerLocation, PartnerLocationAdmin)
