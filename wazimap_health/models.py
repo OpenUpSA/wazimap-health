@@ -226,3 +226,18 @@ class PartnerBasicEducation(models.Model):
 
     def __str__(self):
         return self.school
+
+
+class PartnerLocation(models.Model):
+    organisation = models.ForeignKey(
+        Organisation, on_delete=models.CASCADE, related_name='location')
+    location_code = models.CharField(max_length=10)
+    location_name = models.CharField(max_length=100)
+    activity_number = models.CharField(max_length=10)
+
+    class Meta:
+        db_table = 'partner_location'
+        verbose_name_plural = 'Partner Locations'
+
+    def __str__(self):
+        return self.location_name
