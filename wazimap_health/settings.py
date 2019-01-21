@@ -58,6 +58,8 @@ DATABASES = {
     'default': dj_database_url.parse(DATABASE_URL),
 }
 
+# For testing we will us the same database
+
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 WAZIMAP['ga_tracking_id'] = 'UA-93649482-12'

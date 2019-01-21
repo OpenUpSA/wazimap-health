@@ -1,9 +1,0 @@
-[
-    {"model": "wazimap.geography",
-     "pk": 0,
-     "fields": {"geo_level": "country",
-		"geo_code": "ZA",
-		"version": "2016",
-		"name": "South Africa"}
-    }
-]
