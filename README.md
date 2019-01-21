@@ -1,5 +1,5 @@
-Wazimap Health
-====================
+[Sexual and Reproductive Health Activities Map](http://activities4srh.org.za/)
+===============================================================================
 
 The South African youth and health centered instance of [Wazimap](https://github.com/Code4SA/wazimap)
 
@@ -11,20 +11,20 @@ The South African youth and health centered instance of [Wazimap](https://github
 4. ``source env/bin/activate``
 5. ``pip install -r requirements.txt``
 
-You will need a Postgres database for the instance you are running:
+You will need a Postgres database for the instance you are running, and type the following commands
 
 ```
-psql
+$ su postgres
 
-create user wazimap_health with password wazimap_health
+$ createuser wazimap_health -P
 
-create database wazimap_health
-
-grant all privileges on database wazimap_health to wazimap_health
+$ createdb -O wazimap_health wazimap_health
 
 ```
 
 Import the data into the new database.
+
+Some of the tables are not managed by django directly, so we have to manaually create them.
 
 ```
 cat sql/*.sql | psql -U wazimap_health -W wazimap_health
@@ -39,7 +39,8 @@ python manage.py migrate
 Import the fixtures for the django models:
 
 ```
-python manage.py loaddata fixtures/wazimap_health/wazimap_django_models.json
+python manage.py loaddata fixtures/health.json
+python manage.py loaddata fixtures/wazimap.json
 ```
 
 Create an admin user:
