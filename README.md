@@ -20,6 +20,9 @@ $ createuser wazimap_health -P
 
 $ createdb -O wazimap_health wazimap_health
 
+$ psql
+
+$ add the extension hstore on the wazimap_health database
 ```
 
 Import the data into the new database.
