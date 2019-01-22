@@ -2,7 +2,9 @@ import json
 from django.db.models import Count
 from django.core import serializers
 
-from wazimap_health.models import HealthFacilities, HigherEducation, BasicEducation
+from wazimap_health.models import (HealthFacilities, HigherEducation,
+                                   BasicEducation, PartnerBasicEducation,
+                                   PartnerHigherEducation, PartnerHealth)
 
 TOTAL = 0
 
@@ -139,50 +141,78 @@ def facility_unit(geo_code, dataset):
     return stats
 
 
-def get_facility_services(geo_code):
+def get_facility_services(geo):
     """
     Choose the models created by the code
     PPF = Private Pharmacies Facilities
     PHF = Public Health Facilities
     MSS = Marie Stopes
-    HEI = Higher Education Institutions
+    HEI = Higher Education
+    BEI = Basic Education
     """
-    if geo_code.startswith('HEI'):
+    if geo.geo_code.startswith('HEI'):
         model = HigherEducation
-    elif geo_code.startswith('BEI'):
+    elif geo.geo_code.startswith('BEI'):
         model = BasicEducation
     else:
         model = HealthFacilities
 
     query = model\
             .objects\
-            .filter(facility_code=geo_code)
+            .filter(facility_code=geo.geo_code)
     data = serializers.serialize('json', query)
     model_data = json.loads(data)
     detail = model_data[0]['fields']
-    if geo_code.startswith('HSF'):
+    if geo.geo_code.startswith('HSF'):
         info = {
             'settlement': detail['settlement'],
             'unit': detail['unit'],
             'address': detail['address'],
             'service': json.loads(detail['service'])
         }
-    elif geo_code.startswith('BEI'):
+        partner_model = PartnerHealth
+        field_name = 'facility'
+    elif geo.geo_code.startswith('BEI'):
         info = {
             'sector': detail['sector'],
             'phase': detail['phase'],
             'address': detail['address'],
             'special_need': detail['special_need']
         }
-    elif geo_code.startswith('HEI'):
+        partner_model = PartnerBasicEducation
+        field_name = 'school'
+    elif geo.geo_code.startswith('HEI'):
         info = {
             'institution': detail['institution'],
             'classification': detail['classification'],
             'address': detail['address'],
             'service': json.loads(detail['service'])
         }
+        partner_model = PartnerHigherEducation
+        field_name = 'campus'
+    orgs = facility_organisations(geo.name, partner_model, field_name)
+    if orgs:
+        for org in orgs:
+            info.update({
+                'organisations': {
+                    'org_name': org.name,
+                    'org_slug': org.slug
+                }
+            })
 
     return info
+
+
+def facility_organisations(geo_name, model, field_name):
+    """
+    Get all the orangisations that are working in the facility
+    """
+    name = geo_name.lower().title()
+    org = model\
+           .objects\
+           .filter(**{field_name: name})\
+           .only('organisation')
+    return org
 
 
 def get_institution_campus(geo_code):

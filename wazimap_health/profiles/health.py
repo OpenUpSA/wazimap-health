@@ -111,11 +111,11 @@ def get_profile(geo, profile_name, request):
         data = {}
         sections = list(PROFILE_SECTIONS)
         if geo.geo_code.startswith('HSF') or geo.geo_code.startswith('BEI'):
-            data['facility_detail'] = get_facility_services(geo.geo_code)
+            data['facility_detail'] = get_facility_services(geo)
             return data
         elif geo.geo_code.startswith('HEI'):
             data['institution'] = get_institution_campus(geo.geo_code)
-            data['facility_detail'] = get_facility_services(geo.geo_code)
+            data['facility_detail'] = get_facility_services(geo)
             return data
         if geo.geo_level not in [
                 'country', 'province', 'district', 'municipality'
@@ -149,12 +149,13 @@ def get_profile(geo, profile_name, request):
                 # get profiles for province and/or country
                 for comp_geo in comp_geos:
                     # merge summary profile into current geo profile
-                    merge_dicts(data[section],
-                                func(
-                                    comp_geo,
-                                    session,
-                                    display_profile,
-                                    comparative=True), comp_geo.geo_level)
+                    merge_dicts(
+                        data[section],
+                        func(
+                            comp_geo,
+                            session,
+                            display_profile,
+                            comparative=True), comp_geo.geo_level)
 
         # Make data look nicer on profile page
         group_remainder(data['demographics']['youth_population_by_language'],
@@ -308,9 +309,7 @@ def get_education_profile(geo, session, display_profile, comparative=False):
         table_dataset='Census and Community Survey',
         percent_grouping=['gender'],
         slices=['Completed'],
-        key_order={
-            'gender': GENDER_ORDER
-        })
+        key_order={'gender': GENDER_ORDER})
 
     youth_education_level, youth_pop_20_to_24 = get_stat_data(
         ['education level'],
@@ -356,9 +355,7 @@ def get_education_profile(geo, session, display_profile, comparative=False):
         table_fields=['attendance', 'age in completed years', 'gender'],
         percent_grouping=['gender'],
         slices=['Yes'],
-        key_order={
-            'gender': GENDER_ORDER
-        })
+        key_order={'gender': GENDER_ORDER})
 
     final_data = {
         'youth_completed_grade9': youth_completed_grade9,
@@ -638,9 +635,7 @@ def get_economic_opportunities_profile(geo,
         table_dataset='Census and Community Survey',
         percent_grouping=['gender'],
         slices=['Unemployed'],
-        key_order={
-            'gender': GENDER_ORDER
-        })
+        key_order={'gender': GENDER_ORDER})
 
     youth_employment_status, _ = get_stat_data(
         ['employment status'],
@@ -690,9 +685,7 @@ def get_economic_opportunities_profile(geo,
         table_dataset='Census and Community Survey',
         percent_grouping=['gender'],
         slices=['NEET'],
-        key_order={
-            'gender': GENDER_ORDER
-        })
+        key_order={'gender': GENDER_ORDER})
 
     youth_household_employment, _ = get_stat_data(
         ['household employment'],
@@ -957,9 +950,7 @@ def get_poverty_profile(geo, session, display_profile, comparative=False):
         table_name='youth_income_poverty_population_group_gender',
         percent_grouping=['population group'],
         slices=['Income-poor'],
-        key_order={
-            'population group': POPULATION_GROUP_ORDER
-        })
+        key_order={'population group': POPULATION_GROUP_ORDER})
 
     youth_income_poor_by_gender, _ = get_stat_data(
         ['income poverty', 'gender'],
@@ -969,9 +960,7 @@ def get_poverty_profile(geo, session, display_profile, comparative=False):
         table_dataset='Census and Community Survey',
         percent_grouping=['gender'],
         slices=['Income-poor'],
-        key_order={
-            'gender': GENDER_ORDER
-        })
+        key_order={'gender': GENDER_ORDER})
 
     with dataset_context(year='2011'):
         youth_multid_poverty, _ = get_stat_data(
@@ -992,9 +981,7 @@ def get_poverty_profile(geo, session, display_profile, comparative=False):
             table_name='youth_multidimensionally_poor_population_group_gender',
             percent_grouping=['population group'],
             slices=['Multidimensionally poor'],
-            key_order={
-                'population group': POPULATION_GROUP_ORDER
-            })
+            key_order={'population group': POPULATION_GROUP_ORDER})
 
         youth_multid_poor_by_gender, _ = get_stat_data(
             ['multidimensionally poor', 'gender'],
@@ -1004,9 +991,7 @@ def get_poverty_profile(geo, session, display_profile, comparative=False):
             table_dataset='Multidimensional poverty',
             percent_grouping=['gender'],
             slices=['Multidimensionally poor'],
-            key_order={
-                'gender': GENDER_ORDER
-            })
+            key_order={'gender': GENDER_ORDER})
 
         youth_mpi_table = get_datatable('youth_mpi_score')
 
@@ -1312,7 +1297,7 @@ def get_health_profile(geo, session, display_profile, comparative=False):
     final_data.update(get_basic_education_details(geo.geo_code))
     final_data.update(get_organization(geo))
     if (geo.geo_level == 'point'):
-        final_data.update(get_facility_services(geo.geo_code))
+        final_data.update(get_facility_services(geo))
 
     if display_profile == 'WC' and geo.geo_level != 'ward':
         # We don't have data on ward level for the following
