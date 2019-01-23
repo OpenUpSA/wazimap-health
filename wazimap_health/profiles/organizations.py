@@ -23,8 +23,5 @@ def get_organization(geo):
                .only('organisation')\
                .distinct('organisation')\
                .values('organisation__name', 'organisation__slug')
-        print("*****************************************")
-        print(orgs)
-        print("**************************************************")
 
     return {'organisations': list(orgs), 'organisation_geo': geo.name}
