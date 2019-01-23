@@ -14,13 +14,15 @@ ProfileMaps = function() {
         var geo_code = geo.this.geo_code;
         var geo_version = geo.this.version;
 	var legend = L.control({position: 'bottomright'});
-    legend.onAdd = function(){
-	var div = L.DomUtil.create('div', 'areaInfo areaLegend');
-	div.innerHTML = '<i style="background:#FF1493"></i>' +
-	    'She Conquers Area';
-	return div;
-    },
-    legend.addTo(this.map);
+	if (geo_level == 'municipality' || geo_level == 'district'){
+	 legend.onAdd = function(){
+	    var div = L.DomUtil.create('div', 'areaInfo areaLegend');
+	     div.innerHTML = '<i style="background:#FF1493"></i>' +
+		 'She Conquers Area';
+	     return div;
+	 },
+	legend.addTo(this.map);   
+	}
 
         // add demarcation boundaries
         if (geo_level == 'country') {
