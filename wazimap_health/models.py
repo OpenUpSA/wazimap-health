@@ -218,7 +218,7 @@ class PartnerBasicEducation(models.Model):
     province = models.CharField(max_length=50)
     district = models.CharField(max_length=50)
     school = models.CharField(max_length=50)
-    activity_number = models.CharField(max_length=10)
+    activity_number = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'partner_basic_education_facilities'
@@ -233,7 +233,7 @@ class PartnerLocation(models.Model):
         Organisation, on_delete=models.CASCADE, related_name='location')
     location_code = models.CharField(max_length=10)
     location_name = models.CharField(max_length=100)
-    activity_number = models.CharField(max_length=10)
+    activity_number = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'partner_location'
