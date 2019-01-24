@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-{% load staticfiles %}
+{% load staticfiles activity %}
 
 {% block head_css %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -132,8 +132,9 @@
 			    </td>
 			</tr>
 		    </tbody>
-								</table>
-		<hr/>
+		</table>
+		
+		{% if health|activity:activity.activity_number %}								
 		<h4>Health Facility Locations</h4>
 		<table>
 		    <thead>
@@ -142,6 +143,7 @@
 		    </thead>
 		    <tbody>
 			{% for row in health %}
+			
 			{% if row.activity_number == activity.activity_number %}
 			<tr>
 			    <td>{{row.district}}</td>
@@ -151,23 +153,29 @@
 			{% endfor %}
 		    </tbody>
 		</table>
+		{% endif %}
+
+		{% if higer_ed|activity:activity.activity_number %}
 		<h4>Higher Education Locations</h4>
 		<table>
-		    <thead>
-			<th>Institution</th>
-			<th>Campus</th>
+				    <thead>
+					    <th>Institution</th>
+					    <th>Campus</th>
 		    </thead>
-		    <tbody>
-			{% for row in higher_ed %}
-			{% if row.activity_number == activity.activity_number %}
-			<tr>
-			    <td>{{row.institution}}</td>
-			    <td>{{row.campus}}</td>
+				    <tbody>
+					    {% for row in higher_ed %}
+					    {% if row.activity_number == activity.activity_number %}
+					    <tr>
+					    <td>{{row.institution}}</td>
+					    <td>{{row.campus}}</td>
 			</tr>
-			{% endif %}
-			{% endfor %}
+					    {% endif %}
+					    {% endfor %}
 		    </tbody>
-		</table>
+						</table>
+		{% endif %}
+
+		{% if basic_ed|activity:activity.activity_number %}
 		<h4>Basic Education Locations</h4>
 		<table>
 		    <thead>
@@ -184,7 +192,8 @@
 			{% endif %}
 			{% endfor %}
 		    </tbody>
-		</table>
+				</table>
+		{% endif %}
 	    </div>
 	</div>
 	{% endfor %}
