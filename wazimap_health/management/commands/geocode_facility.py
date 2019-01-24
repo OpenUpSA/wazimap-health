@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 lat = facility.latitude
                 lon = facility.longitude
                 url = options.get(
-                    'mapit') + '{},{}?type=PR,DC,MN&generation=1'.format(
+                    'mapit') + '{},{}?type=PR,DC,MN,CY&generation=1'.format(
                         lon, lat)
                 req = requests.get(url)
                 geo = req.json()
