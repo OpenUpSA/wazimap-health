@@ -1258,14 +1258,14 @@ def get_health_profile(geo, session, display_profile, comparative=False):
             }
         },
         'epidemiology_hiv_prevelance': {
-            'name': 'Hiv prevalence below the age of 15',
+            'name': 'HIV prevalence below the age of 15',
             'values': {
                 'this':
                 epidemiology['hic_prevalence_less_15']['values']['this']
             }
         },
         'epidemiology_ternimation_pregnancy_10_19': {
-            'name': 'Termination of pregancies between the ages of 10-19',
+            'name': 'Termination of pregnancies between the ages of 10-19',
             'values': {
                 'this':
                 epidemiology['ternimation_pregnancy_10_19']['values']['this']
