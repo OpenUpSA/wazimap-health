@@ -101,7 +101,7 @@ def process_higher_education(organisation, template):
                             province=place[0].value,
                             institution=place[1].value,
                             campus=place[2].value,
-                            activity_number=act_no))
+                            activity_number=act_no.strip()))
             except AttributeError:
                 education_locations.append(
                     PartnerHigherEducation(
@@ -131,7 +131,7 @@ def process_basic_education(organisation, template):
                             province=place[1].value,
                             district=place[0].value,
                             school=place[2].value,
-                            activity_number=act_no))
+                            activity_number=act_no.strip()))
             except AttributeError:
                 education_locations.append(
                     PartnerBasicEducation(
@@ -139,7 +139,7 @@ def process_basic_education(organisation, template):
                         province=place[1].value,
                         district=place[0].value,
                         school=place[2].value,
-                        activity_number=place[3].value))
+                        activity_number=place[3].value.strip()))
     if education_locations:
         organisation.basic_ed.bulk_create(education_locations)
 
