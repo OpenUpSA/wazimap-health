@@ -1285,8 +1285,7 @@ def get_health_profile(geo, session, display_profile, comparative=False):
             }
         },
         'epidemiology_mcpr': {
-            'name':
-            'Modern Contraceptive Prevalence Rate ( Including Condom Calculation)',
+            'name': 'Modern Contraceptive Prevalence Rate (including condoms)',
             'values': {
                 'this': epidemiology['mcpr']['values']['this']
             }
