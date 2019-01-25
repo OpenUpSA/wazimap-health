@@ -191,7 +191,7 @@
 	<section class="clearfix stat-row">
             <h2 class="header-for-columns"><a class="permalink" href="#higher_education" id="higher_education">Higher Education<i class="fa fa-link"></i></a></h2>
             <aside class="multi-line-header">
-                <p></p>
+                <p>* Only the main institutions are calculated and not their campuses. </p>
 	    </aside>
             <div class="column-half">
 		{% include 'profile/_blocks/_stat_list.html' with stat=health.higher_education_total stat_type='number' %}
@@ -203,11 +203,11 @@
             <aside class="multi-line-header">
                 <p></p>
 	    </aside>
-            <div class="column-third">
+            <div class="column-half">
 		{% include 'profile/_blocks/_stat_list.html' with stat=health.basic_education_total stat_type='number' %}
 	    </div>
-            <div class="column-third" id="chart-histogram-health-basic_education_phase" data-stat-type="scaled-percentage" data-chart-title="Phases" data-decimal-places="0"></div>
-	    <div class="column-third" id="chart-histogram-health-basic_education_sector" data-stat-type="scaled-percentage" data-chart-title="Sectors" data-decimal-places="0"></div>
+	    <div class="column-half" id="chart-histogram-health-basic_education_sector" data-stat-type="scaled-percentage" data-chart-title="Sectors" data-decimal-places="0"></div>
+	    <div class="column-two-third" id="chart-histogram-health-basic_education_phase" data-stat-type="scaled-percentage" data-chart-title="Phases" data-decimal-places="0"></div>
 	</section>
 	{% if display_profile == 'WC' %}
 	<section class="clearfix stat-row">
