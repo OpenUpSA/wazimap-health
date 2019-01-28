@@ -192,6 +192,11 @@
             <h2 class="header-for-columns"><a class="permalink" href="#higher_education" id="higher_education">Higher Education<i class="fa fa-link"></i></a></h2>
             <aside class="multi-line-header">
                 <p>* Only the main institutions are calculated and not their campuses. </p>
+		<p>
+		    <a target="_blank" href="{% url 'show_facilities' geography.this.geo_code 'higher_education' %}">
+			<strong>View Institutions</strong>
+		    </a>
+		</p>
 	    </aside>
             <div class="column-half">
 		{% include 'profile/_blocks/_stat_list.html' with stat=health.higher_education_total stat_type='number' %}
@@ -201,7 +206,11 @@
 	<section class="clearfix stat-row">
             <h2 class="header-for-columns"><a class="permalink" href="#basic_education" id="basic_education">Basic Education<i class="fa fa-link"></i></a></h2>
             <aside class="multi-line-header">
-                <p></p>
+                <p>
+		    <a target="_blank" href="{% url 'show_facilities' geography.this.geo_code 'basic_education' %}">
+			<strong>View Institutions</strong>
+		    </a>
+		</p>
 	    </aside>
             <div class="column-half">
 		{% include 'profile/_blocks/_stat_list.html' with stat=health.basic_education_total stat_type='number' %}
@@ -375,6 +384,11 @@
             <h2 class="header-for-columns"><a class="permalink" href="#public_facilities_settlement" id="public_facilities_settlement">Public Health<i class="fa fa-link"></i></a></h2>
             <aside class="multi-line-header">
                 <p>* A percentage of 0 does not necessarily mean that there are no facilities avaliable, it could mean that the total of facilities expressed as a percentage is very close to 0</p>
+		<p>
+		    <a target="_blank" href="{% url 'show_facilities' geography.this.geo_code 'health' %}">
+			<strong>View Facilities</strong>
+		    </a>
+		</p>
             </aside>
             <div class="column-half">
 		{% include 'profile/_blocks/_stat_list.html' with stat=health.public_health_total stat_type='number' %}
