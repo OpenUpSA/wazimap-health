@@ -47,7 +47,10 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin_site.urls)),
     url(r'^activity/(?P<geo_name>[\w -| ]+)/organisation/(?P<org_slug>[\w-]+)$',
         views.organisation_profile,
-        name='organisation_profile'))
+        name='organisation_profile'),
+    url(r'^point/data/(?P<geo_code>\w+)/(?P<dataset>\w+)$',
+        views.show_facilities,
+        name='show_facilities'))
 
 urlpatterns += urls.urlpatterns
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,15 @@
+{% extends '_base.html' %}
+{% load render_table from django_tables2 %}
+
+{% block head_css %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {{block.super}}
+{% endblock %}
+
+{% block content %}
+    <h3>{{geo.name}}</h3>
+    <h4>{{name}}</h4>
+    {% render_table facilities %}
+{% endblock %}
