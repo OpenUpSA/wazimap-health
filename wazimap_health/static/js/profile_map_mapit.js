@@ -230,7 +230,15 @@ ProfileMaps = function() {
 			'Emfuleni', 'Tshwane', 'Ekurhuleni',
 			'Matjhabeng', 'Msunduzi', 'Qaukeni',
 			'Umzimvubu', 'Rustenburg', 'Govan Mbeki',
-			'Polokwane', 'Tygerberg', 'Sol Plaatjie'];
+			'Polokwane', 'Tygerberg', 'Sol Plaatjie', 'Makhado',
+			'eThekwini', 'Newcastle', 'AbaQulusi', 'Ingquza Hill',
+			'Nyandeni', 'Engcobo', 'uMzimkhulu', 'Maluti-a-Phofung',
+			'Nongoma', 'Ubuhlebezwe', 'Greater Giyani', 'Greater Tzaneen',
+			'Chief Albert Luthuli', 'Blouberg', 'Mhlontlo', 'Dr Nkosazana Dlamini Zuma',
+			'uPhongolo', 'Nkandla', 'Dihlabeng', 'Ba-Phalaborwa', 'Emfuleni',
+			'Ray Nkonyeni', 'Mbizana', 'Alfred Duma', 'King Sabata Dalindyebo',
+			'Mafikeng', 'KwaDukuza', 'Jozini', 'uMhlathuze', 'Mogalakwena',
+			'Mhlabuyalingana', 'Makhuduthamaga', 'Thulamela'];
     
     this.drawFeatures = function(features) {
 	return L.geoJson(features, {
