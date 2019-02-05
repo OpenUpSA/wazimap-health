@@ -8,7 +8,7 @@ from django.contrib.auth import models as admin_models
 from django import forms
 from django_admin_hstore_widget.forms import HStoreFormField
 from django.http import HttpResponse, JsonResponse
-from django.conf.urls import url, patterns
+from django.conf.urls import url
 from django.shortcuts import render
 from .csv_import import ProcessImport
 
@@ -140,11 +140,11 @@ class HealthFacilityAdmin(admin.ModelAdmin, ExportImportMixin):
 
     def get_urls(self):
         urls = super(HealthFacilityAdmin, self).get_urls()
-        custom_urls = patterns(
-            '',
+        custom_urls = [
             url(r'^import-health-csv/$',
                 self.admin_site.admin_view(self.import_csv),
-                name='import_health_csv'))
+                name='import_health_csv')
+        ]
         return custom_urls + urls
 
 
@@ -176,11 +176,11 @@ class HigherEducationAdmin(admin.ModelAdmin, ExportImportMixin):
 
     def get_urls(self):
         urls = super(HigherEducationAdmin, self).get_urls()
-        custom_urls = patterns(
-            '',
+        custom_urls = [
             url(r'^import-higher-education-csv/$',
                 self.admin_site.admin_view(self.import_csv),
-                name='import_higher_csv'))
+                name='import_higher_csv')
+        ]
         return custom_urls + urls
 
     def import_csv(self, request):
@@ -216,11 +216,11 @@ class BasicEducationAdmin(admin.ModelAdmin, ExportImportMixin):
 
     def get_urls(self):
         urls = super(BasicEducationAdmin, self).get_urls()
-        custom_urls = patterns(
-            '',
+        custom_urls = [
             url(r'^import-basic-education-csv/$',
                 self.admin_site.admin_view(self.import_csv),
-                name='import_basic_csv'))
+                name='import_basic_csv')
+        ]
         return custom_urls + urls
 
     def import_csv(self, request):
@@ -266,11 +266,11 @@ class OrganisationAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         urls = super(OrganisationAdmin, self).get_urls()
-        custom_urls = patterns(
-            '',
+        custom_urls = [
             url(r'^upload-partner-template$',
                 self.admin_site.admin_view(self.import_partner_sheet),
-                name='import_partner_sheet'))
+                name='import_partner_sheet')
+        ]
         return custom_urls + urls
 
 
