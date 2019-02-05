@@ -9,20 +9,25 @@
 
 
 {% block favicon %}
-<link rel="shortcut icon" href="{% static 'img/doh-logo.png' %}"/>
+<link rel="shortcut icon" href="{% static 'img/ndoh-logo.png' %}"/>
 {% endblock %}
 
 {% block header_logo %}
+<img src="{% static 'img/ndoh-logo.jpg' %}">
 {% endblock %}
 
 {% block header_menu %}
   <li><a href="/about">About</a></li>
   <li><a href="/help">Help</a></li>
-{% endblock %}
+  {% endblock %}
 
-{% block header_branding %}
-{% endblock %}
+  {% block header_branding %}
+  {% endblock %}
 
-{% block body_javascript_extra %}
-{{ block.super }}
-{% endblock %}
+  {% block body_javascript_extra %}
+  {{ block.super }}
+  {% endblock %}
+
+  {% block footer-attribution %}
+  The {{ WAZIMAP.name }} is built on <a href="http://wazimap.readthedocs.org/">Wazimap</a>, an open source platform by <a href="https://openup.org.za/">OpenUp</a> and <a href="http://www.mediamonitoringafrica.org/">Media Monitoring Africa</a> for making census data more understandable. Wazimap is based on <a href="https://censusreporter.org/">Census Reporter</a> which was funded by a Knight News Challenge grant.
+  {% endblock %}
