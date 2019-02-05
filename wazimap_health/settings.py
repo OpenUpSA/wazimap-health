@@ -51,9 +51,10 @@ MIDDLEWARE_CLASSES = (
 DATABASE_URL = os.environ.get(
     'DATABASE_URL',
     'postgresql://wazimap_health:wazimap_health@10.186.210.252/wazimap_health')
-DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL),
-}
+
+DATABASE_DEFAULT = dj_database_url.parse(DATABASE_URL)
+DATABASE_DEFAULT.update({'TEST': {'NAME': 'test_wazimap_health'}})
+DATABASES = {'default': DATABASE_DEFAULT}
 
 # For testing we will us the same database
 
