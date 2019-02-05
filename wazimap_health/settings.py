@@ -48,9 +48,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware'
 ) + MIDDLEWARE_CLASSES
 
-TEMPLATE_CONTEXT_PROCESSORS = ('django.contrib.auth.context_processors.auth',
-                               ) + TEMPLATE_CONTEXT_PROCESSORS
-
 DATABASE_URL = os.environ.get(
     'DATABASE_URL',
     'postgresql://wazimap_health:wazimap_health@10.186.210.252/wazimap_health')
@@ -68,7 +65,7 @@ WAZIMAP['default_profile'] = 'youth'
 WAZIMAP['geodata'] = 'wazimap_health.geo.GeoData'
 WAZIMAP['geometry_data'] = {}
 WAZIMAP['default_geo_version'] = '2011'
-WAZIMAP['name'] = 'The Sexual and Reproductive Health Activities Map'
+WAZIMAP['name'] = 'Sexual and Reproductive Health Activities Map'
 WAZIMAP['url'] = 'http://wazimap-health.openup.org.za'
 WAZIMAP['country_code'] = 'ZA'
 WAZIMAP['latest_release_year'] = '2016'
