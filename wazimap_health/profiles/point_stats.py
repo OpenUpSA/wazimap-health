@@ -3,8 +3,10 @@ from django.db.models import Count
 from django.core import serializers
 
 from wazimap_health.models import (HealthFacilities, HigherEducation,
-                                   BasicEducation, PartnerBasicEducation,
-                                   PartnerHigherEducation, PartnerHealth)
+                                   BasicEducation)
+
+from partner.models import (BasicEducationFacility, HigherEducationFacility,
+                            HealthFacility)
 
 TOTAL = 0
 
@@ -170,7 +172,7 @@ def get_facility_services(geo):
             'address': detail['address'],
             'service': json.loads(detail['service'])
         }
-        partner_model = PartnerHealth
+        partner_model = HealthFacility
         field_name = 'facility'
     elif geo.geo_code.startswith('BEI'):
         info = {
@@ -179,7 +181,7 @@ def get_facility_services(geo):
             'address': detail['address'],
             'special_need': detail['special_need']
         }
-        partner_model = PartnerBasicEducation
+        partner_model = BasicEducationFacility
         field_name = 'school'
     elif geo.geo_code.startswith('HEI'):
         info = {
@@ -188,7 +190,7 @@ def get_facility_services(geo):
             'address': detail['address'],
             'service': json.loads(detail['service'])
         }
-        partner_model = PartnerHigherEducation
+        partner_model = HigherEducationFacility
         field_name = 'campus'
     orgs = facility_organisations(geo.name, partner_model, field_name)
     if orgs:
@@ -205,13 +207,13 @@ def get_facility_services(geo):
 
 def facility_organisations(geo_name, model, field_name):
     """
-    Get all the orangisations that are working in the facility
+    Get all the partners that are working in the facility
     """
     name = geo_name.lower().title()
     org = model\
            .objects\
            .filter(**{field_name: name})\
-           .only('organisation')
+           .only('partner')
     return org
 
 

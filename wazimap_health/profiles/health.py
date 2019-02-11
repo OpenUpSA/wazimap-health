@@ -8,7 +8,7 @@ from wazimap.geo import geo_data
 from point_stats import (get_facility_services, get_heath_details,
                          get_higher_ed_details, get_basic_education_details,
                          get_institution_campus)
-from organizations import get_organization
+from partner.profile import get_partners
 
 PROFILE_SECTIONS = ("demographics", "education", "economic_opportunities",
                     "living_environment", "poverty", "safety", "health",
@@ -1283,7 +1283,7 @@ def get_health_profile(geo, session, display_profile, comparative=False):
     final_data.update(get_heath_details(geo.geo_code))
     final_data.update(get_higher_ed_details(geo.geo_code))
     final_data.update(get_basic_education_details(geo.geo_code))
-    final_data.update(get_organization(geo))
+    final_data.update(get_partners(geo))
     if (geo.geo_level == 'point'):
         final_data.update(get_facility_services(geo))
 
