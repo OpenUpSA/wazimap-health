@@ -36,7 +36,8 @@ ROOT_URLCONF = 'wazimap_health.urls'
 # Application definition
 INSTALLED_APPS = [
     'wazimap_health', 'rest_framework', 'django.contrib.postgres',
-    'django_admin_hstore_widget', 'elasticapm.contrib.django', 'django_tables2'
+    'django_admin_hstore_widget', 'elasticapm.contrib.django',
+    'django_tables2', 'partner'
 ] + INSTALLED_APPS
 
 MIDDLEWARE_CLASSES = (
