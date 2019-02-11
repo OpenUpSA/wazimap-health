@@ -1,7 +1,7 @@
 import csv
 
 from django.core.management.base import BaseCommand, CommandError
-from wazimap_health.models import HealthFacilities
+from wazimap_health.models import HealthFacilities, HigherEducation
 
 
 class Command(BaseCommand):
@@ -15,7 +15,9 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         if kwargs['file'] is None or kwargs['dataset'] is None:
             raise CommandError("Enter a csv file and a dataset type")
-        if kwargs['dataset'] == 'health' and kwargs['group'] is None:
+        elif kwargs['dataset'] == 'higher_education':
+            self._higher_education(kwargs['file'])
+        elif kwargs['dataset'] == 'health' and kwargs['group'] is None:
             raise CommandError("Please select the health dataset group")
         else:
             self.stdout.write(self.style.SUCCESS("Processing health csv file"))
@@ -52,3 +54,38 @@ class Command(BaseCommand):
                     )
                 self.stdout.write(self.style.SUCCESS("Facility Entered"))
                 latest_code += 1
+
+    def _higher_education(self, csv_file):
+        """
+        Import higher education records
+        """
+        code_prefix = 'HEI'
+        code = 1
+        with open(csv_file, 'r') as new_file:
+            reader = csv.DictReader(new_file)
+            for row in reader:
+                name = row.pop('School Name')
+                print('Woking on {}'.format(name))
+                name = name.replace(u'\xa0', u'')
+                split_name = name.split('-')
+                if len(split_name) >= 3:
+                    name = ''.join((split_name[0], ' ', split_name[2]))
+                HigherEducation\
+                      .objects\
+                      .update_or_create(
+                          {
+                              'name': name,
+                              'institution': row.pop('Institution'),
+                              'classification': row.pop('Classification'),
+                              'latitude': row.pop('Latitude'),
+                              'longitude': row.pop('Longitude'),
+                              'address': row.pop('Physical Address'),
+                              'main_campus': True if row.pop('Main') == 'Yes' else False,
+                              'dataset': 'higher_education',
+                              'facility_code': '{}{}'.format(code_prefix, code),
+                              'service': dict(row)
+                          },
+                          facility_code='{}{}'.format(code_prefix, code)
+                      )
+                self.stdout.write(self.style.SUCCESS("Facility Entered"))
+                code += 1
