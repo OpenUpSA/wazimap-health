@@ -462,19 +462,22 @@
 
     </div>
 </article>
+{% if health.partners %}
 <article id="partner" class="clearfix">
     <header class="section-contents">
 	<h1><i class="fa fa-fw fa-group"></i>Organisations in Area</h1>
     </header>
     <div class="section-container">
 	<ul class="fa-ul">
-	    {% for name in health.organisations %}
-	    <li><a href="{% url 'organisation_profile' health.organisation_geo name.organisation__slug %}" target="_blank"><h3>{{name.organisation__name}}</h3></a>
+	    {% for name in health.partners %}
+	    <li><a href="{% url 'partner_profile' health.partner_geo name.partner__slug %}" target="_blank"><h3>{{name.partner__name}}</h3></a>
 	    </li>
 	    {% endfor %}
 	</ul>
     </div>
 </article>
+{% endif %}
+
 
 {% endif %}
 
