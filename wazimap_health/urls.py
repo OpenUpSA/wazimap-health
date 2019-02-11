@@ -1,13 +1,18 @@
 from django.conf.urls import url, include
-from rest_framework.documentation import include_docs_urls
 from django.conf.urls.static import static
+from django.contrib import admin
 from django.conf import settings
-from .admin import admin_site
-from wazimap import urls
+
 from api import views as api
 from . import views
 
 urlpatterns = [
+    url(r'^', include('wazimap.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^activity/', include('partner.urls')),
+    url(r'^point/data/(?P<geo_code>\w+)/(?P<dataset>\w+)$',
+        views.show_facilities,
+        name='show_facilities'),
     url(r'^api/point/v1/health/facilities$',
         api.HealthView.as_view(),
         name='health_facility'),
@@ -28,15 +33,8 @@ urlpatterns = [
         name='geo_service'),
     url(r'^api/point/v1/geography$',
         api.GeographyView.as_view(),
-        name='service_geography'),
-    url(r'^admin/', include(admin_site.urls)),
-    url(r'^activity/(?P<geo_name>[\w -| ]+)/organisation/(?P<org_slug>[\w-]+)$',
-        views.organisation_profile,
-        name='organisation_profile'),
-    url(r'^point/data/(?P<geo_code>\w+)/(?P<dataset>\w+)$',
-        views.show_facilities,
-        name='show_facilities')
+        name='service_geography')
 ]
 
-urlpatterns += urls.urlpatterns
+#urlpatterns += urls.urlpatterns
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
