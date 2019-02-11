@@ -1,0 +1,178 @@
+{% extends '_base.html' %}
+{% load staticfiles activity %}
+
+{% block head_css %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{{block.super}}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div id="head" class="row">
+	<div class="col-sm-6">
+	    <div class="media">
+		<div class="media-left">
+		    <img src="{{partner.logo.url}}" class="media-object" style="width:150px">
+		</div>
+		<div class="media-body">
+		    <h2 class="media-heading">{{partner.name}}</h2>
+		    <p>{{geo}} Activities</p>
+		</div>
+	    </div>
+	</div>
+	<div class="col-sm-6">
+	    <h4>Contacts</h4>
+	    <ul class="fa-ul">
+		{% for contact in partner.contacts.all %}
+		<li>
+		    <a href="#{{contact.id}}" data-toggle="collapse">
+			<i class="fa fa-li fa-user"></i>{{contact.name}}
+		    </a>
+		    <div id="{{contact.id}}" class="collapse">
+			<ul class="fa-ul">
+			    <li><i class="fa fa-li fa-envelope"></i>{{contact.email}}</li>
+			    <li><i class="fa fa-li fa-phone"></i>{{contact.phone}}</li>
+			</ul>
+		    </div>
+		</li>
+		{% endfor %}
+	    </ul>
+	</div>
+    </div>
+    <div class="row">
+	<hr/>
+	{% for activity in activities %}
+	<div class="panel panel-default panel-success">
+	    <div class="panel-heading">
+		Activity {{activity.activity_number}}: {{activity.timeline}}
+	    </div>
+	    <div class="panel-body">
+		<p>{{activity.activity}}</p>
+		<table>
+		    <thead>
+			<tr>
+			    <th>Focus on HIV/AIDS</th>
+			    <th>Implementation Category</th>
+			    <th>Funding Agency</th>
+			    <th>She Conquers Element</th>
+			    <th>Direct Audience</th>
+			    <th>Specific Type of Location</th>
+			    <th>District</th>
+			    <th>Municipality</th>
+			</tr>
+		    </thead>
+		    <tbody>
+			<tr>
+			    <td>{% if activity.hiv_aids_focus %}
+				<span style="color:green"><strong>Yes</strong></span>
+				{% else %}
+				<span style="color:red"><strong>No</strong></span>
+				{% endif %}
+			    </td>
+			    <td>
+				{% if activity.category %}
+				{{activity.category}}
+				{% endif %}
+			    </td>
+			    <td>
+				{% if activity.donar_agency %}
+				{{activity.donar_agency}}
+				{% endif %}
+			    </td>
+			    <td>
+				{% if activity.she_conquers_element %}
+				{{activity.she_conquers_element}}
+				{% endif %}
+			    </td>
+			    <td>
+				{% if activity.audience %}
+				{{activity.audience}}
+				{% endif %}
+			    </td>
+			    <td>
+				{% if activity.location_type %}
+				{{activity.location_type}}
+				{% endif %}
+			    </td>
+			    <td>
+				{% if activity.district %}
+				{{activity.district}}
+				{% endif %}
+			    </td>
+			    <td>
+				{% if activity.municipality %}
+				{{activity.municipality}}
+				{% endif %}
+			    </td>
+			</tr>
+		    </tbody>
+		</table>
+		
+		{% if health|activity:activity.activity_number %}								
+		<h4>Health Facility Locations</h4>
+		<table>
+		    <thead>
+			<th>District</th>
+			<th>Facility</th>
+		    </thead>
+		    <tbody>
+			{% for row in health %}
+			
+			{% if row.activity_number == activity.activity_number %}
+			<tr>
+			    <td>{{row.district}}</td>
+			    <td>{{row.facility}}</td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+		    </tbody>
+		</table>
+		{% endif %}
+
+		{% if higer_ed|activity:activity.activity_number %}
+		<h4>Higher Education Locations</h4>
+		<table>
+				    <thead>
+					    <th>Institution</th>
+					    <th>Campus</th>
+		    </thead>
+				    <tbody>
+					    {% for row in higher_ed %}
+					    {% if row.activity_number == activity.activity_number %}
+					    <tr>
+					    <td>{{row.institution}}</td>
+					    <td>{{row.campus}}</td>
+			</tr>
+					    {% endif %}
+					    {% endfor %}
+		    </tbody>
+						</table>
+		{% endif %}
+
+		{% if basic_ed|activity:activity.activity_number %}
+		<h4>Basic Education Locations</h4>
+		<table>
+		    <thead>
+			<th>District</th>
+			<th>School</th>
+		    </thead>
+		    <tbody>
+			{% for row in basic_ed %}
+			{% if row.activity_number == activity.activity_number %}
+			<tr>
+			    <td>{{row.district}}</td>
+			    <td>{{row.school}}</td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+		    </tbody>
+				</table>
+		{% endif %}
+	    </div>
+	</div>
+	{% endfor %}
+    </div>
+</div>
+{% endblock %}
