@@ -35,6 +35,14 @@ ProfileMaps = function() {
         }
 	if (geo_level == 'municipality'){
 	    L.control.scale().addTo(this.map);
+	    var blueIcon = new L.Icon({
+		iconUrl: '/static/js/vendor/images/marker-icon-blue.png',
+		shadowUrl: '/static/js/vendor/images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	    });
 	    var greenIcon = new L.Icon({
 		iconUrl: '/static/js/vendor/images/marker-icon-green.png',
 		shadowUrl: '/static/js/vendor/images/marker-shadow.png',
@@ -85,7 +93,7 @@ ProfileMaps = function() {
 			      });
 		    }else if (facility['dataset'] == 'public_health'){
 			L.marker([facility['latitude'],
-				  facility['longitude']]).addTo(healthGroup).bindPopup(facility['name']).on('click', function(){
+				  facility['longitude']],{icon:blueIcon}).addTo(healthGroup).bindPopup(facility['name']).on('click', function(){
 			window.location = '/profiles/point-'+ facility['facility_code']+'/';
 			      }).on('mouseover', function(e){
 				  this.openPopup();
