@@ -117,18 +117,18 @@ def process_basic_education(partner, template):
                     education_locations.append(
                         BasicEducationFacility(
                             partner=partner,
-                            province=place[1].value,
                             district=place[0].value,
+                            province=place[1].value,
                             school=place[2].value,
                             activity_number=act_no.strip()))
             except AttributeError:
                 education_locations.append(
                     BasicEducationFacility(
                         partner=partner,
-                        province=place[1].value,
                         district=place[0].value,
+                        province=place[1].value,
                         school=place[2].value,
-                        activity_number=place[3].value.strip()))
+                        activity_number=place[3].value))
     if education_locations:
         partner.basic_ed.bulk_create(education_locations)
 
