@@ -10,30 +10,51 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = [('wazimap_health', '0014_auto_20190211_1256')]
 
     operations = [
         migrations.CreateModel(
             name='Activity',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id',
+                 models.AutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
                 ('activity_number', models.IntegerField()),
-                ('hiv_aids_focus', models.BooleanField(default=False, verbose_name='Main Focus on HIV/AIDS')),
-                ('category', models.CharField(blank=True, max_length=100, null=True, verbose_name='Implementation activity category')),
+                ('hiv_aids_focus',
+                 models.BooleanField(
+                     default=False, verbose_name='Main Focus on HIV/AIDS')),
+                ('category',
+                 models.CharField(
+                     blank=True,
+                     max_length=100,
+                     null=True,
+                     verbose_name='Implementation activity category')),
                 ('other_category', models.TextField(blank=True, null=True)),
                 ('donor_agency', models.TextField(blank=True, null=True)),
                 ('activity', models.TextField(blank=True, null=True)),
-                ('she_conquers_element', models.CharField(blank=True, max_length=100, null=True)),
-                ('other_she_conquers', models.CharField(blank=True, max_length=255, null=True)),
-                ('timeline', models.CharField(blank=True, max_length=100, null=True)),
-                ('audience', models.CharField(blank=True, max_length=255, null=True)),
-                ('other_audience', models.CharField(blank=True, max_length=255, null=True)),
-                ('location_type', models.CharField(blank=True, max_length=255, null=True)),
-                ('other_location_type', models.CharField(blank=True, max_length=255, null=True)),
-                ('province', models.CharField(blank=True, max_length=100, null=True)),
-                ('more_province', models.CharField(blank=True, max_length=100, null=True)),
-                ('district', models.CharField(blank=True, max_length=255, null=True)),
+                ('she_conquers_element',
+                 models.CharField(blank=True, max_length=100, null=True)),
+                ('other_she_conquers',
+                 models.CharField(blank=True, max_length=255, null=True)),
+                ('timeline',
+                 models.CharField(blank=True, max_length=100, null=True)),
+                ('audience',
+                 models.CharField(blank=True, max_length=255, null=True)),
+                ('other_audience',
+                 models.CharField(blank=True, max_length=255, null=True)),
+                ('location_type',
+                 models.CharField(blank=True, max_length=255, null=True)),
+                ('other_location_type',
+                 models.CharField(blank=True, max_length=255, null=True)),
+                ('province',
+                 models.CharField(blank=True, max_length=100, null=True)),
+                ('more_province',
+                 models.CharField(blank=True, max_length=100, null=True)),
+                ('district',
+                 models.CharField(blank=True, max_length=255, null=True)),
                 ('municipality', models.TextField(blank=True, null=True)),
             ],
             options={
@@ -43,7 +64,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BasicEducationFacility',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id',
+                 models.AutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
                 ('province', models.CharField(max_length=50)),
                 ('district', models.CharField(max_length=50)),
                 ('school', models.CharField(max_length=50)),
@@ -57,7 +83,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Contact',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id',
+                 models.AutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
                 ('email', models.EmailField(max_length=254, null=True)),
                 ('phone', models.CharField(max_length=30, null=True)),
@@ -69,7 +100,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HealthFacility',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id',
+                 models.AutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
                 ('province', models.CharField(max_length=50)),
                 ('district', models.CharField(max_length=50)),
                 ('facility', models.CharField(max_length=50)),
@@ -83,7 +119,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HigherEducationFacility',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id',
+                 models.AutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
                 ('province', models.CharField(max_length=50)),
                 ('institution', models.CharField(max_length=50)),
                 ('campus', models.CharField(max_length=100)),
@@ -97,7 +138,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Location',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id',
+                 models.AutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
                 ('location_code', models.CharField(max_length=10)),
                 ('location_name', models.CharField(max_length=100)),
                 ('activity_number', models.IntegerField(default=0)),
@@ -110,10 +156,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Partner',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id',
+                 models.AutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
                 ('name', models.CharField(max_length=100, unique=True)),
                 ('logo', models.ImageField(upload_to='uploads/')),
-                ('slug', models.SlugField(allow_unicode=True, blank=True, max_length=255, null=True)),
+                ('slug',
+                 models.SlugField(
+                     allow_unicode=True, blank=True, max_length=255,
+                     null=True)),
             ],
             options={
                 'db_table': 'partner',
@@ -122,32 +176,50 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='location',
             name='partner',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='location', to='partner.Partner'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='location',
+                to='partner.Partner'),
         ),
         migrations.AddField(
             model_name='highereducationfacility',
             name='partner',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='higher_ed', to='partner.Partner'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='higher_ed',
+                to='partner.Partner'),
         ),
         migrations.AddField(
             model_name='healthfacility',
             name='partner',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='health', to='partner.Partner'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='health',
+                to='partner.Partner'),
         ),
         migrations.AddField(
             model_name='contact',
             name='partner',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='contacts', to='partner.Partner'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='contacts',
+                to='partner.Partner'),
         ),
         migrations.AddField(
             model_name='basiceducationfacility',
             name='partner',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='basic_ed', to='partner.Partner'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='basic_ed',
+                to='partner.Partner'),
         ),
         migrations.AddField(
             model_name='activity',
             name='partner',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='activities', to='partner.Partner'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='activities',
+                to='partner.Partner'),
         ),
         migrations.AlterUniqueTogether(
             name='contact',
