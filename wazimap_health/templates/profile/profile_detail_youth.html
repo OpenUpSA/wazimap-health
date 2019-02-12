@@ -4,6 +4,7 @@
 {% block head_meta_description %}Youth related data from {{ geography.this.short_name}}, broken down by category: Demographics, Education, Economic opportunities, Living environment, Poverty and Health.{% endblock %}
 
 {% block header_content %}
+{% if not geography.this.full_geoid|startswith:"point" %}
 <div class="floating-nav-wrapper">
     <nav class="floating-nav">
         <div class="wrapper clearfix">
@@ -16,6 +17,7 @@
         </div>
     </nav>
 </div>
+{% endif %}
 
 {{ block.super }}
 {% endblock %}
@@ -104,17 +106,19 @@
 {% if geography.this.full_geoid|startswith:"point" %}
 <article id="Campuses" class="clearfix">
     <header class="section-contents">
-	<h1>Oganisations at Facility</h1>
+	<h1>Partners at Facility</h1>
     </header>
     <div class="section-container">
 	<section class="clearfix stat-row">
 	    <ul>
-		{% for organisation in facility_detail.organisations %}
+		{% for partner in facility_detail.partners %}
 		<li>
-		    <a href="{% url 'organisation_profile' org_slug %}" target="_blank">
-			<h3>{{org_name}}</h3>
+		    <a href="{% url 'partner_profile' partner_slug %}" target="_blank">
+			<h3>{{partner_name}}</h3>
 		    </a>
 		</li>
+		{% empty %}
+		<p><strong>There are no partners working at this institution<strong></p>
 		{% endfor %}
 	    </ul>
 	</section>
