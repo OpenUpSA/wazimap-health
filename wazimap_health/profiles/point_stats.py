@@ -192,13 +192,13 @@ def get_facility_services(geo):
         }
         partner_model = HigherEducationFacility
         field_name = 'campus'
-    orgs = facility_organisations(geo.name, partner_model, field_name)
-    if orgs:
-        for org in orgs:
+    partners = facility_organisations(geo.name, partner_model, field_name)
+    if partners:
+        for partner in partners:
             info.update({
-                'organisations': {
-                    'org_name': org.name,
-                    'org_slug': org.slug
+                'partners': {
+                    'partner_name': partner.name,
+                    'partner_slug': partner.slug
                 }
             })
 
@@ -301,7 +301,7 @@ def higher_ed_classification(geo_code):
 
 def basic_education_total(geo_code):
     """
-    Return the total of basic education institutions
+    Return the total of number of basic education institutions
     """
     total = BasicEducation\
             .objects\
