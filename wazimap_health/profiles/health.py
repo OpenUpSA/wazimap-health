@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from decimal import Decimal
 
 from wazimap.data.tables import get_datatable
 from wazimap.data.utils import (get_session, merge_dicts, get_stat_data,
@@ -1193,6 +1194,18 @@ def get_safety_profile(geo, session, display_profile, comparative=False):
     return final_data
 
 
+def template_format(value_this):
+    """
+    In wazimaps eyes 0 and an empty value are the same, they both render to N/A
+    So of our data has to 0's and empty values and each of them has got a specific meaning
+    We have replaced (in the database) empty values with -1
+    """
+    if value_this == Decimal(-1.0):
+        return 0
+    else:
+        return value_this
+
+
 def get_health_profile(geo, session, display_profile, comparative=False):
     youth_difficulty_by_function, _ = get_stat_data(
         ['function type'],
@@ -1250,36 +1263,42 @@ def get_health_profile(geo, session, display_profile, comparative=False):
             'name': 'HIV prevalence below the age of 15',
             'values': {
                 'this':
-                epidemiology['hic_prevalence_less_15']['values']['this']
+                template_format(
+                    epidemiology['hic_prevalence_less_15']['values']['this'])
             }
         },
         'epidemiology_ternimation_pregnancy_10_19': {
             'name': 'Termination of pregnancies between the ages of 10-19',
             'values': {
                 'this':
-                epidemiology['ternimation_pregnancy_10_19']['values']['this']
+                template_format(epidemiology['ternimation_pregnancy_10_19'][
+                    'values']['this'])
             }
         },
         'epidemiology_ternimation_pregnancy_more_20': {
             'name': 'Ternimation of pregnancies above the age of 20',
             'values': {
                 'this':
-                epidemiology['ternimation_pregnancy_more_20']['values']['this']
+                template_format(epidemiology['ternimation_pregnancy_more_20'][
+                    'values']['this'])
             }
         },
         'epidemiology_maternal_mortality': {
             'name': 'Maternal Mortality',
             'values': {
-                'this': epidemiology['maternal_mortality']['values']['this']
+                'this':
+                template_format(
+                    epidemiology['maternal_mortality']['values']['this'])
             }
         },
         'epidemiology_mcpr': {
             'name': 'Modern Contraceptive Prevalence Rate (including condoms)',
             'values': {
-                'this': epidemiology['mcpr']['values']['this']
+                'this': template_format(epidemiology['mcpr']['values']['this'])
             }
         },
     }
+
     final_data.update(get_heath_details(geo.geo_code))
     final_data.update(get_higher_ed_details(geo.geo_code))
     final_data.update(get_basic_education_details(geo.geo_code))
