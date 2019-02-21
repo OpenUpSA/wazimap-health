@@ -71,6 +71,7 @@ WAZIMAP['url'] = 'http://wazimap-health.openup.org.za'
 WAZIMAP['country_code'] = 'ZA'
 WAZIMAP['latest_release_year'] = '2016'
 WAZIMAP['primary_dataset_name'] = 'Census and Community Survey'
+WAZIMAP['na_label'] = "Not Reported"
 WAZIMAP['available_release_years'] = {
     # Release years with data for geo_levels.
     # Only specify geo_levels with limited releases.
