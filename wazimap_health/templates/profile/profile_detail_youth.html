@@ -397,11 +397,11 @@
             <aside class="multi-line-header">
                 <p>* A percentage of 0 does not necessarily mean that there are no facilities avaliable, it could mean that the total of facilities expressed as a percentage is very close to 0</p>
             </aside>
-            <div class="column-third">
+            <div class="column-half">
 		{% include 'profile/_blocks/_stat_list.html' with stat=health.pharmacy_total stat_type='number' %}
             </div>
-            <div class="column-third" id="chart-histogram-health-pharmacy_settlement" data-stat-type="scaled-percentage" data-chart-title="Settlement Types" data-decimal-places="0"></div>
-	    <div class="column-third" id="chart-histogram-health-pharmacy_unit" data-stat-type="scaled-percentage" data-chart-title="Units Types" data-decimal-places="0"></div>
+            <div class="column-half" id="chart-histogram-health-pharmacy_settlement" data-stat-type="scaled-percentage" data-chart-title="Settlement Types" data-decimal-places="0"></div>
+	    <div class="column-half" id="chart-histogram-health-pharmacy_unit" data-stat-type="scaled-percentage" data-chart-title="Units Types" data-decimal-places="0"></div>
         </section>
 	{% if display_profile == 'WC' and geography.this.geo_level != 'ward'%}
 	<section class="clearfix stat-row">
