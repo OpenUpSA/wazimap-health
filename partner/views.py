@@ -47,7 +47,7 @@ def partner_profile(request, geo_name, org_slug):
         partner=partner, activity_number__in=activity_numbers)
 
     return render(
-        request, 'partner/partner_profile.html', {
+        request, 'partner/partner_profile.djhtml', {
             'geo': geo_name,
             'partner': partner,
             'activities': activities,
