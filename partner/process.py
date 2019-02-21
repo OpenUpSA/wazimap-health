@@ -40,7 +40,7 @@ def process_excelsheet(logo, excel_sheet):
                     'email': person[1].value,
                     'phone': person[2].value
                 })
-        activity = sheet['E8':'P20']
+        activity = sheet['E8':'P50']
         for act in activity:
             if not is_row_empty(act):
                 row_activities = {
