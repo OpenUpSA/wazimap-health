@@ -144,8 +144,16 @@ ProfileMaps = function() {
 	
 	if (geo_level == 'point'){
 	    GeometryLoader.loadLatLngForGeo(geo_code, function(data){
+		var blueIcon = new L.Icon({
+		iconUrl: '/static/js/vendor/images/marker-icon-blue.png',
+		shadowUrl: '/static/js/vendor/images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	    });
 		var map = self.map;
-		L.marker([data['latitude'], data['longitude']]).addTo(map);
+		L.marker([data['latitude'], data['longitude']],{icon: blueIcon}).addTo(map);
 		map.setView([data['latitude'], data['longitude']], 15);
 	    });
 	}
