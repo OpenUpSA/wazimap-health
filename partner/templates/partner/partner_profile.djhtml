@@ -50,7 +50,7 @@
 	    </div>
 	    <div class="panel-body">
 		<p>{{activity.activity}}</p>
-		<table>
+		<table class="table table-bordered table-striped">
 		    <thead>
 			<tr>
 			    <th>Focus on HIV/AIDS</th>
@@ -102,83 +102,107 @@
 				{% endif %}
 			    </td>
 			    <td>
-				{% if activity.municipality %}
-				{{activity.municipality}}
+				            {% if activity.municipality %}
+				            {{activity.municipality}}
 				{% endif %}
 			    </td>
 			</tr>
 		    </tbody>
-		</table>
+								</table>
 		
-		{% if health|activity:activity.activity_number %}								
-		<h4>Health Facility Locations</h4>
-		<table>
-		    <thead>
-			<th>District</th>
-			<th>Facility</th>
-		    </thead>
-		    <tbody>
-			{% for row in health %}
-			
-			{% if row.activity_number == activity.activity_number %}
-			<tr>
-			    <td>{{row.district}}</td>
-			    <td>{{row.facility}}</td>
-			</tr>
-			{% endif %}
-			{% endfor %}
-		    </tbody>
-		</table>
+		{% if health|activity:activity.activity_number %}								<button class="btn btn-success" data-toggle="collapse" data-target="#HealthLocation-{{activity.activity_number}}">Health Facility Locations</button>
+		    <hr>
+		    <div id="HealthLocation-{{activity.activity_number}}" class="collapse">
+			<input class="form-control" id="healthInput-{{activity.activity_number}}" type="text" placeholder="Search for District...">
+			<table class="table table-bordered table-striped">
+			    <thead>
+				<th>District</th>
+				<th>Facility</th>
+			    </thead>
+			    <tbody id="HealthTable">
+				{% for row in health %}
+				    
+				    {% if row.activity_number == activity.activity_number %}
+					<tr>
+					    <td>{{row.district}}</td>
+					    <td>{{row.facility}}</td>
+					</tr>
+				    {% endif %}
+				{% endfor %}
+			    </tbody>
+			</table>
+		    </div>
 		{% endif %}
 
 		{% if higer_ed|activity:activity.activity_number %}
-		    <button data-toggle="collapse" data-target="#hel"><h4>Higher Education Locations</h4></button>
-		<table id="hel" class="collapse">
-				    <thead>
-					    <th>Institution</th>
-					    <th>Campus</th>
-		    </thead>
-				    <tbody>
-					    {% for row in higher_ed %}
-					    {% if row.activity_number == activity.activity_number %}
-					    <tr>
-					    <td>{{row.institution}}</td>
-					    <td>{{row.campus}}</td>
-			</tr>
-					    {% endif %}
-					    {% endfor %}
-		    </tbody>
-						</table>
+		    <button class="btn btn-success" data-toggle="collapse" data-target="#HigherEdLocation-{{activity.activity_number}}">Higher Education Locations</button>
+		    <hr>
+		    <div id="HigherEdLocation-{{activity.activity_number}}" class="collapse">
+			<input class="form-control" id="higherInput-{{activity.activity_number}}" type="text" placeholder="Search for District...">
+			<table id="hel" class="table table-bordered table-striped">
+			    <thead>
+				<th>Institution</th>
+				<th>Campus</th>
+			    </thead>
+			    <tbody id="HigherTable">
+				{% for row in higher_ed %}
+				    {% if row.activity_number == activity.activity_number %}
+					<tr>
+					        <td>{{row.institution}}</td>
+					        <td>{{row.campus}}</td>
+					</tr>
+				    {% endif %}
+				{% endfor %}
+			    </tbody>
+			</table>
+								    </div>
+		    
 		{% endif %}
 
 		{% if basic_ed|activity:activity.activity_number %}
-		    <button class="btn btn-info" data-toggle="collapse" data-target="#bel">
-			<h4>Basic Education Locations</h4>
+		    <button class="btn btn-success" data-toggle="collapse" data-target="#BasicEdLocation-{{activity.activity_number}}">
+			Basic Education Locations
 		    </button>
-		<table class="collapse table" id="bel">
-		    <thead>
-			<th>District</th>
-			<th>School</th>
-		    </thead>
-		    <tbody>
-			{% for row in basic_ed %}
-			{% if row.activity_number == activity.activity_number %}
-			<tr>
-			    <td>{{row.district}}</td>
-			    <td>{{row.school}}</td>
-			</tr>
-			{% endif %}
-			{% endfor %}
-		    </tbody>
-		</table>
+		    <hr>
+		    <div id="BasicEdLocation-{{activity.activity_number}}" class="collapse">
+			<input class="form-control" id="basicInput-{{activity.activity_number}}" type="text" placeholder="Search for District....">
+						<table class="table table-bordered table-striped">
+						<thead>
+							<th>District</th>
+							<th>School</th>
+			    </thead>
+			    <tbody id="BasicTable-{{activity.activity_number}}">
+							{% for row in basic_ed %}
+				        {% if row.activity_number == activity.activity_number %}
+					    <tr>
+					        <td>{{row.district}}</td>
+					        <td>{{row.school}}</td>
+					</tr>
+				    {% endif %}
+				{% endfor %}
+			    </tbody>
+			</table>
+				    </div>
 		{% endif %}
 	    </div>
 	</div>
 	{% endfor %}
     </div>
 </div>
+<script>
+ $(document).ready(function(){
+     $("input").on('keyup', function(){
+	 var value = $(this).val().toLowerCase();
+	 console.log(value);
+	 var tbody = $(this).parent().children('table').children('tbody');
+	 var bodyId = tbody.id;
+	 var row = "#"+bodyId+" tr";
+	 tbody.children('tr').filter(function(){
+	     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	 });
+     });
+ });
+ 
+</script>
 {% endblock %}
 
-<script>
- $('.collapse').collapse()
-</script>
