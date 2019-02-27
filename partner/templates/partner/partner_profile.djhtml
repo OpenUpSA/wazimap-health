@@ -193,10 +193,7 @@
  $(document).ready(function(){
      $("input").on('keyup', function(){
 	 var value = $(this).val().toLowerCase();
-	 console.log(value);
 	 var tbody = $(this).parent().children('table').children('tbody');
-	 var bodyId = tbody.id;
-	 var row = "#"+bodyId+" tr";
 	 tbody.children('tr').filter(function(){
 	     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 	 });
