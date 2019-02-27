@@ -476,7 +476,9 @@
     <div class="section-container">
 	<ul class="fa-ul">
 	    {% for name in health.partners %}
-	    <li><a href="{% url 'partner_profile' health.partner_geo name.partner__slug %}" target="_blank"><h3>{{name.partner__name}}</h3></a>
+	    <li style="margin:10px 0"><a href="{% url 'partner_profile' health.partner_geo name.partner__slug %}" target="_blank"><h3>
+		<img src="{{health.image_path}}{{name.partner__logo}}" style="width:75px;height:75px"> {{name.partner__name}}
+	    </h3></a>
 	    </li>
 	    {% endfor %}
 	</ul>
