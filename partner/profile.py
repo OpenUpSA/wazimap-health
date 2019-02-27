@@ -1,5 +1,6 @@
 from django.db.models import Q
 from .models import Location, Activity
+from django.conf import settings
 
 
 def get_partners(geo):
@@ -13,13 +14,17 @@ def get_partners(geo):
                .filter((Q(province=geo) | Q(province='All provinces')))\
                .only('partner')\
                .distinct('partner')\
-               .values('partner__name', 'partner__slug')
+               .values('partner__name', 'partner__slug', 'partner__logo')
     else:
         partners = Location\
                .objects\
                .filter(location_code=geo.geo_code)\
                .only('partner')\
                .distinct('partner')\
-               .values('partner__name', 'partner__slug')
+               .values('partner__name', 'partner__slug', 'partner__logo')
 
-    return {'partners': list(partners), 'partner_geo': geo.name}
+    return {
+        'partners': list(partners),
+        'partner_geo': geo.name,
+        'image_path': settings.MEDIA_URL
+    }
