@@ -134,7 +134,7 @@
 		    </div>
 		{% endif %}
 
-		{% if higer_ed|activity:activity.activity_number %}
+		{% if higher_ed|activity:activity.activity_number %}
 		    <button class="btn btn-success" data-toggle="collapse" data-target="#HigherEdLocation-{{activity.activity_number}}">Higher Education Locations</button>
 		    <hr>
 		    <div id="HigherEdLocation-{{activity.activity_number}}" class="collapse">
