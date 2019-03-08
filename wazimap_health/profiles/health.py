@@ -1267,6 +1267,14 @@ def get_health_profile(geo, session, display_profile, comparative=False):
                     epidemiology['hic_prevalence_less_15']['values']['this'])
             }
         },
+        'epidemiology_hiv_prevelance_more_15': {
+            'name': 'HIV Prevalence between the ages of 15-49',
+            'values': {
+                'this':
+                template_format(
+                    epidemiology['hic_prevalence_more_15']['values']['this'])
+            }
+        },
         'epidemiology_ternimation_pregnancy_10_19': {
             'name': 'Termination of pregnancies between the ages of 10-19',
             'values': {
