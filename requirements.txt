@@ -19,7 +19,7 @@ django-tables2==1.16.0
 django-test-without-migrations==0.4
 djangorestframework==3.6.4
 docutils==0.14
-ecdsa==0.13
+ecdsa==0.13.3
 elastic-apm==3.0.1
 et-xmlfile==1.0.1
 futures==3.2.0
